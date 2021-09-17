@@ -1,9 +1,10 @@
 package no.group7;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
+@Table(name = "voterAcc")
 public class VoterAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +15,9 @@ public class VoterAcc {
 
     private String firstName;
     private String lastName;
+
+    @OneToMany
+    private List<Vote> votes;
 
     // private Collection<Vote> votes;
 

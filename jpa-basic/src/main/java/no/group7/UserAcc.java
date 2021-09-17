@@ -1,9 +1,9 @@
 package no.group7;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
+@Table(name = "userAcc")
 public class UserAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
