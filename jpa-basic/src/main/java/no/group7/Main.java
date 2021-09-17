@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class Main {
-    private static final String PERSISTENCE_UNIT_NAME = "todos";
+    private static final String PERSISTENCE_UNIT_NAME = "tables";
     private static EntityManagerFactory factory;
 
     public static void main(String[] args) {
