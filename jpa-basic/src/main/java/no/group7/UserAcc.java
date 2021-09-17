@@ -1,6 +1,7 @@
 package no.group7;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "userAcc")
@@ -15,7 +16,8 @@ public class UserAcc {
     private String firstName;
     private String lastName;
 
-    // private Collection<Poll> polls;
+    @OneToMany
+    private Set<Poll> polls;
 
     public String getUsername() {
         return username;

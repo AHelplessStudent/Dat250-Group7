@@ -15,6 +15,9 @@ public class Poll {
     private Date deadline;
     private boolean isPublic;
 
+    @ManyToOne
+    private UserAcc userAcc;
+
     @OneToMany(mappedBy = "pollID")
     private List<Vote> votes;
 
