@@ -1,11 +1,10 @@
-package no.hvl.dat250.jpa.basicexample;
-
-import java.util.List;
+package no.group7;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.List;
 
 public class Main {
     private static final String PERSISTENCE_UNIT_NAME = "todos";
