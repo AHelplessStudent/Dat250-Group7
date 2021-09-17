@@ -5,9 +5,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "vote")
 public class Vote {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @EmbeddedId
+    private VoteId voteId;
+
+    @MapsId("voterId")
+    @ManyToOne
+    @JoinColumn(name = "voterId")
+    private VoterAcc voterAcc;
+
+    @MapsId("pollId")
+    @ManyToOne
+    @JoinColumn(name = "pollId")
+    private Poll poll;
 
     // true=yes, false=no
     private boolean type;
@@ -16,5 +26,4 @@ public class Vote {
     public String toString() {
         return "Vote [type=" + type + "]";
     }
-
 }

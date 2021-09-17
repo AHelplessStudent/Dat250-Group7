@@ -8,7 +8,7 @@ import java.util.List;
 public class VoterAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long voterId;
 
     private String username;
     private String password;
@@ -16,7 +16,7 @@ public class VoterAcc {
     private String firstName;
     private String lastName;
 
-    @OneToMany
+    @OneToMany(mappedBy = "voterId")
     private List<Vote> votes;
 
     // private Collection<Vote> votes;
