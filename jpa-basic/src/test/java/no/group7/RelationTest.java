@@ -24,10 +24,17 @@ public class RelationTest {
         em.getTransaction().begin();
 
         UserAcc user = new UserAcc();
-        user.setUsername("gamer");
-        user.setPassword("dakgjf");
-        user.setFirstName("carl");
-        user.setLastName("davids");
+        user.setUsername("User1");
+        user.setPassword("secret1");
+        user.setFirstName("Carl");
+        user.setLastName("Davids");
+        em.persist(user);
+
+        user = new UserAcc();
+        user.setUsername("User2");
+        user.setPassword("secret2");
+        user.setFirstName("David");
+        user.setLastName("Carls");
         em.persist(user);
 
         em.getTransaction().commit();
@@ -38,6 +45,33 @@ public class RelationTest {
     public void checkIfUserAccountIsCreated() {
         EntityManager em = factory.createEntityManager();
         Query q = em.createQuery("select u from UserAcc u");
+
+        assertTrue(q.getResultList().size() >= 1);
+        em.close();
+    }
+
+    @Test
+    public void checkFetchByUsername() {
+        EntityManager em = factory.createEntityManager();
+        Query q = em.createQuery("select u from UserAcc u where u.username='User1'");
+
+        assertTrue(q.getResultList().size() >= 1);
+        em.close();
+    }
+
+    @Test
+    public void checkFetchByFirstName() {
+        EntityManager em = factory.createEntityManager();
+        Query q = em.createQuery("select u from UserAcc u where u.firstName='David'");
+
+        assertTrue(q.getResultList().size() >= 1);
+        em.close();
+    }
+
+    @Test
+    public void checkFetchByLastName() {
+        EntityManager em = factory.createEntityManager();
+        Query q = em.createQuery("select u from UserAcc u where u.lastName='Carls'");
 
         assertTrue(q.getResultList().size() >= 1);
         em.close();
