@@ -1,6 +1,7 @@
 package no.group7;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class VoterAcc {
     private String firstName;
     private String lastName;
 
-    @OneToMany(mappedBy = "voterId")
+    @OneToMany(mappedBy = "voterAcc")
     private List<Vote> votes;
 
     // private Collection<Vote> votes;
@@ -57,6 +58,10 @@ public class VoterAcc {
     public String toString() {
         // TODO also return votes variable.
         return "VoterAcc [Username=" + username + ", Password=" + password + ", FirstName=" + firstName + ", LastName=" + lastName + "]";
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 }
 

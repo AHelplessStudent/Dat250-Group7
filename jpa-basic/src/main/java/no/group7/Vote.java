@@ -9,14 +9,14 @@ public class Vote {
     @EmbeddedId
     private VoteId voteId;
 
-    @MapsId("voterId")
     @ManyToOne
-    @JoinColumn(name = "voterId")
+    @MapsId("voterId")
+    @JoinColumn(name = "voter_id")
     private VoterAcc voterAcc;
 
-    @MapsId("pollId")
     @ManyToOne
-    @JoinColumn(name = "pollId")
+    @MapsId("pollId")
+    @JoinColumn(name = "poll_id")
     private Poll poll;
 
     // true=yes, false=no
@@ -24,6 +24,26 @@ public class Vote {
 
     @Override
     public String toString() {
-        return "Vote [type=" + type + "]";
+        return "Vote [type=" + type + ", voter=" + voterAcc.getFirstName() + "]";
+    }
+
+    public void setType(boolean type) {
+        this.type = type;
+    }
+
+    public VoterAcc getVoterAcc() {
+        return voterAcc;
+    }
+
+    public void setVoterAcc(VoterAcc voterAcc) {
+        this.voterAcc = voterAcc;
+    }
+
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
     }
 }

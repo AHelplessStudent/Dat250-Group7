@@ -1,6 +1,7 @@
 package no.group7;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -18,12 +19,62 @@ public class Poll {
     @ManyToOne
     private UserAcc userAcc;
 
-    @OneToMany(mappedBy = "pollID")
+    @OneToMany(mappedBy = "Poll")
     private List<Vote> votes;
+
+    private String printVotes() {
+        StringBuilder result = new StringBuilder();
+        result.append("[");
+        for (Vote vote : votes) {
+            result.append("\n          ");
+            result.append(vote).append(", ");
+        }
+        result.append("]");
+        return result.toString();
+    }
 
     @Override
     public String toString() {
-        return "Poll [title=" + title + ", deadline=" + deadline + "]";
+       return "Poll [title=" + title + ", deadline=" + deadline + ", votes=" + printVotes() + "]";
     }
 
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public UserAcc getUserAcc() {
+        return userAcc;
+    }
+
+    public void setUserAcc(UserAcc userAcc) {
+        this.userAcc = userAcc;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
 }
