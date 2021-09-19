@@ -1,5 +1,8 @@
 package no.group7;
 
+import no.group7.dao.Dao;
+import no.group7.dao.UserAccDao;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -10,7 +13,9 @@ public class Main {
     private static final String PERSISTENCE_UNIT_NAME = "tables";
     private static EntityManagerFactory factory;
 
-    public static <vote> void main(String[] args) {
+    private static Dao<UserAcc> UserAccDao;
+
+    public static void main(String[] args) {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         // read the existing entries and write to console
@@ -94,7 +99,20 @@ public class Main {
             System.out.println();
         }
 
+        UserAccDao = new UserAccDao(em);
+        UserAcc user1 = getUser(1L);
+        System.out.println("GAMER");
+        System.out.println(user1);
+        System.out.println("GAMER");
+
 
         em.close();
+    }
+
+    private static UserAcc getUser(Long id) {
+        Optional<UserAcc> user = UserAccDao.get(id);
+
+        return user.orElseGet(
+                () -> new UserAcc());
     }
 }
