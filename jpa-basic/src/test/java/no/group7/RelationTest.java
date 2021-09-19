@@ -1,20 +1,23 @@
 package no.group7;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RelationTests {
+public class RelationTest {
 
     // use a separate database "testdb".
     private static final String PERSISTENCE_UNIT_NAME = "test";
-    private EntityManagerFactory factory;
+    private static EntityManagerFactory factory;
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setUp() {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
 
@@ -28,21 +31,15 @@ public class RelationTests {
         em.persist(user);
 
         em.getTransaction().commit();
-
         em.close();
-
     }
 
     @Test
     public void checkIfUserAccountIsCreated() {
-
         EntityManager em = factory.createEntityManager();
-
         Query q = em.createQuery("select u from UserAcc u");
 
         assertTrue(q.getResultList().size() >= 1);
-
         em.close();
-
     }
 }
