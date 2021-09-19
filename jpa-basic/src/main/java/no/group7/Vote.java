@@ -12,7 +12,7 @@ public class Vote {
     @ManyToOne
     @MapsId("voterId")
     @JoinColumn(name = "voter_id")
-    private VoterAcc voterAcc;
+    private Voter voter;
 
     @ManyToOne
     @MapsId("pollId")
@@ -24,19 +24,19 @@ public class Vote {
 
     @Override
     public String toString() {
-        return "Vote [type=" + type + ", voter=" + voterAcc.getFirstName() + "]";
+        return "Vote [type=" + type + ", voter=" + voter.getFirstName() + "]";
     }
 
     public void setType(boolean type) {
         this.type = type;
     }
 
-    public VoterAcc getVoterAcc() {
-        return voterAcc;
+    public Voter getVoter() {
+        return voter;
     }
 
-    public void setVoterAcc(VoterAcc voterAcc) {
-        this.voterAcc = voterAcc;
+    public void setVoter(Voter voter) {
+        this.voter = voter;
     }
 
     public Poll getPoll() {

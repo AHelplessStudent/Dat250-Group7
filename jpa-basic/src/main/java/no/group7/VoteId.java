@@ -7,9 +7,9 @@ import java.io.Serializable;
 @Embeddable
 public class VoteId implements Serializable {
 
-    @Column(name = "voter_Id")
+    @Column(name = "voter_id")
     private Long voterId;
 
-    @Column(name = "poll_Id")
+    @Column(name = "poll_id")
     private Long pollId;
 }

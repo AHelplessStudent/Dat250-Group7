@@ -36,31 +36,33 @@ public class Main {
         }
 
 
-        VoterAcc voter = new VoterAcc();
-        voter.setFirstName("gaming" );
-        voter.setLastName("god");
-        voter.setUsername("gaminggod" );
-        voter.setPassword("poopi");
-        em.persist(voter);
-
-        VoterAcc voter2 = new VoterAcc();
-        voter2.setFirstName("gaming2" );
-        voter2.setLastName("god");
-        voter2.setUsername("gaminggod2" );
-        voter2.setPassword("poopi4");
-        em.persist(voter2);
+        VoterAcc voterAcc = new VoterAcc();
+        voterAcc.setFirstName("gaming" );
+        voterAcc.setLastName("god");
+        voterAcc.setUsername("gaminggod" );
+        voterAcc.setPassword("poopi");
+        em.persist(voterAcc);
 
         Poll poll = (Poll) polls.toArray()[0];
 
+        Voter voter = new Voter();
+        voter.setAccountType("Human");
+        voter.setFirstName("Gary the Gamer");
+        voter.setAccount(voterAcc);
+
+        Voter voter2 = new Voter();
+        voter2.setAccountType("Human");
+        voter2.setFirstName("Hugo the Human");
+
         Vote vote = new Vote();
         vote.setPoll(poll);
-        vote.setVoterAcc(voter);
+        vote.setVoter(voter);
         vote.setType(true);
         em.persist(vote);
 
         Vote vote2 = new Vote();
         vote2.setPoll(poll);
-        vote2.setVoterAcc(voter2);
+        vote2.setVoter(voter2);
         vote2.setType(false);
         em.persist(vote2);
 
@@ -69,8 +71,12 @@ public class Main {
         List<Vote> votes= new ArrayList<>();
         votes.add(vote);
         voter.setVotes(votes);
+        em.persist(voter);
+        voterAcc.setVoter(voter);
+        em.persist(voterAcc);
         votes.add(vote2);
         voter2.setVotes(new ArrayList<>(List.of(vote2)));
+        em.persist(voter2);
         poll.setVotes(votes);
         em.persist(poll);
 

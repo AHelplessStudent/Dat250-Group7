@@ -9,7 +9,7 @@ import java.util.List;
 public class VoterAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long voterId;
+    private Long voterAccId;
 
     private String username;
     private String password;
@@ -17,8 +17,9 @@ public class VoterAcc {
     private String firstName;
     private String lastName;
 
-    @OneToMany(mappedBy = "voterAcc")
-    private List<Vote> votes;
+
+    @OneToOne
+    private Voter voter;
 
     // private Collection<Vote> votes;
 
@@ -60,8 +61,12 @@ public class VoterAcc {
         return "VoterAcc [Username=" + username + ", Password=" + password + ", FirstName=" + firstName + ", LastName=" + lastName + "]";
     }
 
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
+    public Voter getVoter() {
+        return voter;
+    }
+
+    public void setVoter(Voter voter) {
+        this.voter = voter;
     }
 }
 
