@@ -6,3 +6,9 @@ Run the following command (python3 required):
 ```bash
 cd mockups && python3 -m http.server 8080
 ```
+
+## Test application
+Run the following command:
+```bash
+`cd jpa-basic && mvn test
+```
