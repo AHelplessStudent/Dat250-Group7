@@ -7,6 +7,12 @@ Run the following command (python3 required):
 cd mockups && python3 -m http.server 8080
 ```
 
+## Run application
+Run the following command:
+```bash
+cd jpa-basic && mvn exec:java
+```
+
 ## Test application
 Run the following command:
 ```bash
