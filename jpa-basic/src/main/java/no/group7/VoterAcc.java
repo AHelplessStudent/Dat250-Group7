@@ -2,18 +2,24 @@ package no.group7;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
+@Table(name = "voterAcc")
 public class VoterAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long voterAccId;
 
     private String username;
     private String password;
 
     private String firstName;
     private String lastName;
+
+
+    @OneToOne
+    private Voter voter;
 
     // private Collection<Vote> votes;
 
@@ -53,6 +59,14 @@ public class VoterAcc {
     public String toString() {
         // TODO also return votes variable.
         return "VoterAcc [Username=" + username + ", Password=" + password + ", FirstName=" + firstName + ", LastName=" + lastName + "]";
+    }
+
+    public Voter getVoter() {
+        return voter;
+    }
+
+    public void setVoter(Voter voter) {
+        this.voter = voter;
     }
 }
 

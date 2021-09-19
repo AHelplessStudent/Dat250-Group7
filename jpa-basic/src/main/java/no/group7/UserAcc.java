@@ -2,8 +2,10 @@ package no.group7;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
+@Table(name = "userAcc")
 public class UserAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +17,16 @@ public class UserAcc {
     private String firstName;
     private String lastName;
 
-    // private Collection<Poll> polls;
+    @OneToMany
+    private Collection<Poll> polls;
+
+    public void setPolls(Collection<Poll> polls) {
+        this.polls = polls;
+    }
+
+    public Collection<Poll> getPolls() {
+        return polls;
+    }
 
     public String getUsername() {
         return username;
@@ -49,10 +60,21 @@ public class UserAcc {
         this.lastName = lastName;
     }
 
+    private String printPolls() {
+        StringBuilder result = new StringBuilder();
+        result.append("[");
+        for (Poll poll : polls) {
+            result.append("\n     ");
+            result.append(poll).append(", ");
+        }
+        result.append("]");
+        return result.toString();
+    }
+
+
     @Override
     public String toString() {
-        // TODO also return polls variable.
-        return "UserAcc [Username=" + username + ", Password=" + password + ", FirstName=" + firstName + ", LastName=" + lastName + "]";
+        return "UserAcc [Username=" + username + ", Password=" + password + ", FirstName=" + firstName + ", LastName=" + lastName + "" + printPolls() + "]";
     }
 }
 

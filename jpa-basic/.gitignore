@@ -1,4 +1,5 @@
 /target/
 /testdb/
+/db/
 /.idea/
 derby.log
