@@ -16,5 +16,5 @@ cd jpa-basic && mvn exec:java
 ## Test application
 Run the following command:
 ```bash
-`cd jpa-basic && mvn test
+cd jpa-basic && mvn test
 ```
