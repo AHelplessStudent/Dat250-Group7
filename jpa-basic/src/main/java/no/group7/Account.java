@@ -2,31 +2,25 @@ package no.group7;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
-@Table(name = "userAcc")
-public class UserAcc {
+@Table(name = "account")
+public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
     private String password;
-
     private String firstName;
     private String lastName;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private Collection<Poll> polls;
 
-    public void setPolls(Collection<Poll> polls) {
-        this.polls = polls;
-    }
-
-    public Collection<Poll> getPolls() {
-        return polls;
-    }
+    @OneToOne
+    private VoteEntity voteEntity;
 
     public String getUsername() {
         return username;
@@ -60,21 +54,25 @@ public class UserAcc {
         this.lastName = lastName;
     }
 
-    private String printPolls() {
-        StringBuilder result = new StringBuilder();
-        result.append("[");
-        for (Poll poll : polls) {
-            result.append("\n     ");
-            result.append(poll).append(", ");
-        }
-        result.append("]");
-        return result.toString();
+    public Collection<Poll> getPolls() {
+        return polls;
     }
 
+    public void setPolls(Collection<Poll> polls) {
+        this.polls = polls;
+    }
+
+    public VoteEntity getVoteEntity() {
+        return voteEntity;
+    }
+
+    public void setVoteEntity(VoteEntity voteEntity) {
+        this.voteEntity = voteEntity;
+    }
 
     @Override
     public String toString() {
-        return "UserAcc [Username=" + username + ", Password=" + password + ", FirstName=" + firstName + ", LastName=" + lastName + "" + printPolls() + "]";
+        return "Account [Username=" + username + ", FirstName=" + firstName + ", LastName=" + lastName + "]";
     }
 }
 

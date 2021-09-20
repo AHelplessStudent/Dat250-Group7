@@ -6,37 +6,30 @@ import javax.persistence.*;
 @Table(name = "vote")
 public class Vote {
 
-    @EmbeddedId
-    private VoteId voteId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long voteId;
 
-    @ManyToOne
-    @MapsId("voterId")
-    @JoinColumn(name = "voter_id")
-    private VoterAcc voterAcc;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private VoteEntity from;
 
-    @ManyToOne
-    @MapsId("pollId")
-    @JoinColumn(name = "poll_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Poll poll;
 
-    // true=yes, false=no
-    private boolean type;
+    // number of yes/no votes
+    private int numYes, numNo;
 
-    @Override
-    public String toString() {
-        return "Vote [type=" + type + ", voter=" + voterAcc.getFirstName() + "]";
+    public Vote() {
+        numYes = 0;
+        numNo = 0;
     }
 
-    public void setType(boolean type) {
-        this.type = type;
+    public VoteEntity getFrom() {
+        return from;
     }
 
-    public VoterAcc getVoterAcc() {
-        return voterAcc;
-    }
-
-    public void setVoterAcc(VoterAcc voterAcc) {
-        this.voterAcc = voterAcc;
+    public void setFrom(VoteEntity from) {
+        this.from = from;
     }
 
     public Poll getPoll() {
@@ -45,5 +38,26 @@ public class Vote {
 
     public void setPoll(Poll poll) {
         this.poll = poll;
+    }
+
+    public int getNumYes() {
+        return numYes;
+    }
+
+    public void setNumYes(int numYes) {
+        this.numYes = numYes;
+    }
+
+    public int getNumNo() {
+        return numNo;
+    }
+
+    public void setNumNo(int numNo) {
+        this.numNo = numNo;
+    }
+
+    @Override
+    public String toString() {
+        return "Vote [voterEntity=" + from.getEntity_id() + ", hasAccount=" + from.isRegistered() + ", numYes=" + numYes + ", numNo=" + numNo + "]";
     }
 }

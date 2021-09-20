@@ -1,94 +1,93 @@
 package no.group7;
 
+import no.group7.dao.Dao;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class Main {
     private static final String PERSISTENCE_UNIT_NAME = "tables";
-    private static EntityManagerFactory factory;
 
-    public static <vote> void main(String[] args) {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    private static Dao<Account> UserAccDao;
+
+    public static void main(String[] args) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
-        // read the existing entries and write to console
 
         em.getTransaction().begin();
 
-        UserAcc user = new UserAcc();
-        user.setFirstName("John");
-        user.setLastName("Doe");
-        user.setUsername("CoolKid47");
-        user.setPassword("BigOlPassword");
+        /*
+          Create some accounts.
+         */
+        Account acc1 = new Account();
+        acc1.setFirstName("John");
+        acc1.setLastName("Doe");
+        acc1.setUsername("CoolKid47");
+        acc1.setPassword("hashed:BigOlPassword");
+        em.persist(acc1);
 
+        /* Associate voter entity with account */
+        VoteEntity voter1 = new VoteEntity();
+        voter1.setEntityType("Human");
+        voter1.setRegistered(true);
+        voter1.setAccount(acc1);
+
+        /*
+          Create some polls.
+         */
         Collection<Poll> polls = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             Poll poll = new Poll();
-            poll.setTitle("202" +i+ " Election");
-            poll.setDeadline(new Date(2020+i, Calendar.DECEMBER, 2+i));
+            poll.setTitle("Is the number " + (i + 1) + " even?");
+            poll.setDeadline(LocalDateTime.of(2020 + i, Month.APRIL, 2 + i, 13 + i, 11));
             poll.setPublic(true);
-            poll.setUserAcc(user);
+            poll.setUserAcc(acc1);
             em.persist(poll);
 
             polls.add(poll);
         }
 
-
-        VoterAcc voter = new VoterAcc();
-        voter.setFirstName("gaming" );
-        voter.setLastName("god");
-        voter.setUsername("gaminggod" );
-        voter.setPassword("poopi");
-        em.persist(voter);
-
-        VoterAcc voter2 = new VoterAcc();
-        voter2.setFirstName("gaming2" );
-        voter2.setLastName("god");
-        voter2.setUsername("gaminggod2" );
-        voter2.setPassword("poopi4");
-        em.persist(voter2);
-
         Poll poll = (Poll) polls.toArray()[0];
 
-        Vote vote = new Vote();
-        vote.setPoll(poll);
-        vote.setVoterAcc(voter);
-        vote.setType(true);
-        em.persist(vote);
+        /* Add some votes */
+        Vote vote1 = new Vote();
+        vote1.setFrom(voter1);
+        vote1.setNumNo(1);
+        vote1.setNumYes(0);
 
-        Vote vote2 = new Vote();
-        vote2.setPoll(poll);
-        vote2.setVoterAcc(voter2);
-        vote2.setType(false);
-        em.persist(vote2);
+        List<Vote> votes = new ArrayList<>();
+        votes.add(vote1);
 
-
-
-        List<Vote> votes= new ArrayList<>();
-        votes.add(vote);
-        voter.setVotes(votes);
-        votes.add(vote2);
-        voter2.setVotes(new ArrayList<>(List.of(vote2)));
+        // add votes to account and poll
+        voter1.setVotes(votes);
         poll.setVotes(votes);
+        em.persist(voter1);
+
+        em.persist(voter1);
+        em.persist(acc1);
         em.persist(poll);
-
-        user.setPolls(polls);
-
-        em.persist(user);
-
         em.getTransaction().commit();
 
-        Query q = em.createQuery("select t from UserAcc t");
+        Query q = em.createQuery("select t from Poll t");
         List result = q.getResultList();
 
         for (Object ua : result) {
             System.out.println(ua);
-            System.out.println();
         }
-
-
         em.close();
+    }
+
+    private static Account getUser(Long id) {
+        Optional<Account> user = UserAccDao.get(id);
+
+        return user.orElseGet(Account::new);
     }
 }

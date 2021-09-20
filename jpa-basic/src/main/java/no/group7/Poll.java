@@ -1,8 +1,7 @@
 package no.group7;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -13,21 +12,21 @@ public class Poll {
     private Long pollId;
 
     private String title;
-    private Date deadline;
+    private LocalDateTime deadline;
     private boolean isPublic;
 
     @ManyToOne
-    private UserAcc userAcc;
+    private Account account;
 
-    @OneToMany(mappedBy = "Poll")
+    @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
     private List<Vote> votes;
 
     private String printVotes() {
         StringBuilder result = new StringBuilder();
         result.append("[");
-        for (Vote vote : votes) {
+        for (Vote voteEntity : votes) {
             result.append("\n          ");
-            result.append(vote).append(", ");
+            result.append(voteEntity).append(", ");
         }
         result.append("]");
         return result.toString();
@@ -35,7 +34,7 @@ public class Poll {
 
     @Override
     public String toString() {
-       return "Poll [title=" + title + ", deadline=" + deadline + ", votes=" + printVotes() + "]";
+        return "Poll [title=" + title + ", deadline=" + deadline + ", votes=" + printVotes() + "]";
     }
 
     public boolean isPublic() {
@@ -54,27 +53,27 @@ public class Poll {
         this.title = title;
     }
 
-    public Date getDeadline() {
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
-    public UserAcc getUserAcc() {
-        return userAcc;
+    public Account getUserAcc() {
+        return account;
     }
 
-    public void setUserAcc(UserAcc userAcc) {
-        this.userAcc = userAcc;
+    public void setUserAcc(Account account) {
+        this.account = account;
     }
 
     public List<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
+    public void setVotes(List<Vote> voteEntities) {
+        this.votes = voteEntities;
     }
 }
