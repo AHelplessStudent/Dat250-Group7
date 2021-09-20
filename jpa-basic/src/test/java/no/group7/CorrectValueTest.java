@@ -8,9 +8,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FetchTest {
+public class CorrectValueTest {
 
     // use a separate database "testdb".
     private static final String PERSISTENCE_UNIT_NAME = "test";
@@ -25,14 +25,14 @@ public class FetchTest {
 
         Account user = new Account();
         user.setUsername("User1");
-        user.setPassword("secret1");
+        user.setPassword("hashed:secret13");
         user.setFirstName("Carl");
         user.setLastName("Davids");
         em.persist(user);
 
         user = new Account();
         user.setUsername("User2");
-        user.setPassword("secret2");
+        user.setPassword("hashed:secret2");
         user.setFirstName("John");
         user.setLastName("Cohen");
         em.persist(user);
@@ -42,38 +42,30 @@ public class FetchTest {
     }
 
     @Test
-    public void checkIfUserAccountIsCreated() {
-        EntityManager em = factory.createEntityManager();
-        Query q = em.createQuery("select u from Account u");
-
-        assertTrue(q.getResultList().size() >= 1);
-        em.close();
-    }
-
-    @Test
-    public void checkFetchByUsername() {
+    public void checkGetCorrectFirstName() {
         EntityManager em = factory.createEntityManager();
         Query q = em.createQuery("select u from Account u where u.username='User1'");
-
-        assertTrue(q.getResultList().size() >= 1);
+        Account account = (Account) q.getResultList().get(0);
+        assertEquals("Carl", account.getFirstName());
         em.close();
     }
 
     @Test
-    public void checkFetchByFirstName() {
+    public void checkGetCorrectLastName() {
         EntityManager em = factory.createEntityManager();
-        Query q = em.createQuery("select u from Account u where u.firstName='Carl'");
-
-        assertTrue(q.getResultList().size() >= 1);
+        Query q = em.createQuery("select u from Account u where u.username='User1'");
+        Account account = (Account) q.getResultList().get(0);
+        assertEquals("Davids", account.getLastName());
         em.close();
     }
 
     @Test
-    public void checkFetchByLastName() {
+    public void checkGetCorrectPassword() {
         EntityManager em = factory.createEntityManager();
-        Query q = em.createQuery("select u from Account u where u.lastName='Cohen'");
-
-        assertTrue(q.getResultList().size() >= 1);
+        Query q = em.createQuery("select u from Account u where u.username='User1'");
+        Account account = (Account) q.getResultList().get(0);
+        System.out.println(account);
+        assertEquals("hashed:secret13", account.getPassword());
         em.close();
     }
 }
