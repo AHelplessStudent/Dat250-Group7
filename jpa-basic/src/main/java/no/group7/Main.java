@@ -1,5 +1,6 @@
 package no.group7;
 
+import no.group7.dao.AccountDao;
 import no.group7.dao.Dao;
 
 import javax.persistence.EntityManager;
@@ -16,13 +17,14 @@ import java.util.Optional;
 public class Main {
     private static final String PERSISTENCE_UNIT_NAME = "tables";
 
-    private static Dao<Account> UserAccDao;
+    private static Dao<Account> userAccDao;
 
     public static void main(String[] args) {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
 
         em.getTransaction().begin();
+        userAccDao = new AccountDao(em);
 
         /*
           Create some accounts.
@@ -82,11 +84,12 @@ public class Main {
         for (Object ua : result) {
             System.out.println(ua);
         }
+        System.out.println(getUser(1L));
         em.close();
     }
 
     private static Account getUser(Long id) {
-        Optional<Account> user = UserAccDao.get(id);
+        Optional<Account> user = userAccDao.get(id);
 
         return user.orElseGet(Account::new);
     }
