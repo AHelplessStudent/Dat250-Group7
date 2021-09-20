@@ -1,7 +1,6 @@
 package no.group7;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class Poll {
     private boolean isPublic;
 
     @ManyToOne
-    private UserAcc userAcc;
+    private Account account;
 
     @OneToMany(mappedBy = "Poll")
     private List<Vote> votes;
@@ -62,12 +61,12 @@ public class Poll {
         this.deadline = deadline;
     }
 
-    public UserAcc getUserAcc() {
-        return userAcc;
+    public Account getUserAcc() {
+        return account;
     }
 
-    public void setUserAcc(UserAcc userAcc) {
-        this.userAcc = userAcc;
+    public void setUserAcc(Account account) {
+        this.account = account;
     }
 
     public List<Vote> getVotes() {

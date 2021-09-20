@@ -5,8 +5,7 @@
     <persistence-unit name="tables" transaction-type="RESOURCE_LOCAL">
 
 
-        <class>no.group7.UserAcc</class>
-        <class>no.group7.VoterAcc</class>
+        <class>no.group7.Account</class>
         <class>no.group7.Vote</class>
         <class>no.group7.VoteId</class>
         <class>no.group7.Poll</class>

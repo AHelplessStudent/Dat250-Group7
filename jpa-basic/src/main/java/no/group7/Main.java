@@ -13,7 +13,7 @@ public class Main {
     private static final String PERSISTENCE_UNIT_NAME = "tables";
     private static EntityManagerFactory factory;
 
-    private static Dao<UserAcc> UserAccDao;
+    private static Dao<Account> UserAccDao;
 
     public static void main(String[] args) {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -22,7 +22,7 @@ public class Main {
 
         em.getTransaction().begin();
 
-        UserAcc user = new UserAcc();
+        Account user = new Account();
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setUsername("CoolKid47");
@@ -41,7 +41,7 @@ public class Main {
         }
 
 
-        VoterAcc voterAcc = new VoterAcc();
+        Account voterAcc = new Account();
         voterAcc.setFirstName("gaming" );
         voterAcc.setLastName("god");
         voterAcc.setUsername("gaminggod" );
@@ -91,7 +91,7 @@ public class Main {
 
         em.getTransaction().commit();
 
-        Query q = em.createQuery("select t from UserAcc t");
+        Query q = em.createQuery("select t from Account t");
         List result = q.getResultList();
 
         for (Object ua : result) {
@@ -100,19 +100,25 @@ public class Main {
         }
 
         UserAccDao = new UserAccDao(em);
-        UserAcc user1 = getUser(1L);
-        System.out.println("GAMER");
+        Account user1 = getUser(1L);
+        System.out.println("Dao Test");
         System.out.println(user1);
-        System.out.println("GAMER");
+        System.out.println("Dao Test");
+
+        List<Account> users = UserAccDao.getAll();
+
+        for (Account u: users) {
+            System.out.println(u);
+        }
 
 
         em.close();
     }
 
-    private static UserAcc getUser(Long id) {
-        Optional<UserAcc> user = UserAccDao.get(id);
+    private static Account getUser(Long id) {
+        Optional<Account> user = UserAccDao.get(id);
 
         return user.orElseGet(
-                () -> new UserAcc());
+                () -> new Account());
     }
 }

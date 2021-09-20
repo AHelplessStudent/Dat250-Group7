@@ -2,11 +2,10 @@ package no.group7;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
-@Table(name = "userAcc")
-public class UserAcc {
+@Table(name = "Account")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +18,9 @@ public class UserAcc {
 
     @OneToMany
     private Collection<Poll> polls;
+
+    @OneToOne
+    private Voter voter;
 
     public void setPolls(Collection<Poll> polls) {
         this.polls = polls;
@@ -75,6 +77,14 @@ public class UserAcc {
     @Override
     public String toString() {
         return "UserAcc [Username=" + username + ", Password=" + password + ", FirstName=" + firstName + ", LastName=" + lastName + "" + printPolls() + "]";
+    }
+
+    public Voter getVoter() {
+        return voter;
+    }
+
+    public void setVoter(Voter voter) {
+        this.voter = voter;
     }
 }
 

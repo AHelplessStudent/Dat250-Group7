@@ -1,7 +1,7 @@
 package no.group7.dao;
 
 import no.group7.Poll;
-import no.group7.UserAcc;
+import no.group7.Account;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class UserAccDao implements Dao<UserAcc> {
+public class UserAccDao implements Dao<Account> {
 
     private EntityManager entityManager;
 
@@ -23,38 +23,38 @@ public class UserAccDao implements Dao<UserAcc> {
     // standard constructors
 
     @Override
-    public Optional<UserAcc> get(long id) {
-        return Optional.ofNullable(entityManager.find(UserAcc.class, id));
+    public Optional<Account> get(long id) {
+        return Optional.ofNullable(entityManager.find(Account.class, id));
     }
 
     @Override
-    public List<UserAcc> getAll() {
-        Query query = entityManager.createQuery("SELECT e FROM UserAcc e");
+    public List<Account> getAll() {
+        Query query = entityManager.createQuery("SELECT e FROM Account e");
         return query.getResultList();
     }
 
     @Override
-    public void save(UserAcc userAcc) {
-        executeInsideTransaction(entityManager -> entityManager.persist(userAcc));
+    public void save(Account account) {
+        executeInsideTransaction(entityManager -> entityManager.persist(account));
     }
 
     @Override
-    public void update(UserAcc userAcc, String[] params) {
-        userAcc.setFirstName(Objects.requireNonNull(params[0], "First name cannot be null"));
-        userAcc.setLastName(Objects.requireNonNull(params[1], "Last name cannot be null"));
-        userAcc.setUsername(Objects.requireNonNull(params[2], "Username cannot be null"));
-        userAcc.setPassword(Objects.requireNonNull(params[3], "Password cannot be null"));
+    public void update(Account account, String[] params) {
+        account.setFirstName(Objects.requireNonNull(params[0], "First name cannot be null"));
+        account.setLastName(Objects.requireNonNull(params[1], "Last name cannot be null"));
+        account.setUsername(Objects.requireNonNull(params[2], "Username cannot be null"));
+        account.setPassword(Objects.requireNonNull(params[3], "Password cannot be null"));
 
-        executeInsideTransaction(entityManager -> entityManager.merge(userAcc));
+        executeInsideTransaction(entityManager -> entityManager.merge(account));
     }
 
-    public void updatePolls(UserAcc userAcc, Collection<Poll> polls) {
+    public void updatePolls(Account account, Collection<Poll> polls) {
 
     }
 
     @Override
-    public void delete(UserAcc userAcc) {
-        executeInsideTransaction(entityManager -> entityManager.remove(userAcc));
+    public void delete(Account account) {
+        executeInsideTransaction(entityManager -> entityManager.remove(account));
     }
 
     private void executeInsideTransaction(Consumer<EntityManager> action) {

@@ -17,18 +17,18 @@ public class Voter {
     private String accountType;
 
     @OneToOne
-    private VoterAcc account;
+    private Account account;
 
     @OneToMany(mappedBy = "voter")
     private List<Vote> votes;
 
 
-    public VoterAcc getAccount() {
+    public Account getAccount() {
         return account;
     }
 
-    public void setAccount(VoterAcc voterAcc) {
-        this.account = voterAcc;
+    public void setAccount(Account voter) {
+        this.account = voter;
     }
 
     public String getAccountType() {
