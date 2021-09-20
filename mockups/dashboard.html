@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        table, th, td {
+        table,
+        th,
+        td {
             border: solid 1px black;
             border-collapse: collapse;
         }
@@ -17,12 +19,50 @@
 <body>
 
     <h1>Mockup Dashboard User</h1>
-    <p><a href="main.html">Log out</a></p>
+    <p><a href="index.html">Log out</a></p>
 
-    <button>Create new poll</button>
+
+    <form action="poll.html">
+        <input placeholder="Poll Code" autocomplete="off" value="">
+        <br>
+        <button type="submit">Join Poll</button>
+    </form>
+    <br><br>
+
+
+    <form action="create_poll.html">
+        <input type="submit" value="Create new poll" />
+    </form>
+
+
+
+    <br>
+    <p>Voted on polls</p>
+    <table style="border: solid 1px black;">
+        <tr style="border: solid 1px black;">
+            <th>Poll ID</th>
+            <th>Poll Title</th>
+            <th>You voted</th>
+        </tr>
+        <tr>
+            <td><a href="#">0</a></td>
+            <td>Do you like nachos?</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td><a href="#">1</a></td>
+            <td>Should mondays be renamed ferrari?</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><a href="#">2</a></td>
+            <td>Are you human?</td>
+            <td>No</td>
+        </tr>
+    </table>
 
     <br><br>
-    <p>Your polls</p>
+    <p>Created polls</p>
     <table style="border: solid 1px black;">
         <tr style="border: solid 1px black;">
             <th>Poll ID</th>
