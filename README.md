@@ -3,12 +3,12 @@ Working directory for Group 7 in Dat250
 
 ## Running code
 ```bash
-mvn exex:java
+cd jpa-basic && mvn exex:java
 ```
 
 ## Testing code
 ```bash
-mvn test
+cd jpa-basic && mvn test
 ```
 
 ## Running mockups
