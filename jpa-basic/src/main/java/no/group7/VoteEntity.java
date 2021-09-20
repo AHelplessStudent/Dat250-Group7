@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "voteEntity")
+@Table(name = "vote_entity")
 public class VoteEntity {
 
     @Id
@@ -12,7 +12,7 @@ public class VoteEntity {
     private Long entity_id;
 
     // e.g. "machine", "human"
-    private String entityType;
+    private String type;
     private boolean registered;
 
     @OneToOne
@@ -40,12 +40,12 @@ public class VoteEntity {
         this.account = account;
     }
 
-    public String getEntityType() {
-        return entityType;
+    public String getType() {
+        return type;
     }
 
-    public void setEntityType(String entityType) {
-        this.entityType = entityType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public boolean isRegistered() {
@@ -58,6 +58,6 @@ public class VoteEntity {
 
     @Override
     public String toString() {
-        return "Vote [id=" + entity_id + ", registered=" + registered + ", entityType=" + entityType + "]";
+        return "Vote [id=" + entity_id + ", registered=" + registered + ", entityType=" + type + "]";
     }
 }

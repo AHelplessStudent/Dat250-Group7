@@ -37,7 +37,7 @@ public class VoteEntityDao implements Dao<VoteEntity> {
 
     @Override
     public void update(VoteEntity voteEntity, String[] params) {
-        voteEntity.setEntityType((Objects.requireNonNull(params[0], "LocalDateTime cannot be null")));
+        voteEntity.setType((Objects.requireNonNull(params[0], "LocalDateTime cannot be null")));
         voteEntity.setRegistered(Boolean.parseBoolean(Objects.requireNonNull(params[0], "Title cannot be null")));
         executeInsideTransaction(entityManager -> entityManager.merge(voteEntity));
     }

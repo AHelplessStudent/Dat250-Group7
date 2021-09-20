@@ -39,8 +39,8 @@ public class VoteDao implements Dao<Vote> {
 
     @Override
     public void update(Vote vote, String[] params) {
-        vote.setNumYes(Integer.parseInt(Objects.requireNonNull(params[0], "Title cannot be null")));
-        vote.setNumNo(Integer.parseInt(Objects.requireNonNull(params[1], "Title cannot be null")));
+        vote.setNum_yes(Integer.parseInt(Objects.requireNonNull(params[0], "Title cannot be null")));
+        vote.setNum_no(Integer.parseInt(Objects.requireNonNull(params[1], "Title cannot be null")));
 
         executeInsideTransaction(entityManager -> entityManager.merge(vote));
     }

@@ -38,7 +38,7 @@ public class Main {
 
         /* Associate voter entity with account */
         VoteEntity voter1 = new VoteEntity();
-        voter1.setEntityType("Human");
+        voter1.setType("Human");
         voter1.setRegistered(true);
         voter1.setAccount(acc1);
 
@@ -62,8 +62,8 @@ public class Main {
         /* Add some votes */
         Vote vote1 = new Vote();
         vote1.setFrom(voter1);
-        vote1.setNumNo(1);
-        vote1.setNumYes(0);
+        vote1.setNum_no(1);
+        vote1.setNum_yes(0);
 
         List<Vote> votes = new ArrayList<>();
         votes.add(vote1);

@@ -17,11 +17,11 @@ public class Vote {
     private Poll poll;
 
     // number of yes/no votes
-    private int numYes, numNo;
+    private int num_yes, num_no;
 
     public Vote() {
-        numYes = 0;
-        numNo = 0;
+        num_yes = 0;
+        num_no = 0;
     }
 
     public VoteEntity getFrom() {
@@ -40,24 +40,24 @@ public class Vote {
         this.poll = poll;
     }
 
-    public int getNumYes() {
-        return numYes;
+    public int getNum_yes() {
+        return num_yes;
     }
 
-    public void setNumYes(int numYes) {
-        this.numYes = numYes;
+    public void setNum_yes(int num_yes) {
+        this.num_yes = num_yes;
     }
 
-    public int getNumNo() {
-        return numNo;
+    public int getNum_no() {
+        return num_no;
     }
 
-    public void setNumNo(int numNo) {
-        this.numNo = numNo;
+    public void setNum_no(int num_no) {
+        this.num_no = num_no;
     }
 
     @Override
     public String toString() {
-        return "Vote [voterEntity=" + from.getEntity_id() + ", hasAccount=" + from.isRegistered() + ", numYes=" + numYes + ", numNo=" + numNo + "]";
+        return "Vote [voterEntity=" + from.getEntity_id() + ", hasAccount=" + from.isRegistered() + ", numYes=" + num_yes + ", numNo=" + num_no + "]";
     }
 }
