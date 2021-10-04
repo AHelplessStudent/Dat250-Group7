@@ -1,5 +1,6 @@
 package com.example.restservice;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,15 +20,23 @@ public class VoteController {
     private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/votes")
-    public String votes() {
-        return "Here is all the votes";
+    public String getVotes() {
+        return "[ GET ]Here is all the votes";
     }
 
     @GetMapping("/votes/{vid}")
     /**
      * View vote with given id.
      */
-    public String viewVote(@PathVariable("vid") Integer vid) {
-        return "Vote with id=" + vid;
+    public String getVote(@PathVariable("vid") Integer vid) {
+        return "[ GET ]Vote with id=" + vid;
+    }
+
+    @DeleteMapping("/votes/{vid}")
+    /**
+     * View vote with given id.
+     */
+    public String deleteVote(@PathVariable("vid") Integer vid) {
+        return "[ GET ] Deleting vote with id=" + vid;
     }
 }
