@@ -43,6 +43,11 @@ public class VoteController {
         return "[ PUT ] Updated vote with id" + vid;//(Vote) newValue;
     }
 
+    @PostMapping("/votes/{vid}")
+    public String postVote(@PathVariable("vid") Integer vid, @RequestBody Object newValue) {
+        return "[ POST ] Post vote with id" + vid;//(Vote) newValue;
+    }
+
     @PutMapping("/votes/{vid}/{field}")
     public String putVoteField(@PathVariable("vid") Integer vid, @PathVariable("field") String field, @RequestBody Object newValue) {
         if (field.equals("num_yes")) {

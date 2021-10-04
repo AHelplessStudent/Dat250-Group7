@@ -34,6 +34,11 @@ public class PollController {
         return "[ GET ] Poll with id=" + pid;
     }
 
+    @PostMapping("/polls/{pid}")
+    public String postPoll(@PathVariable("pid") Integer pid, @RequestBody Poll poll) {
+        return "[ POST ] Poll with id=" + pid;
+    }
+
     @GetMapping("/polls/{pid}/{field}")
     /**
      * View poll with given id.
@@ -104,6 +109,11 @@ public class PollController {
     @PutMapping("/polls/{pid}/votes/{vid}")
     public String putPollVote(@PathVariable("pid") Integer pid, @PathVariable("vid") Integer vid, @RequestBody Object newValue) {
         return "[ PUT ] Updated poll with id" + vid;//(Vote) newValue;
+    }
+
+    @PostMapping("/polls/{pid}/votes/{vid}")
+    public String postPollVote(@PathVariable("pid") Integer pid, @PathVariable("vid") Integer vid, @RequestBody Object newValue) {
+        return "[ POST ] Posted poll with id" + vid;//(Vote) newValue;
     }
 
     @PutMapping("/polls/{pid}/votes/{vid}/{field}")
