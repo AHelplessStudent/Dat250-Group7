@@ -1,9 +1,6 @@
 package com.example.restservice;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -15,6 +12,7 @@ public class PollController {
 
     /**
      * TODO: change return types on the methods (not all should be String)
+     * This class is unfinished.
      */
     private final AtomicLong counter = new AtomicLong();
 
@@ -28,7 +26,6 @@ public class PollController {
         return "[ DELETE ] Deleting all polls";
     }
 
-
     @GetMapping("/polls/{pid}")
     /**
      * View poll with given id.
@@ -37,9 +34,39 @@ public class PollController {
         return "[ GET ] Poll with id=" + pid;
     }
 
+    @GetMapping("/polls/{pid}/{field}")
+    /**
+     * View poll with given id.
+     */
+    public String getPollField(@PathVariable("pid") Integer pid, @PathVariable("field") String field) {
+        return "[ GET ] Poll with id=" + pid + " and field " + field;
+    }
+
     @DeleteMapping("/polls/{pid}")
     public String deletePoll(@PathVariable("pid") Integer pid) {
         return "[ DELETE ] Deleting poll with id=" + pid;
+    }
+
+    @PutMapping("/polls/{pid}")
+    public String putPoll(@PathVariable("pid") Integer pid, @RequestBody Poll poll) {
+        return "[ PUT ] Poll with id=" + pid + " replaced by new poll: " + poll.toString();
+    }
+
+    @PutMapping("/polls/{pid}/{field}")
+    public String putPoll(@PathVariable("pid") Integer pid, @PathVariable("field") String field, @RequestBody Object newValue) {
+        switch (field) {
+            case "title":
+                return "[ PUT ] Updating title to " + (String) newValue;
+
+            case "deadline":
+                return "[ PUT ] Updating deadline.";
+
+            case "public":
+                return "[ PUT ] Updating poll with id " + pid + " to public=" + (Boolean) newValue;
+
+            default:
+                return "Did not understand 'field'";
+        }
     }
 
     @GetMapping("/polls/{pid}/votes")
@@ -70,7 +97,22 @@ public class PollController {
     /**
      * View vote on a given poll.
      */
-    public String deletePollVote(@PathVariable("pid") Integer pid) {
+    public String deletePollVote(@PathVariable("pid") Integer pid, @PathVariable("vid") Integer vid) {
         return "[ GET ] Deleting votes on poll with id=" + pid;
+    }
+
+    @PutMapping("/polls/{pid}/votes/{vid}")
+    public String putPollVote(@PathVariable("pid") Integer pid, @PathVariable("vid") Integer vid, @RequestBody Object newValue) {
+        return "[ PUT ] Updated poll with id" + vid;//(Vote) newValue;
+    }
+
+    @PutMapping("/polls/{pid}/votes/{vid}/{field}")
+    public String putPollVoteField(@PathVariable("pid") Integer pid, @PathVariable("vid") Integer vid, @PathVariable("field") Integer field, @RequestBody Object newValue) {
+        if (field.equals("num_yes")) {
+            return "[ PUT ] Updated `num_yes` on vote " + vid;//(Vote) newValue;
+        } else if (field.equals("num_no")) {
+            return "[ PUT ] Updated `num_no` on vote " + vid;
+        }
+        return "[ PUT ] Failed to update vote on poll " + pid;//(Vote) newValue;
     }
 }
