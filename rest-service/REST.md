@@ -39,3 +39,17 @@ Syntax:
 ```
 /votes/{vid}/(num_yes, num_no)
 ```
+
+## DELETE
+
+```
+/polls/{pid}
+```
+
+```
+/polls/{pid}/votes/{vid}
+```
+
+```
+/votes/{vid}
+```
