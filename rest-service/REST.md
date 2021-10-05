@@ -1,5 +1,7 @@
 # Rest-API Overview
 
+Polls can be accessed through `/polls`. Votes can be accessed through `/votes` or `/polls/{pid}/votes`.
+
 Syntax:
 
 * `/polls/{pid}` - user should enter pid
@@ -78,4 +80,18 @@ Syntax:
 
 ```
 /votes/{vid}/(num_yes, num_no)
+```
+
+## POST
+
+```
+/polls/{pid}
+```
+
+```
+/polls/{pid}/votes/{vid}
+```
+
+```
+/votes/{vid}
 ```
