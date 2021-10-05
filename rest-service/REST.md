@@ -53,3 +53,29 @@ Syntax:
 ```
 /votes/{vid}
 ```
+
+## PUT
+
+```
+/polls/{pid}
+```
+
+```
+/polls/{pid}/(title, deadline, public)
+```
+
+```
+/polls/{pid}/votes/{vid}
+```
+
+```
+/polls/{pid}/votes/{vid}/(num_yes, num_no)
+```
+
+```
+/votes/{vid}
+```
+
+```
+/votes/{vid}/(num_yes, num_no)
+```
