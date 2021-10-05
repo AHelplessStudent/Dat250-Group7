@@ -25,8 +25,10 @@ public class PollController {
     }
 
     @DeleteMapping("/polls")
-    public String deletePolls() {
-        return "[ DELETE ] Deleting all polls";
+    public Polls deletePolls() {
+        polls = new Polls();
+        return polls;
+//        return "[ DELETE ] Deleting all polls";
     }
 
     @GetMapping("/polls/{pid}")
