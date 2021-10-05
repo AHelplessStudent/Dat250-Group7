@@ -4,7 +4,7 @@ Syntax:
 
 * `/polls/{pid}` - user should enter pid
 * `/polls/(a, b, c)` - user selects between the options (fields) a, b and c
-    * Short-hand for `/polls/a` OR `/polls/b` OR `/polls/c`
+    * Short-hand for `/polls/a` , `/polls/b` , `/polls/c`
 
 ## GET
 
