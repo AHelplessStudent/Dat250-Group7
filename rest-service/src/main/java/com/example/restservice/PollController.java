@@ -16,9 +16,12 @@ public class PollController {
      */
     private final AtomicLong counter = new AtomicLong();
 
+    private Polls polls = new Polls();
+
     @GetMapping("/polls")
-    public String getPolls() {
-        return "[ GET ] Here is all the polls";
+    public Polls getPolls() {
+        return polls;
+        // return "[ GET ] Here is all the polls";
     }
 
     @DeleteMapping("/polls")
@@ -30,13 +33,23 @@ public class PollController {
     /**
      * View poll with given id.
      */
-    public String getPoll(@PathVariable("pid") Integer pid) {
-        return "[ GET ] Poll with id=" + pid;
+    public Poll getPoll(@PathVariable("pid") Long pid) {
+
+        return polls.getPollById(pid);
+        //return "[ GET ] Poll with id=" + pid;
     }
 
     @PostMapping("/polls/{pid}")
-    public String postPoll(@PathVariable("pid") Integer pid, @RequestBody Poll poll) {
-        return "[ POST ] Poll with id=" + pid;
+    public Polls postPoll(@PathVariable("pid") Long pid, @RequestBody Poll poll) {
+
+        // poopy way of doing it. Please come up with something better.
+        if (polls.getPollById(pid) != null)
+            return null;
+
+        Poll complete_poll = new Poll(pid, poll.getTitle(), poll.getDeadline(), poll.isPublic());
+        polls.add(complete_poll);
+        return polls;
+        //return "[ POST ] Poll with id=" + pid;
     }
 
     @GetMapping("/polls/{pid}/{field}")
@@ -48,13 +61,31 @@ public class PollController {
     }
 
     @DeleteMapping("/polls/{pid}")
-    public String deletePoll(@PathVariable("pid") Integer pid) {
-        return "[ DELETE ] Deleting poll with id=" + pid;
+    public Polls deletePoll(@PathVariable("pid") Long pid) {
+        polls.deletePoll(pid);
+        return polls;
+        //return "[ DELETE ] Deleting poll with id=" + pid;
     }
 
     @PutMapping("/polls/{pid}")
-    public String putPoll(@PathVariable("pid") Integer pid, @RequestBody Poll poll) {
-        return "[ PUT ] Poll with id=" + pid + " replaced by new poll: " + poll.toString();
+    public Polls putPoll(@PathVariable("pid") Long pid, @RequestBody Poll poll) {
+
+        Poll currPoll = polls.getPollById(pid);
+
+        // if the given poll id doesn't correspond to an existing poll.
+        if (currPoll == null) {
+
+            polls.add(new Poll(pid,poll.getTitle(),poll.getDeadline(),poll.isPublic()));
+            return polls;
+        }
+
+        currPoll.setTitle(poll.getTitle());
+        currPoll.setDeadline(poll.getDeadline());
+        currPoll.setPublic(poll.isPublic());
+
+
+        return polls;
+//        return "[ PUT ] Poll with id=" + pid + " replaced by new poll: " + poll.toString();
     }
 
     @PutMapping("/polls/{pid}/{field}")

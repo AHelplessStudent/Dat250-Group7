@@ -3,6 +3,7 @@ package com.example.restservice;
 import java.time.LocalDateTime;
 
 public class Poll {
+
     private final Long pollId;
 
     private String title;
@@ -43,5 +44,9 @@ public class Poll {
 
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
+    }
+
+    public Long getPollId() {
+        return pollId;
     }
 }
