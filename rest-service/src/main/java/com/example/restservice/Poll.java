@@ -9,12 +9,14 @@ public class Poll {
     private String title;
     private LocalDateTime deadline;
     private boolean isPublic;
+    private Votes votes;
 
     public Poll(Long pollId, String title, LocalDateTime deadline, boolean isPublic) {
         this.pollId = pollId;
         this.title = title;
         this.deadline = deadline;
         this.isPublic = isPublic;
+        this.votes = new Votes();
     }
 
     public void setPollId(Long pollId) {
@@ -52,5 +54,13 @@ public class Poll {
 
     public Long getPollId() {
         return pollId;
+    }
+
+    public Votes getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Votes votes) {
+        this.votes = votes;
     }
 }
