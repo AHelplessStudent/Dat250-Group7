@@ -41,17 +41,10 @@ public class PollController {
         //return "[ GET ] Poll with id=" + pid;
     }
 
-    @PostMapping("/polls/{pid}")
-    public Polls postPoll(@PathVariable("pid") Long pid, @RequestBody Poll poll) {
-
-        // poopy way of doing it. Please come up with something better.
-        if (polls.getPollById(pid) != null)
-            return null;
-
-        Poll complete_poll = new Poll(pid, poll.getTitle(), poll.getDeadline(), poll.isPublic());
-        polls.add(complete_poll);
+    @PostMapping("/polls")
+    public Polls postPoll(@RequestBody Poll poll) {
+        polls.add(poll);
         return polls;
-        //return "[ POST ] Poll with id=" + pid;
     }
 
     @GetMapping("/polls/{pid}/{field}")
@@ -77,7 +70,7 @@ public class PollController {
         // if the given poll id doesn't correspond to an existing poll.
         if (currPoll == null) {
 
-            polls.add(new Poll(pid,poll.getTitle(),poll.getDeadline(),poll.isPublic()));
+            polls.add(new Poll(pid, poll.getTitle(), poll.getDeadline(), poll.isPublic()));
             return polls;
         }
 
@@ -144,7 +137,7 @@ public class PollController {
         return "[ PUT ] Updated poll with id" + vid;//(Vote) newValue;
     }
 
-    @PostMapping("/polls/{pid}/votes/{vid}")
+    @PostMapping("/polls/{pid}/votes")
     public String postPollVote(@PathVariable("pid") Integer pid, @PathVariable("vid") Integer vid, @RequestBody Object newValue) {
         return "[ POST ] Posted poll with id" + vid;//(Vote) newValue;
     }

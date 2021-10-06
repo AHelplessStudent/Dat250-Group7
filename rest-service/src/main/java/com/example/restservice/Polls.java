@@ -1,10 +1,12 @@
 package com.example.restservice;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Polls {
 
     ArrayList<Poll> polls;
+    private final AtomicLong head = new AtomicLong(0);
 
     public Polls() {
         this.polls = new ArrayList<>();
@@ -29,8 +31,11 @@ public class Polls {
     }
 
 
-
     public void add(Poll poll) {
+        if (poll.getPollId() == null) { // should auto-increment
+            poll.setPollId(head.getAndIncrement());
+        }
+
         polls.add(poll);
     }
 

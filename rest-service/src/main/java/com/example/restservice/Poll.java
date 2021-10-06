@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Poll {
 
-    private final Long pollId;
+    private Long pollId;
 
     private String title;
     private LocalDateTime deadline;
@@ -17,6 +17,10 @@ public class Poll {
         this.isPublic = isPublic;
     }
 
+    public void setPollId(Long pollId) {
+        this.pollId = pollId;
+    }
+    
     @Override
     public String toString() {
         return "Poll [title=" + title + ", deadline=" + deadline + "]";
