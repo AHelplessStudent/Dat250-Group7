@@ -85,13 +85,13 @@ Syntax:
 ## POST
 
 ```
-/polls/{pid}
+/polls
 ```
 
 ```
-/polls/{pid}/votes/{vid}
+/polls/{pid}/votes
 ```
 
 ```
-/votes/{vid}
+/votes
 ```
