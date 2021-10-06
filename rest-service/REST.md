@@ -1,12 +1,11 @@
 # Rest-API Overview
 
-Polls can be accessed through `/polls`. Votes can be accessed through `/polls/{pid}/votes`. We originally thought of doing a `/votes`-API, but redeemed it to unpractical for this particular experiment.
+Polls can be accessed through `/polls`. Votes can be accessed through `/polls/{pid}/votes`. We originally thought of
+doing a `/votes`-API, but redeemed it to unpractical for this particular experiment.
 
 Syntax:
 
 * `/polls/{pid}` - user should enter pid
-* `/polls/(a, b, c)` - user selects between the options (fields) a, b and c
-    * Short-hand for `/polls/a` , `/polls/b` , `/polls/c`
 
 ## GET
 
@@ -24,10 +23,6 @@ Syntax:
 
 ```
 /polls/{pid}/votes/{vid}
-```
-
-```
-/polls/{pid}/(title, deadline, public)
 ```
 
 ## DELETE
@@ -52,10 +47,6 @@ Syntax:
 
 ```
 /polls/{pid}/votes/{vid}
-```
-
-```
-/polls/{pid}/votes/{vid}/(num_yes, num_no)
 ```
 
 ## POST
