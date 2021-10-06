@@ -53,7 +53,7 @@ public class PollController {
     /**
      * View vote on a given poll.
      */
-    public Vote getPollVote(@PathVariable("pid") Long pid, @PathVariable("pid") Long vid) {
+    public Vote getPollVote(@PathVariable("pid") Long pid, @PathVariable("vid") Long vid) {
         return polls.getPollById(pid).getVotes().getVoteById(vid);
     }
 
@@ -127,7 +127,7 @@ public class PollController {
     }
 
     @PutMapping("/polls/{pid}/votes/{vid}")
-    public Vote putPollVote(@PathVariable("pid") Long pid, @PathVariable("vid") Long vid, @RequestBody Vote newValue) {
+    public Poll putPollVote(@PathVariable("pid") Long pid, @PathVariable("vid") Long vid, @RequestBody Vote newValue) {
         Poll poll = polls.getPollById(pid);
         Vote currVote = poll.getVotes().getVoteById(vid);
 
@@ -135,6 +135,9 @@ public class PollController {
             poll.getVotes().add(newValue);
         }
 
-        return newValue;
+        currVote.setNum_yes(newValue.getNum_yes());
+        currVote.setNum_no(newValue.getNum_no());
+
+        return poll;
     }
 }
