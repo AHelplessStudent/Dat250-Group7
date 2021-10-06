@@ -67,9 +67,14 @@ public class PollController {
     }
 
     @PostMapping("/polls/{pid}/votes")
-    public Vote postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
-        polls.getPollById(pid).getVotes().add(newValue);
-        return newValue;
+    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
+
+        Poll p = polls.getPollById(pid);
+
+        newValue.setPoll(p);
+        p.getVotes().add(newValue);
+
+        return p;
     }
 
     //////////////////////////////////////
