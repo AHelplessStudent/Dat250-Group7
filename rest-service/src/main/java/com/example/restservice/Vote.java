@@ -4,7 +4,7 @@ public class Vote {
 
     private Long voteId;
 
-    private Poll poll;
+    private Long pollId;
 
     // number of yes/no votes
     private int num_yes, num_no;
@@ -24,12 +24,12 @@ public class Vote {
         this.voteId = voteId;
     }
 
-    public Poll getPoll() {
-        return poll;
+    public Long getPollId() {
+        return pollId;
     }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public void setPollId(Long pollId) {
+        this.pollId = pollId;
     }
 
     public int getNum_yes() {

@@ -71,7 +71,7 @@ public class PollController {
 
         Poll p = polls.getPollById(pid);
 
-        newValue.setPoll(p);
+        newValue.setPollId(p.getPollId());
         p.getVotes().add(newValue);
 
         return p;
