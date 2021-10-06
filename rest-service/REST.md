@@ -30,18 +30,6 @@ Syntax:
 /polls/{pid}/(title, deadline, public)
 ```
 
-```
-/votes
-```
-
-```
-/votes/{vid}
-```
-
-```
-/votes/{vid}/(num_yes, num_no)
-```
-
 ## DELETE
 
 ```
@@ -50,10 +38,6 @@ Syntax:
 
 ```
 /polls/{pid}/votes/{vid}
-```
-
-```
-/votes/{vid}
 ```
 
 ## PUT
@@ -74,14 +58,6 @@ Syntax:
 /polls/{pid}/votes/{vid}/(num_yes, num_no)
 ```
 
-```
-/votes/{vid}
-```
-
-```
-/votes/{vid}/(num_yes, num_no)
-```
-
 ## POST
 
 ```
@@ -90,8 +66,4 @@ Syntax:
 
 ```
 /polls/{pid}/votes
-```
-
-```
-/votes
 ```
