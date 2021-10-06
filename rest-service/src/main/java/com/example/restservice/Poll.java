@@ -22,7 +22,7 @@ public class Poll {
     public void setPollId(Long pollId) {
         this.pollId = pollId;
     }
-    
+
     @Override
     public String toString() {
         return "Poll [title=" + title + ", deadline=" + deadline + "]";

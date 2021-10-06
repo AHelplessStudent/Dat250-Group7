@@ -25,11 +25,13 @@ public class Polls {
     }
 
     public void deletePoll(Long id) {
-
         Poll curr = getPollById(id);
         polls.remove(curr);
     }
 
+    public void removeAll() {
+        this.polls.clear();
+    }
 
     public void add(Poll poll) {
         if (poll.getPollId() == null) { // should auto-increment

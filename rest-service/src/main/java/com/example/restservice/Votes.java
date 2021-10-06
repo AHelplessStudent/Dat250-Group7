@@ -1,10 +1,12 @@
 package com.example.restservice;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Votes {
 
     ArrayList<Vote> votes;
+    private final AtomicLong head = new AtomicLong(0);
 
     public Votes() {
         this.votes = new ArrayList<>();
@@ -22,14 +24,21 @@ public class Votes {
         this.votes = votes;
     }
 
-    public void deleteVotes(Long id) {
+    public void deleteVote(Long id) {
         Vote curr = getVoteById(id);
         votes.remove(curr);
     }
 
+    public void removeAll() {
+        votes.clear();
+    }
 
 
     public void add(Vote vote) {
+        if (vote.getVoteId() == null) {
+            vote.setVoteId(head.getAndIncrement());
+        }
+
         votes.add(vote);
     }
 

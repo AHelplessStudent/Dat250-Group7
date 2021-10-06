@@ -9,9 +9,19 @@ public class Vote {
     // number of yes/no votes
     private int num_yes, num_no;
 
+    public Vote(Long voteId, int num_yes, int num_no) {
+        this.voteId = voteId;
+        this.num_yes = num_yes;
+        this.num_no = num_no;
+    }
+
     public Vote() {
         num_yes = 0;
         num_no = 0;
+    }
+
+    public void setVoteId(Long voteId) {
+        this.voteId = voteId;
     }
 
     public Poll getPoll() {
