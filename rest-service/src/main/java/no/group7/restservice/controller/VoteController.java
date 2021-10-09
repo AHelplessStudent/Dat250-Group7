@@ -29,14 +29,6 @@ public class VoteController {
     }
 
     //////////////////////////////////////
-    //// POST-REQUESTS                ////
-    //////////////////////////////////////
-    @PostMapping()
-    public Vote postVote(@RequestBody Vote newVote) {
-        return voteRepository.save(newVote);
-    }
-
-    //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
     @DeleteMapping("{pid}")
