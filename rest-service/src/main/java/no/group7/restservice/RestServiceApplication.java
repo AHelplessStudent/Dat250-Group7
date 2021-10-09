@@ -1,4 +1,4 @@
-package com.example.restservice;
+package no.group7.restservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.example.restservice;
+package no.group7.restservice.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

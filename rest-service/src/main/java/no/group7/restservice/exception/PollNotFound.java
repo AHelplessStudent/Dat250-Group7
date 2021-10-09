@@ -1,4 +1,4 @@
-package com.example.restservice.exception;
+package no.group7.restservice.exception;
 
 public class PollNotFound extends RuntimeException {
 

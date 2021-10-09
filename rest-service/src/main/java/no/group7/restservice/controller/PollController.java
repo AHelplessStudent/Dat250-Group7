@@ -1,8 +1,11 @@
-package com.example.restservice;
+package no.group7.restservice.controller;
 
-import com.example.restservice.exception.FieldNotFound;
-import com.example.restservice.exception.PollNotFound;
-import com.example.restservice.repository.PollRepository;
+import no.group7.restservice.entity.Poll;
+import no.group7.restservice.entity.Vote;
+import no.group7.restservice.exception.FieldNotFound;
+import no.group7.restservice.exception.PollNotFound;
+import no.group7.restservice.repository.PollRepository;
+import no.group7.restservice.repository.VoteRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +14,11 @@ import java.util.List;
 public class PollController {
 
     private PollRepository pollRepository;
+    private VoteRepository voteRepository;
 
-    public PollController(PollRepository pollRepository) {
+    public PollController(PollRepository pollRepository, VoteRepository voteRepository) {
         this.pollRepository = pollRepository;
+        this.voteRepository = voteRepository;
     }
 
     //////////////////////////////////////
