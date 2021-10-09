@@ -1,16 +1,30 @@
 package com.example.restservice;
 
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
 public class Vote {
 
+    @Id
+    @GeneratedValue
     private Long voteId;
 
-    private Long pollId;
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Poll poll;
 
     // number of yes/no votes
     private int num_yes, num_no;
 
-    public Vote(Long voteId, int num_yes, int num_no) {
-        this.voteId = voteId;
+    public Vote(int num_yes, int num_no) {
         this.num_yes = num_yes;
         this.num_no = num_no;
     }
@@ -22,14 +36,6 @@ public class Vote {
 
     public void setVoteId(Long voteId) {
         this.voteId = voteId;
-    }
-
-    public Long getPollId() {
-        return pollId;
-    }
-
-    public void setPollId(Long pollId) {
-        this.pollId = pollId;
     }
 
     public int getNum_yes() {
@@ -55,5 +61,18 @@ public class Vote {
 
     public Long getVoteId() {
         return voteId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vote vote = (Vote) o;
+        return num_yes == vote.num_yes && num_no == vote.num_no && voteId.equals(vote.voteId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voteId, num_yes, num_no);
     }
 }

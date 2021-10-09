@@ -1,31 +1,38 @@
 package com.example.restservice;
 
+import com.example.restservice.exception.FieldNotFound;
+import com.example.restservice.exception.PollNotFound;
+import com.example.restservice.repository.PollRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-/**
- * Controller for REST-api starting with '/polls'.
- */
 public class PollController {
 
-    private final Polls polls = new Polls();
+    private PollRepository pollRepository;
+
+    public PollController(PollRepository pollRepository) {
+        this.pollRepository = pollRepository;
+    }
 
     //////////////////////////////////////
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping("/polls")
-    public Polls getPolls() {
-        return polls;
+    public List<Poll> allPolls() {
+        return pollRepository.findAll();
     }
 
     @GetMapping("/polls/{pid}")
-    public Poll getPoll(@PathVariable("pid") Long pid) {
-        return polls.getPollById(pid);
+    public Poll onePoll(@PathVariable("pid") Long pid) {
+        return pollRepository.findById(pid).orElseThrow(() -> new PollNotFound(pid));
     }
 
     @GetMapping("/polls/{pid}/{field}")
     public Object getPollField(@PathVariable("pid") Long pid, @PathVariable("field") String field) {
-        Poll poll = polls.getPollById(pid);
+        Poll poll = pollRepository.findById(pid).orElseThrow(() -> new PollNotFound(pid));
+
         switch (field) {
             case "title":
                 return poll.getTitle();
@@ -37,35 +44,33 @@ public class PollController {
                 return poll.isPublic();
 
             default:
-                return null;
+                throw new FieldNotFound(field);
         }
     }
 
     @GetMapping("/polls/{pid}/votes")
-    /**
-     * View votes on a poll with given poll-id.
-     */
-    public Votes getPollVotes(@PathVariable("pid") Long pid) {
-        return polls.getPollById(pid).getVotes();
+    public List<Vote> allPollVotes(@PathVariable("pid") Long pid) {
+        return pollRepository.findById(pid)
+                .orElseThrow(() -> new PollNotFound(pid))
+                .getVotes();
     }
 
+    /* TODO
     @GetMapping("/polls/{pid}/votes/{vid}")
-    /**
-     * View vote on a given poll.
-     */
-    public Vote getPollVote(@PathVariable("pid") Long pid, @PathVariable("vid") Long vid) {
+    public Vote getPollVote(@PathVariable(value = "pid", required = false) Long pid, @PathVariable("vid") Long vid) {
         return polls.getPollById(pid).getVotes().getVoteById(vid);
     }
+    */
 
     //////////////////////////////////////
     //// POST-REQUESTS                ////
     //////////////////////////////////////
     @PostMapping("/polls")
-    public Polls postPoll(@RequestBody Poll poll) {
-        polls.add(poll);
-        return polls;
+    public Poll postPoll(@RequestBody Poll poll) {
+        return pollRepository.save(poll);
     }
 
+    /*
     @PostMapping("/polls/{pid}/votes")
     public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
 
@@ -76,22 +81,22 @@ public class PollController {
 
         return p;
     }
+    */
 
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
     @DeleteMapping("/polls")
-    public Polls deletePolls() {
-        polls.removeAll();
-        return polls;
+    public void deletePolls() {
+        pollRepository.deleteAll();
     }
 
     @DeleteMapping("/polls/{pid}")
-    public Polls deletePoll(@PathVariable("pid") Long pid) {
-        polls.deletePoll(pid);
-        return polls;
+    public void deletePoll(@PathVariable("pid") Long pid) {
+        pollRepository.deleteById(pid);
     }
 
+    /*
     @DeleteMapping("/polls/{pid}/votes")
     public Poll deletePollVotes(@PathVariable("pid") Long pid) {
         Poll poll = polls.getPollById(pid);
@@ -106,26 +111,27 @@ public class PollController {
         return vote;
     }
 
+     */
+
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
     //////////////////////////////////////
     @PutMapping("/polls/{pid}")
-    public Polls putPoll(@PathVariable("pid") Long pid, @RequestBody Poll poll) {
-        Poll currPoll = polls.getPollById(pid);
-
-        // if the given poll id doesn't correspond to an existing poll.
-        if (currPoll == null) {
-            polls.add(new Poll(pid, poll.getTitle(), poll.getDeadline(), poll.isPublic()));
-            return polls;
-        }
-
-        currPoll.setTitle(poll.getTitle());
-        currPoll.setDeadline(poll.getDeadline());
-        currPoll.setPublic(poll.isPublic());
-
-        return polls;
+    public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
+        return pollRepository.findById(pid)
+                .map(poll -> {
+                    poll.setDeadline(newPoll.getDeadline());
+                    poll.setPublic(newPoll.isPublic());
+                    poll.setTitle(newPoll.getTitle());
+                    return pollRepository.save(poll);
+                })
+                .orElseGet(() -> {
+                    newPoll.setPollId(pid);
+                    return pollRepository.save(newPoll);
+                });
     }
 
+    /*
     @PutMapping("/polls/{pid}/votes/{vid}")
     public Poll putPollVote(@PathVariable("pid") Long pid, @PathVariable("vid") Long vid, @RequestBody Vote newValue) {
         Poll poll = polls.getPollById(pid);
@@ -140,4 +146,5 @@ public class PollController {
 
         return poll;
     }
+     */
 }
