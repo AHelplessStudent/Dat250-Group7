@@ -73,6 +73,10 @@ public class Poll {
         this.votes = votes;
     }
 
+    public void addVote(Vote v) {
+        votes.add(v);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
