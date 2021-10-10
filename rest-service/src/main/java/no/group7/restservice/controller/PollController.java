@@ -64,13 +64,20 @@ public class PollController {
         return pollRepository.save(poll);
     }
 
-    /* TODO
+
     @PostMapping("{pid}/votes")
     public Vote postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
-        ...
-    }
-    */
 
+        Poll p = pollRepository.getById(pid);
+
+        p.getVotes().add(newValue);
+
+        newValue.setPoll(p);
+
+        pollRepository.save(p);
+
+        return newValue;
+    }
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////

@@ -1,5 +1,7 @@
 package no.group7.restservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -19,6 +21,7 @@ public class Vote {
     }
 
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Poll poll;
 
     // number of yes/no votes

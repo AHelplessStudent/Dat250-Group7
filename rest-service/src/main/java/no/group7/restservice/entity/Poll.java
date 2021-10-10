@@ -1,5 +1,7 @@
 package no.group7.restservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Poll {
     private Long pollId;
 
     @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
+    @JsonManagedReference
     private List<Vote> votes;
 
     private String title;
