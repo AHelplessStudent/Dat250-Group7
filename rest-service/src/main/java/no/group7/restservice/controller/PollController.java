@@ -56,10 +56,6 @@ public class PollController {
                 .getVotes();
     }
 
-    /* TODO
-    @PostMapping("{pid}/votes/{vid}")
-     */
-
     //////////////////////////////////////
     //// POST-REQUESTS                ////
     //////////////////////////////////////
@@ -71,10 +67,7 @@ public class PollController {
     /* TODO
     @PostMapping("{pid}/votes")
     public Vote postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
-        Poll poll = pollRepository.findById(pid).orElseThrow(() -> new PollNotFound(pid));
-
-        poll.addVote(newValue);
-        return newValue;
+        ...
     }
     */
 
