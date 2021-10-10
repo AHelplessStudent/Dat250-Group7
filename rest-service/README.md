@@ -52,5 +52,5 @@ thought of not doing a `/votes`-API, but later found out it might make sense any
 ```
 
 ```
-/polls/{pid}/votes
+/votes
 ```
