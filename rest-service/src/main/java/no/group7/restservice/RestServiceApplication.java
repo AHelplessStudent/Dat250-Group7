@@ -27,7 +27,7 @@ public class RestServiceApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository) {
+public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
 		return (args) -> {
 			Poll poll1 = new Poll("Politics Poll",LocalDateTime.now(),true);
 			pollRepository.save(new Poll("Sports Poll",LocalDateTime.now(),true));
