@@ -25,6 +25,14 @@ thought of not doing a `/votes`-API, but later found out it might make sense any
 /votes/{vid}
 ```
 
+```
+/accounts
+```
+
+```
+/accounts/{id}
+```
+
 ## DELETE
 
 ```
@@ -33,6 +41,10 @@ thought of not doing a `/votes`-API, but later found out it might make sense any
 
 ```
 /votes/{vid}
+```
+
+```
+/accounts/{id}
 ```
 
 ## PUT
@@ -45,6 +57,10 @@ thought of not doing a `/votes`-API, but later found out it might make sense any
 /votes/{vid}
 ```
 
+```
+/accounts/{id}
+```
+
 ## POST
 
 ```
@@ -52,5 +68,14 @@ thought of not doing a `/votes`-API, but later found out it might make sense any
 ```
 
 ```
+/polls/{pid}/votes
+```
+
+```
 /votes
 ```
+
+```
+/accounts
+```
+
