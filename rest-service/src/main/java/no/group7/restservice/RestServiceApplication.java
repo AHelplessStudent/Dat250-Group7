@@ -1,7 +1,9 @@
 package no.group7.restservice;
 
+import no.group7.restservice.entity.Account;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
+import no.group7.restservice.repository.AccountRepository;
 import no.group7.restservice.repository.PollRepository;
 import no.group7.restservice.repository.VoteRepository;
 import org.slf4j.Logger;
@@ -14,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -39,6 +40,12 @@ public class RestServiceApplication {
 			poll1.getVotes().add(vote1);
 			pollRepository.save(poll1);
 
+            Collection<Poll> polls = new ArrayList<>();
+            polls.add(poll1);
+            Account acc1 = new Account("James101", "hashedsaltedpsw", "Test", "Testson");
+            acc1.setPolls(polls);
+            accountRepository.save(acc1);
+
 			// fetch all customers
 			log.info("Polls found with findAll():");
 			log.info("-------------------------------");
@@ -48,7 +55,7 @@ public class RestServiceApplication {
 			log.info("");
 
 			Optional<Poll> poll = pollRepository.findById(1L);
-			log.info("Customer found with findById(1L):");
+			log.info("Poll found with findById(1L):");
 			log.info("--------------------------------");
 			log.info(poll.toString());
 			log.info("");
