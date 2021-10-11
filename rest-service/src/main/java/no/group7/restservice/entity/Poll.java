@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ public class Poll {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.MERGE)  // remove all votes if poll deleted
+    @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
     @JsonManagedReference
     private List<Vote> votes;
 
@@ -31,6 +32,7 @@ public class Poll {
         this.title = title;
         this.deadline = deadline;
         this.isPublic = isPublic;
+        this.votes = new ArrayList<>();
     }
 
     public Poll() {

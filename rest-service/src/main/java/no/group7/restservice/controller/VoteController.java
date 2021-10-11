@@ -31,7 +31,7 @@ public class VoteController {
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
-    @DeleteMapping("{pid}")
+    @DeleteMapping("{vid}")
     public void deleteVote(@PathVariable("vid") Long vid) {
         voteRepository.deleteById(vid);
     }

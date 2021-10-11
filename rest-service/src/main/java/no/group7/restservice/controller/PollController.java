@@ -66,16 +66,17 @@ public class PollController {
 
 
     @PostMapping("{pid}/votes")
-    public Vote postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
-        Poll p = pollRepository.getById(pid);
+    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
+        Poll p = pollRepository.findById(pid).get();
 
-        p.getVotes().add(newValue);
 
         newValue.setPoll(p);
+        p.getVotes().add(newValue);
+
 
         pollRepository.save(p);
 
-        return newValue;
+        return p;
     }
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
@@ -95,6 +96,7 @@ public class PollController {
     //////////////////////////////////////
     @PutMapping("{pid}")
     public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
+        // does not reset the votes.
         return pollRepository.findById(pid)
                 .map(poll -> {
                     poll.setDeadline(newPoll.getDeadline());
