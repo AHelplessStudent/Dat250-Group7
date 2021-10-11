@@ -19,6 +19,16 @@ public class Account {
     @OneToMany(orphanRemoval = true)
     private Collection<Poll> polls;
 
+    public Account() {
+    }
+
+    public Account(String username, String password, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -62,5 +72,9 @@ public class Account {
     @Override
     public String toString() {
         return "Account [Username=" + username + ", FirstName=" + firstName + ", LastName=" + lastName + "]";
+    }
+
+    public void setAccountId(Long id) {
+        this.id = id;
     }
 }
