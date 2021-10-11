@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,9 +28,9 @@ public class RestServiceApplication {
 	@Bean
 	public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository) {
 		return (args) -> {
-			Poll poll1 = new Poll("First Poll",null,true);
-			pollRepository.save(new Poll("Sports Poll",null,true));
-			pollRepository.save(new Poll("Music Poll",null,false));
+			Poll poll1 = new Poll("Politics Poll",LocalDateTime.now(),true);
+			pollRepository.save(new Poll("Sports Poll",LocalDateTime.now(),true));
+			pollRepository.save(new Poll("Music Poll",LocalDateTime.now(),false));
 			Vote vote1 = new Vote(10,8);
 			vote1.setPoll(poll1);
 
