@@ -20,7 +20,7 @@ public class Vote {
         this.poll = poll;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonBackReference
     private Poll poll;
 
