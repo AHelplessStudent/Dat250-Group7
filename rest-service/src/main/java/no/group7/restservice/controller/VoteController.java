@@ -37,6 +37,14 @@ public class VoteController {
     }
 
     //////////////////////////////////////
+    //// POST-REQUESTS                ////
+    //////////////////////////////////////
+    @PostMapping()
+    public Vote postVote(@RequestBody Vote vote) {
+        return voteRepository.save(vote);
+    }
+
+    //////////////////////////////////////
     //// PUT-REQUESTS                 ////
     //////////////////////////////////////
     @PutMapping("{vid}")
