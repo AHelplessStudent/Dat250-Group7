@@ -55,6 +55,7 @@ public class AccountController {
                     account.setLastName(newAccount.getLastName());
                     account.setPassword(newAccount.getPassword());
                     account.setUsername(newAccount.getUsername());
+                    account.setPolls(newAccount.getPolls());
                     return accountRepository.save(account);
                 })
                 .orElseGet(() -> {
