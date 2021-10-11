@@ -24,10 +24,13 @@ public class RestServiceApplication {
 	@Bean
 	public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository) {
 		return (args) -> {
-			pollRepository.save(new Poll("First Poll",null,true));
+			Poll poll1 = new Poll("First Poll",null,true);
 			pollRepository.save(new Poll("Sports Poll",null,true));
 			pollRepository.save(new Poll("Music Poll",null,false));
-			voteRepository.save(new Vote(10,8));
+			Vote vote1 = new Vote(10,8);
+			vote1.setPoll(poll1);
+			pollRepository.save(poll1);
+			voteRepository.save(vote1);
 
 			// fetch all customers
 			log.info("Polls found with findAll():");
@@ -42,8 +45,6 @@ public class RestServiceApplication {
 			log.info("--------------------------------");
 			log.info(poll.toString());
 			log.info("");
-
-
 		};
 	}
 

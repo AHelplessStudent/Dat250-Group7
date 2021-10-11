@@ -11,8 +11,16 @@ public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @ManyToOne(cascade = CascadeType.PERSIST)
+
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonBackReference
     private Poll poll;
 
@@ -28,14 +36,6 @@ public class Vote {
     public Vote() {
         num_yes = 0;
         num_no = 0;
-    }
-
-    public Poll getPoll() {
-        return poll;
-    }
-
-    public void setPoll(Poll poll) {
-        this.poll = poll;
     }
 
     public void setVoteId(Long id) {

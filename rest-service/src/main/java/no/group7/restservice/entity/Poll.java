@@ -15,7 +15,7 @@ public class Poll {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
+    @OneToMany(cascade = CascadeType.MERGE)  // remove all votes if poll deleted
     @JsonManagedReference
     private List<Vote> votes;
 
