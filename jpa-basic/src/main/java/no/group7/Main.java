@@ -1,5 +1,6 @@
 package no.group7;
 
+import com.google.gson.Gson;
 import no.group7.dao.AccountDao;
 import no.group7.dao.Dao;
 
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import static spark.Spark.*;
 
 public class Main {
     private static final String PERSISTENCE_UNIT_NAME = "tables";
@@ -57,6 +60,7 @@ public class Main {
             polls.add(poll);
         }
 
+
         Poll poll = (Poll) polls.toArray()[0];
 
         /* Add some votes */
@@ -86,6 +90,18 @@ public class Main {
         }
         System.out.println(getUser(1L));
         em.close();
+
+        Gson gson = new Gson();
+        port(8080);
+        init();
+
+        post("/account", (req, res) -> {
+            //Long id = Long.parseLong(req.params("aid"));
+            Account acc = gson.fromJson(req.body(), Account.class);
+            //em.persist(acc);
+            userAccDao.save(acc);
+            return req.body();
+        });
     }
 
     private static Account getUser(Long id) {
