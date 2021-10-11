@@ -27,6 +27,7 @@ public class RestServiceApplication {
 			pollRepository.save(new Poll("First Poll",null,true));
 			pollRepository.save(new Poll("Sports Poll",null,true));
 			pollRepository.save(new Poll("Music Poll",null,false));
+			voteRepository.save(new Vote(10,8));
 
 			// fetch all customers
 			log.info("Polls found with findAll():");

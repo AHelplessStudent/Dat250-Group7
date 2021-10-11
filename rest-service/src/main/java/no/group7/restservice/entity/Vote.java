@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Vote {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Poll getPoll() {
@@ -28,6 +28,7 @@ public class Vote {
     private int num_yes, num_no;
 
     public Vote(int num_yes, int num_no) {
+        super();
         this.num_yes = num_yes;
         this.num_no = num_no;
     }
