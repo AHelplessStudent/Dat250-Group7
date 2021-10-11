@@ -25,14 +25,14 @@ public class PollController {
         return pollRepository.findAll();
     }
 
-    @GetMapping("{pid}")
-    public Poll onePoll(@PathVariable("pid") Long pid) {
-        return pollRepository.findById(pid).orElseThrow(() -> new PollNotFound(pid));
+    @GetMapping("{id}")
+    public Poll onePoll(@PathVariable() Long id) {
+        return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
     }
 
-    @GetMapping("{pid}/{field}")
-    public Object getPollField(@PathVariable("pid") Long pid, @PathVariable("field") String field) {
-        Poll poll = pollRepository.findById(pid).orElseThrow(() -> new PollNotFound(pid));
+    @GetMapping("{id}/{field}")
+    public Object getPollField(@PathVariable("id") Long id, @PathVariable("field") String field) {
+        Poll poll = pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
 
         switch (field) {
             case "title":
@@ -49,10 +49,10 @@ public class PollController {
         }
     }
 
-    @GetMapping("{pid}/votes")
-    public List<Vote> allPollVotes(@PathVariable("pid") Long pid) {
-        return pollRepository.findById(pid)
-                .orElseThrow(() -> new PollNotFound(pid))
+    @GetMapping("{id}/votes")
+    public List<Vote> allPollVotes(@PathVariable("id") Long id) {
+        return pollRepository.findById(id)
+                .orElseThrow(() -> new PollNotFound(id))
                 .getVotes();
     }
 
@@ -67,7 +67,6 @@ public class PollController {
 
     @PostMapping("{pid}/votes")
     public Vote postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
-
         Poll p = pollRepository.getById(pid);
 
         p.getVotes().add(newValue);

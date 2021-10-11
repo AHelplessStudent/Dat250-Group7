@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Vote {
 
     @Id
-    @GeneratedValue
-    private Long voteId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     public Poll getPoll() {
         return poll;
@@ -37,8 +37,8 @@ public class Vote {
         num_no = 0;
     }
 
-    public void setVoteId(Long voteId) {
-        this.voteId = voteId;
+    public void setVoteId(Long id) {
+        this.id = id;
     }
 
     public int getNum_yes() {
@@ -63,7 +63,7 @@ public class Vote {
     }
 
     public Long getVoteId() {
-        return voteId;
+        return id;
     }
 
     @Override
@@ -71,11 +71,11 @@ public class Vote {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vote vote = (Vote) o;
-        return num_yes == vote.num_yes && num_no == vote.num_no && voteId.equals(vote.voteId);
+        return num_yes == vote.num_yes && num_no == vote.num_no && id.equals(vote.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voteId, num_yes, num_no);
+        return Objects.hash(id, num_yes, num_no);
     }
 }

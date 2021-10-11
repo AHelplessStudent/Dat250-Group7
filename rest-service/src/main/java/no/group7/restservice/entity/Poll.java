@@ -11,8 +11,8 @@ import java.util.Objects;
 public class Poll {
 
     @Id
-    @GeneratedValue
-    private Long pollId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
     @JsonManagedReference
@@ -32,7 +32,7 @@ public class Poll {
     }
 
     public void setPollId(Long pollId) {
-        this.pollId = pollId;
+        this.id = id;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Poll {
     }
 
     public Long getPollId() {
-        return pollId;
+        return id;
     }
 
     public List<Vote> getVotes() {
@@ -85,11 +85,11 @@ public class Poll {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Poll poll = (Poll) o;
-        return isPublic == poll.isPublic && pollId.equals(poll.pollId) && Objects.equals(title, poll.title) && Objects.equals(deadline, poll.deadline);
+        return isPublic == poll.isPublic && id.equals(poll.id) && Objects.equals(title, poll.title) && Objects.equals(deadline, poll.deadline);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pollId, title, deadline, isPublic);
+        return Objects.hash(id, title, deadline, isPublic);
     }
 }
