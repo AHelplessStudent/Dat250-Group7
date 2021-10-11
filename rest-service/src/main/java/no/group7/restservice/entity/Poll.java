@@ -1,5 +1,6 @@
 package no.group7.restservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -19,7 +20,10 @@ public class Poll {
     private List<Vote> votes;
 
     private String title;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime deadline;
+
     private boolean isPublic;
 
     public Poll(String title, LocalDateTime deadline, boolean isPublic) {
