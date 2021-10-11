@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Poll {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
@@ -27,6 +27,7 @@ public class Poll {
     private boolean isPublic;
 
     public Poll(String title, LocalDateTime deadline, boolean isPublic) {
+        super();
         this.title = title;
         this.deadline = deadline;
         this.isPublic = isPublic;
