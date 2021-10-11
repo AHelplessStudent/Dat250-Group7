@@ -32,8 +32,11 @@ public class RestServiceApplication {
 			pollRepository.save(new Poll("Music Poll",null,false));
 			Vote vote1 = new Vote(10,8);
 			vote1.setPoll(poll1);
-			pollRepository.save(poll1);
+
 			voteRepository.save(vote1);
+
+			poll1.getVotes().add(vote1);
+			pollRepository.save(poll1);
 
 			// fetch all customers
 			log.info("Polls found with findAll():");
