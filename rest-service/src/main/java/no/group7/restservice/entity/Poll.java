@@ -27,6 +27,8 @@ public class Poll {
 
     private boolean isPublic;
 
+    // TODO add Account variable Many to One mapping.
+
     public Poll(String title, LocalDateTime deadline, boolean isPublic) {
         super();
         this.title = title;
