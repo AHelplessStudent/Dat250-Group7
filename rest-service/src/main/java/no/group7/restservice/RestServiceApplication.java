@@ -29,7 +29,8 @@ public class RestServiceApplication {
 	@Bean
 public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
 		return (args) -> {
-			Poll poll1 = new Poll("Politics Poll",LocalDateTime.now(),true);
+
+			Poll poll1 = new Poll("Politics Poll",LocalDateTime.now(),true );
 			pollRepository.save(new Poll("Sports Poll",LocalDateTime.now(),true));
 			pollRepository.save(new Poll("Music Poll",LocalDateTime.now(),false));
 			Vote vote1 = new Vote(10,8);
@@ -37,12 +38,15 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 
 			voteRepository.save(vote1);
 
+			Account acc1 = new Account("James101", "hashedsaltedpsw", "Test", "Testson");
+			accountRepository.save(acc1);
+
+			poll1.setAccount(acc1);
 			poll1.getVotes().add(vote1);
 			pollRepository.save(poll1);
 
             Collection<Poll> polls = new ArrayList<>();
             polls.add(poll1);
-            Account acc1 = new Account("James101", "hashedsaltedpsw", "Test", "Testson");
             acc1.setPolls(polls);
             accountRepository.save(acc1);
 
@@ -59,6 +63,11 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 			log.info("--------------------------------");
 			log.info(poll.toString());
 			log.info("");
+
+			log.info("Poll 1");
+			log.info("--------------------------------");
+			log.info(poll1.toString());
+			log.info(poll1.getAccount().toString());
 		};
 	}
 

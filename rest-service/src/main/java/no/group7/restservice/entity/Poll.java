@@ -27,7 +27,10 @@ public class Poll {
 
     private boolean isPublic;
 
-    // TODO add Account variable Many to One mapping.
+    // Not sure if fetch type is correct, should probably add orphanRemoval = true
+    // and cascadetype.
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Account account;
 
     public Poll(String title, LocalDateTime deadline, boolean isPublic) {
         super();
@@ -100,5 +103,13 @@ public class Poll {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, deadline, isPublic);
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
