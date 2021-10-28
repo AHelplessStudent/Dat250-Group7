@@ -1,17 +1,27 @@
 <template>
   <div id="app">
-    <MainPage/>
+    <div>
+      <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <router-link to="/" class="navbar-brand">Polling system</router-link>
+        <div class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <router-link to="/polls" class="nav-link">Polls</router-link>
+          </li>
+        </div>
+      </nav>
+
+      <div class="container mt-3">
+        <router-view/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import MainPage from "@/components/MainPage";
 
 export default {
   name: 'App',
-  components: {
-    MainPage
-  }
+  components: {}
 }
 </script>
 
@@ -21,7 +31,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
