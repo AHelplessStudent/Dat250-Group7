@@ -1,5 +1,7 @@
 package no.group7.restservice.controller;
 
+import no.group7.restservice.DTO.MaptoDTO;
+import no.group7.restservice.DTO.PollDTO;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
 import no.group7.restservice.exception.FieldNotFound;
@@ -8,11 +10,15 @@ import no.group7.restservice.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
 @RequestMapping("/polls")
 public class PollController {
+
+    @Autowired
+    private MaptoDTO maptoDTO;
 
     @Autowired
     private PollRepository pollRepository;
@@ -21,13 +27,15 @@ public class PollController {
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public List<Poll> allPolls() {
-        return pollRepository.findAll();
+    public Collection<PollDTO> allPolls() {
+        return maptoDTO.getPolls();
     }
 
     @GetMapping("{id}")
-    public Poll onePoll(@PathVariable() Long id) {
-        return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
+    public PollDTO onePoll(@PathVariable() Long id) {
+
+        return maptoDTO.getPollById(id);
+        //return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
     }
 
     @GetMapping("{id}/{field}")

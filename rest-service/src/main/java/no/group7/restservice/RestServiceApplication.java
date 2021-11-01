@@ -32,12 +32,19 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 		return (args) -> {
 
 			Poll poll1 = new Poll("Politics Poll",LocalDateTime.now(),true );
-			pollRepository.save(new Poll("Sports Poll",LocalDateTime.now(),true));
-			pollRepository.save(new Poll("Music Poll",LocalDateTime.now(),false));
+			Poll sports_poll =new Poll("Sports Poll", LocalDateTime.now(), true);
+			Poll music_poll = new Poll("Music Poll", LocalDateTime.now(), false);
+
 			Vote vote1 = new Vote(10,8);
+			Vote vote2 = new Vote(10,8);
+			Vote vote3 = new Vote(10,8);
 			vote1.setPoll(poll1);
+			vote2.setPoll(sports_poll);
+			vote3.setPoll(music_poll);
 
 			voteRepository.save(vote1);
+			voteRepository.save(vote2);
+			voteRepository.save(vote3);
 
 			Account acc1 = new Account("James101", "hashedsaltedpsw", "Test", "Testson");
 			accountRepository.save(acc1);
@@ -45,6 +52,14 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 			poll1.setAccount(acc1);
 			poll1.getVotes().add(vote1);
 			pollRepository.save(poll1);
+
+			sports_poll.setAccount(acc1);
+			sports_poll.getVotes().add(vote2);
+			pollRepository.save(sports_poll);
+
+			music_poll.setAccount(acc1);
+			music_poll.getVotes().add(vote3);
+			pollRepository.save(music_poll);
 
             Collection<Poll> polls = new ArrayList<>();
             polls.add(poll1);

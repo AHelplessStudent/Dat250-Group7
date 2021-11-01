@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,32 +29,37 @@ public class MaptoDTO {
 
     // getAccounts
     public Collection<AccountDTO> getAccounts() {
-        return (Collection<AccountDTO>) accountRepository.findAll()
+        return  accountRepository.findAll()
                 .stream()
-                .map(this::convertToAccountDTO);
+                .map(this::convertToAccountDTO)
+                .collect(Collectors.toList());
     }
 
     // getPolls
     public Collection<PollDTO> getPolls() {
-        return (Collection<PollDTO>) pollRepository.findAll()
+        return  pollRepository.findAll()
                 .stream()
-                .map(this::convertToPollDTO);
+                .map(this::convertToPollDTO)
+                .collect(Collectors.toList());
     }
 
     // getAccountById
+    // TODO handle nonexistent id input
     public AccountDTO getAccountById(Long id) {
         return convertToAccountDTO(accountRepository.getById(id));
     }
 
     // getPollByID
+    // TODO handle nonexistent id input
     public PollDTO getPollById(Long id) {
         return convertToPollDTO(pollRepository.getById(id));
     }
 
     // getPollsByAccountId
+    // TODO handle nonexistent id input
     public Collection<PollDTO> getPollsByAccountId(Long id) {
         return pollRepository.findAll().stream()
-                .filter(poll -> poll.getAccount().getId().equals(id))
+                .filter(poll -> Objects.equals(poll.getAccount().getId(), id))
                 .map(this::convertToPollDTO)
                 .collect(Collectors.toList());
     }
@@ -65,7 +71,9 @@ public class MaptoDTO {
         accountDTO.setUsername(account.getUsername());
         accountDTO.setFirstname(account.getFirstName());
         accountDTO.setLastname(account.getLastName());
-        accountDTO.setPollIds((Collection<Long>) account.getPolls().stream().mapToLong(Poll::getPollId));
+        accountDTO.setPollIds(account.getPolls().stream()
+                .map(Poll::getPollId)
+                .collect(Collectors.toList()));
         return accountDTO;
     }
 
