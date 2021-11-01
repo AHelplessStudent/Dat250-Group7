@@ -12,6 +12,7 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // TODO remove json back reference (handeled by DTO now)
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonBackReference
     private Poll poll;

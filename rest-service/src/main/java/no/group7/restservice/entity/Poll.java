@@ -16,6 +16,7 @@ public class Poll {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // TODO remove json managed reference (handeled by DTO now)
     @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
     @JsonManagedReference
     private List<Vote> votes;
@@ -25,6 +26,9 @@ public class Poll {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime deadline;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime startTime;
+
     private boolean isPublic;
 
     // Not sure if fetch type is correct, should probably add orphanRemoval = true
@@ -32,10 +36,11 @@ public class Poll {
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
-    public Poll(String title, LocalDateTime deadline, boolean isPublic) {
+    public Poll(String title, LocalDateTime deadline, LocalDateTime startTime, boolean isPublic) {
         super();
         this.title = title;
         this.deadline = deadline;
+        this.startTime = startTime;
         this.isPublic = isPublic;
         this.votes = new ArrayList<>();
     }
@@ -111,5 +116,13 @@ public class Poll {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 }

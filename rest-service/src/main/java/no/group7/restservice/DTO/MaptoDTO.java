@@ -86,7 +86,8 @@ public class MaptoDTO {
         pollDTO.setAccountName(poll.getAccount().getFirstName() + " " + poll.getAccount().getLastName());
         pollDTO.setNum_yes(poll.getVotes().stream().mapToInt(Vote::getNum_yes).sum());
         pollDTO.setNum_no(poll.getVotes().stream().mapToInt(Vote::getNum_no).sum());
-
+        pollDTO.setStartTime(poll.getStartTime().toString());
+        pollDTO.setEndTime(poll.getDeadline().toString());
         // TODO add startTime and endTime
         return pollDTO;
     }

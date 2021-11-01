@@ -31,9 +31,9 @@ public class RestServiceApplication {
 public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
 		return (args) -> {
 
-			Poll poll1 = new Poll("Politics Poll",LocalDateTime.now(),true );
-			Poll sports_poll =new Poll("Sports Poll", LocalDateTime.now(), true);
-			Poll music_poll = new Poll("Music Poll", LocalDateTime.now(), false);
+			Poll poll1 = new Poll("Politics Poll",LocalDateTime.now(),LocalDateTime.now(),true );
+			Poll sports_poll =new Poll("Sports Poll", LocalDateTime.now(),LocalDateTime.now(), true);
+			Poll music_poll = new Poll("Music Poll", LocalDateTime.now(),LocalDateTime.now(), false);
 
 			Vote vote1 = new Vote(10,8);
 			Vote vote2 = new Vote(10,8);
