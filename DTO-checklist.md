@@ -1,12 +1,12 @@
 # Set up DTO checklist:
 
 - Create DTO classes
-	- figure out which values to use in the DTOs
+	- figure out which values to use in the DTOs (Almost complete, check after implementing it)
 
 - Create a Model Mapper with MapService class
-	- AutoWire repositories to MapService
-	- create methods for converting to DTOs
-	- create Get methods for all polls/user / poll/user by id 
+	- AutoWire repositories to MapService  (Check)
+	- create methods for converting to DTOs (Check)
+	- create Get methods for all polls/user / poll/user by id  (Check)
 
 - Change Controllers to use DTOs instead of Entities
 	- AutoWire MapService in Controllers

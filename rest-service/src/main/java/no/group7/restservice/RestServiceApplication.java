@@ -26,6 +26,7 @@ public class RestServiceApplication {
 		SpringApplication.run(RestServiceApplication.class, args);
 	}
 
+
 	@Bean
 public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
 		return (args) -> {

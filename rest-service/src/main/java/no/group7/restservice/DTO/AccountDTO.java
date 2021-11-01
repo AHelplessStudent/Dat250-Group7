@@ -1,5 +1,6 @@
 package no.group7.restservice.DTO;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class AccountDTO {
@@ -9,7 +10,7 @@ public class AccountDTO {
     private String firstname;
     private String lastname;
 
-    private Set<Long> pollIds;
+    private Collection<Long> pollIds;
 
     public Long getId() {
         return id;
@@ -43,11 +44,11 @@ public class AccountDTO {
         this.lastname = lastname;
     }
 
-    public Set<Long> getPollIds() {
+    public Collection<Long> getPollIds() {
         return pollIds;
     }
 
-    public void setPollIds(Set<Long> pollIds) {
+    public void setPollIds(Collection<Long> pollIds) {
         this.pollIds = pollIds;
     }
 }
