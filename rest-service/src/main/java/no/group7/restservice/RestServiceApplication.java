@@ -63,6 +63,8 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 
             Collection<Poll> polls = new ArrayList<>();
             polls.add(poll1);
+			polls.add(sports_poll);
+			polls.add(music_poll);
             acc1.setPolls(polls);
             accountRepository.save(acc1);
 
@@ -84,6 +86,8 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 			log.info("--------------------------------");
 			log.info(poll1.toString());
 			log.info(poll1.getAccount().toString());
+			log.info(sports_poll.getAccount().toString());
+			log.info(music_poll.getAccount().toString());
 		};
 	}
 
