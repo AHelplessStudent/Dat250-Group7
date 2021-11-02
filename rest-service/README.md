@@ -1,3 +1,23 @@
+# Overview
+
+## Starting SQL-server
+
+Download the sql-server [here](https://www.mysql.com).
+
+Follow the commands (after config)
+
+Start server
+
+```bash
+mysqld
+```
+
+Communicate w/server
+
+```bash
+mysql -u root
+```
+
 # Rest-API Overview
 
 Polls can be accessed through `/polls`. Votes can be accessed through `/polls/{pid}/votes` or `/votes`. We originally
