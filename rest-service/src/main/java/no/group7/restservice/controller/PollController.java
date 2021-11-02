@@ -40,28 +40,31 @@ public class PollController {
 
     @GetMapping("{id}/{field}")
     public Object getPollField(@PathVariable("id") Long id, @PathVariable("field") String field) {
-        Poll poll = pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
-
+        // Poll poll = pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
+        PollDTO poll = maptoDTO.getPollById(id);
         switch (field) {
             case "title":
                 return poll.getTitle();
 
             case "deadline":
-                return poll.getDeadline();
+                return poll.getEndTime();
 
             case "isPublic":
                 return poll.isPublic();
 
             default:
+                // TODO Handle this error
                 throw new FieldNotFound(field);
         }
     }
 
     @GetMapping("{id}/votes")
-    public List<Vote> allPollVotes(@PathVariable("id") Long id) {
-        return pollRepository.findById(id)
-                .orElseThrow(() -> new PollNotFound(id))
-                .getVotes();
+    public  int[] allPollVotes(@PathVariable("id") Long id) {
+        PollDTO p = maptoDTO.getPollById(id);
+
+        int[] res = {p.getNum_no(),p.getNum_yes()};
+
+        return res;
     }
 
     //////////////////////////////////////

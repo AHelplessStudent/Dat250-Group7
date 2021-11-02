@@ -1,7 +1,6 @@
 package no.group7.restservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,9 +15,7 @@ public class Poll {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO remove json managed reference (handeled by DTO now)
     @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
-    @JsonManagedReference
     private List<Vote> votes;
 
     private String title;
@@ -31,7 +28,7 @@ public class Poll {
 
     private boolean isPublic;
 
-    // Not sure if fetch type is correct, should probably add orphanRemoval = true
+    // Not sure if fetch type is correct
     // and cascadetype.
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;

@@ -1,7 +1,5 @@
 package no.group7.restservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,9 +10,7 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO remove json back reference (handeled by DTO now)
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonBackReference
     private Poll poll;
 
     // number of yes/no votes
@@ -43,6 +39,10 @@ public class Vote {
         this.id = id;
     }
 
+    public Long getVoteId() {
+        return id;
+    }
+
     public int getNum_yes() {
         return num_yes;
     }
@@ -62,10 +62,6 @@ public class Vote {
     @Override
     public String toString() {
         return "Vote [numYes=" + num_yes + ", numNo=" + num_no + "]";
-    }
-
-    public Long getVoteId() {
-        return id;
     }
 
     @Override
