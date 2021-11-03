@@ -62,9 +62,7 @@ public class PollController {
     public  int[] allPollVotes(@PathVariable("id") Long id) {
         PollDTO p = maptoDTO.getPollById(id);
 
-        int[] res = {p.getNum_no(),p.getNum_yes()};
-
-        return res;
+        return new int[]{p.getNum_no(),p.getNum_yes()};
     }
 
     //////////////////////////////////////
