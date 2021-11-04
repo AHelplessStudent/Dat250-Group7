@@ -1,5 +1,7 @@
 package no.group7.restservice.controller;
 
+import no.group7.restservice.DTO.MaptoDTO;
+import no.group7.restservice.DTO.PollDTO;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
 import no.group7.restservice.exception.FieldNotFound;
@@ -8,11 +10,15 @@ import no.group7.restservice.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
 @RequestMapping("/polls")
 public class PollController {
+
+    @Autowired
+    private MaptoDTO maptoDTO;
 
     @Autowired
     private PollRepository pollRepository;
@@ -21,39 +27,42 @@ public class PollController {
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public List<Poll> allPolls() {
-        return pollRepository.findAll();
+    public Collection<PollDTO> allPolls() {
+        return maptoDTO.getPolls();
     }
 
     @GetMapping("{id}")
-    public Poll onePoll(@PathVariable() Long id) {
-        return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
+    public PollDTO onePoll(@PathVariable() Long id) {
+
+        return maptoDTO.getPollById(id);
+        //return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
     }
 
     @GetMapping("{id}/{field}")
     public Object getPollField(@PathVariable("id") Long id, @PathVariable("field") String field) {
-        Poll poll = pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
-
+        // Poll poll = pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
+        PollDTO poll = maptoDTO.getPollById(id);
         switch (field) {
             case "title":
                 return poll.getTitle();
 
             case "deadline":
-                return poll.getDeadline();
+                return poll.getEndTime();
 
             case "isPublic":
                 return poll.isPublic();
 
             default:
+                // TODO Handle this error
                 throw new FieldNotFound(field);
         }
     }
 
     @GetMapping("{id}/votes")
-    public List<Vote> allPollVotes(@PathVariable("id") Long id) {
-        return pollRepository.findById(id)
-                .orElseThrow(() -> new PollNotFound(id))
-                .getVotes();
+    public  int[] allPollVotes(@PathVariable("id") Long id) {
+        PollDTO p = maptoDTO.getPollById(id);
+
+        return new int[]{p.getNum_no(),p.getNum_yes()};
     }
 
     //////////////////////////////////////
