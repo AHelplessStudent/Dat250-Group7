@@ -1,22 +1,20 @@
 # Overview
 
-## Starting SQL-server
+## SQL-server
 
-Download the sql-server [here](https://www.mysql.com).
+### To start server
 
-Follow the commands (after config)
+1. Download the Postgres-server [here](https://www.postgresql.org).
+2. Create a `root`-user as
+   seen [here](https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e).
+3. Create a db called `testdb`: `postgres createdb testdb`
 
-Start server
+### To see results
 
-```bash
-mysqld
-```
-
-Communicate w/server
-
-```bash
-mysql -u root
-```
+1. Start the Postgres-interface with `psql`
+2. Change to the db: `\c testdb`
+3. Show tables: `\dt`
+4. Show entries in table: `select * from account`
 
 # Rest-API Overview
 
