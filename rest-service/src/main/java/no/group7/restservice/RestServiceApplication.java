@@ -20,14 +20,14 @@ import java.util.Optional;
 
 @SpringBootApplication
 public class RestServiceApplication {
-	private static final Logger log = LoggerFactory.getLogger(RestServiceApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(RestServiceApplication.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(RestServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RestServiceApplication.class, args);
+    }
 
 
-	@Bean
+@Bean
 public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
 		return (args) -> {
 
@@ -52,6 +52,7 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 			poll1.setAccount(acc1);
 			poll1.getVotes().add(vote1);
 			pollRepository.save(poll1);
+
 
 			sports_poll.setAccount(acc1);
 			sports_poll.getVotes().add(vote2);
@@ -91,4 +92,5 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 		};
 	}
 
+    
 }
