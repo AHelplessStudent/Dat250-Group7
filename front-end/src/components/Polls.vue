@@ -1,27 +1,21 @@
 <template>
   <div>
     <h1>Polls</h1>
-    <div
-        v-for="poll in polls"
-        :key="poll.pollid"
-    >
-      <h3>
-        {{ poll.title }}
-      </h3>
-      <h3>
-        {{ poll.public }}
-      </h3>
-      <h5>Amount of yes: {{poll.num_yes}}</h5>
-      <h5>Amount of no: {{poll.num_no}}</h5>
-    </div>
+    <b-card-group>
+      <Card v-for="poll in polls" :key="poll.pollid" v-bind:title="poll.title" v-bind:deadline="poll.deadline"></Card>
+    </b-card-group>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Card from './Card'
 
 export default {
   name: "Polls",
+  components: {
+    Card
+  },
   data() {
     return {
       polls: null
