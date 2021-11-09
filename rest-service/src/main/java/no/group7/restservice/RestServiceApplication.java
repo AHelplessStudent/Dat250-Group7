@@ -36,8 +36,8 @@ public CommandLineRunner demo(PollRepository pollRepository, VoteRepository vote
 			Poll music_poll = new Poll("Music Poll", LocalDateTime.now(),LocalDateTime.now(), false);
 
 			Vote vote1 = new Vote(10,8);
-			Vote vote2 = new Vote(10,8);
-			Vote vote3 = new Vote(10,8);
+			Vote vote2 = new Vote(18,4);
+			Vote vote3 = new Vote(19,5);
 			vote1.setPoll(poll1);
 			vote2.setPoll(sports_poll);
 			vote3.setPoll(music_poll);
