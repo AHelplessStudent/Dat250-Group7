@@ -8,7 +8,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="#">
-            <router-link to="/polls">Polls</router-link>
+            <router-link to="/dashboard">Dashboard</router-link>
           </b-nav-item>
           <router-view></router-view>
         </b-navbar-nav>
