@@ -1,6 +1,6 @@
 /**
  * RabbitMQ-code from: https://spring.io/guides/gs/messaging-rabbitmq/
- * (website read 09.11.2021)
+ * (now modified, website read 09.11.2021)
  */
 package no.group7.restservice.messaging;
 
@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -34,8 +34,7 @@ public class MessageComponent {
 
     // Constants
     public final static String EXCHANGE_NAME = "default_exchange_name";
-    public final static String QUEUE_NAME = "poll_results";
-    public final static String ROUTING_KEY = "foo.bar.#";
+    public final static String QUEUE_NAME = "fan1";
 
     @Bean
     Queue queue() {
@@ -43,13 +42,13 @@ public class MessageComponent {
     }
 
     @Bean
-    TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE_NAME);
+    FanoutExchange exchange() {
+        return new FanoutExchange(EXCHANGE_NAME);
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+    Binding binding(Queue queue, FanoutExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange);
     }
 
     @Bean
@@ -84,7 +83,7 @@ public class MessageComponent {
         if (numFinishedPolls > 0) {
             rabbitTemplate.convertAndSend(
                     EXCHANGE_NAME,
-                    "foo.bar.baz",
+                    "",
                     numFinishedPolls + " finished polls found"
             );
             logger.info(numFinishedPolls + " finished polls found => sending to RabbitMQ!");
