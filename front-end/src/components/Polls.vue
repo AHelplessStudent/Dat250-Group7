@@ -2,7 +2,7 @@
   <div>
     <h1>Polls</h1>
     <b-card-group>
-      <Card v-for="poll in polls" :key="poll.pollid" v-bind:title="poll.title" v-bind:deadline="poll.deadline"></Card>
+      <Card v-for="poll in polls" :key="poll.pollid" v-bind:title="poll.title" v-bind:numYes="poll.num_yes" v-bind:deadline="poll.deadline"></Card>
     </b-card-group>
   </div>
 </template>
