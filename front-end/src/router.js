@@ -8,14 +8,13 @@ export default new Router({
     routes: [
         {
             path: "/",
-            alias: "/intro",
             name: "intro",
             component: () => import("./components/Intro")
         },
         {
-            path: "/polls",
-            name: "polls",
-            component: () => import("./components/Polls")
+            path: "/dashboard",
+            name: "dashboard",
+            component: () => import("./views/Dashboard")
         },
     ]
 });

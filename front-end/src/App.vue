@@ -4,16 +4,11 @@
       <router-link to="/" class="navbar-brand">Polling system</router-link>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link to="/polls" class="nav-link">Show Polls</router-link>
+          <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
         </li>
       </div>
     </nav>
-
-    <b-container fluid>
-      <div class="mt-3">
-        <router-view/>
-      </div>
-    </b-container>
+    <router-view/>
   </div>
 </template>
 
