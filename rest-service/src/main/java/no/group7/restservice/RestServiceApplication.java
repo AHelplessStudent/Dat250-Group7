@@ -28,12 +28,11 @@ public class RestServiceApplication {
         SpringApplication.run(RestServiceApplication.class, args);
     }
 
-
     @Bean
     public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
         return (args) -> {
 
-            Poll poll1 = new Poll("Politics Poll", LocalDateTime.now(), LocalDateTime.now(), true);
+            Poll poll1 = new Poll("Politics Poll", LocalDateTime.now().plusSeconds(7), LocalDateTime.now(), true);
             Poll sports_poll = new Poll("Sports Poll", LocalDateTime.now(), LocalDateTime.now(), true);
             Poll music_poll = new Poll("Music Poll", LocalDateTime.now(), LocalDateTime.now(), false);
 
@@ -93,6 +92,4 @@ public class RestServiceApplication {
             log.info(music_poll.getAccount().toString());
         };
     }
-
-
 }
