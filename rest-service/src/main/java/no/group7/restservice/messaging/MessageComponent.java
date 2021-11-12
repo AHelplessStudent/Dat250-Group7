@@ -70,7 +70,7 @@ public class MessageComponent {
      * For production, we should probably have a separate application for this.
      * It will suffice for this project.
      */
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 10000)
     public void publishFinishedPolls() {
         int numFinishedPolls = 0;
 
