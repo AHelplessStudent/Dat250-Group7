@@ -13,9 +13,9 @@ export default new Router({
             component: () => import("./components/Intro")
         },
         {
-            path: "/polls",
-            name: "polls",
-            component: () => import("./components/Polls")
+            path: "/dashboard",
+            name: "dashboard",
+            component: () => import("./components/Dashboard")
         },
     ]
 });
