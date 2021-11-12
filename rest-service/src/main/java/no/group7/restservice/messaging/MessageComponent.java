@@ -34,11 +34,17 @@ public class MessageComponent {
 
     // Constants
     public final static String EXCHANGE_NAME = "default_exchange_name";
-    public final static String QUEUE_NAME = "fan1";
+    public final static String QUEUE_NAME_1 = "fan1";
+    public final static String QUEUE_NAME_2 = "fan2";
 
     @Bean
-    Queue queue() {
-        return new Queue(QUEUE_NAME, false);
+    Queue queue1() {
+        return new Queue(QUEUE_NAME_1, false);
+    }
+
+    @Bean
+    Queue queue2() {
+        return new Queue(QUEUE_NAME_2, false);
     }
 
     @Bean
@@ -47,8 +53,13 @@ public class MessageComponent {
     }
 
     @Bean
-    Binding binding(Queue queue, FanoutExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange);
+    Binding bindingQueue1(Queue queue1, FanoutExchange exchange) {
+        return BindingBuilder.bind(queue1).to(exchange);
+    }
+
+    @Bean
+    Binding bindingQueue2(Queue queue2, FanoutExchange exchange) {
+        return BindingBuilder.bind(queue2).to(exchange);
     }
 
     @Bean
@@ -56,7 +67,7 @@ public class MessageComponent {
                                              MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(QUEUE_NAME);
+        container.setQueueNames(QUEUE_NAME_1, QUEUE_NAME_2);
         container.setMessageListener(listenerAdapter);
         return container;
     }
