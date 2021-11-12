@@ -97,3 +97,8 @@ thought of not doing a `/votes`-API, but later found out it might make sense any
 /accounts
 ```
 
+## RabbitMQ
+
+![](./res/exchanges.png)
+
+![](./res/queues.png)
