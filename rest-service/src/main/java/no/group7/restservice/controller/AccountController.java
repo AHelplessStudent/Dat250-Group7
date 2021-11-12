@@ -1,17 +1,22 @@
 package no.group7.restservice.controller;
 
+import no.group7.restservice.DTO.AccountDTO;
+import no.group7.restservice.DTO.MaptoDTO;
 import no.group7.restservice.entity.Account;
 import no.group7.restservice.exception.AccountNotFound;
 import no.group7.restservice.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
+
+    @Autowired
+    private MaptoDTO maptoDTO;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -20,13 +25,13 @@ public class AccountController {
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public List<Account> allAccounts() {
-        return accountRepository.findAll();
+    public Collection<AccountDTO> allAccounts() {
+        return maptoDTO.getAccounts();
     }
 
     @GetMapping("{id}")
-    public Account oneAccount(@PathVariable(value = "id") Long id) {
-        return accountRepository.findById(id).orElseThrow(() -> new AccountNotFound(id));
+    public AccountDTO oneAccount(@PathVariable(value = "id") Long id) {
+        return maptoDTO.getAccountById(id);
     }
 
     //////////////////////////////////////
