@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import CreatePoll from "@/views/CreatePoll";
+import ViewPoll from "@/views/ViewPoll";
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ const routes = [
     path: '/create',
     name: 'CreatePoll',
     component: CreatePoll
+  },
+  {
+    path:'/poll/:id',
+    component: ViewPoll
   }
 ]
 
