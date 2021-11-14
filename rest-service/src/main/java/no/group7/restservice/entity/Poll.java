@@ -37,7 +37,7 @@ public class Poll {
     public Poll() {
     }
 
-    public Poll(Long id, String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no) {
+    public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no) {
         this.id = id;
         this.title = title;
         this.question = question;

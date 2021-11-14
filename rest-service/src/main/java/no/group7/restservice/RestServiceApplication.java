@@ -1,8 +1,6 @@
 package no.group7.restservice;
 
-import no.group7.restservice.entity.Account;
 import no.group7.restservice.entity.Poll;
-import no.group7.restservice.entity.Vote;
 import no.group7.restservice.repository.AccountRepository;
 import no.group7.restservice.repository.PollRepository;
 import no.group7.restservice.repository.VoteRepository;
@@ -15,9 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
 
 @SpringBootApplication
 @EnableScheduling
@@ -28,22 +23,12 @@ public class RestServiceApplication {
         SpringApplication.run(RestServiceApplication.class, args);
     }
 
-
-    /*
     @Bean
     public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
         return (args) -> {
-            Poll poll1 = new Poll("Politics Poll", LocalDateTime.now(), LocalDateTime.now(), true);
-            Poll sports_poll = new Poll("Sports Poll", LocalDateTime.now(), LocalDateTime.now(), true);
-            Poll music_poll = new Poll("Music Poll", LocalDateTime.now(), LocalDateTime.now(), false);
-
-            Vote vote1 = new Vote(10, 8);
-            Vote vote2 = new Vote(10, 8);
-            Vote vote3 = new Vote(10, 8);
-            vote1.setPoll(poll1);
-            vote2.setPoll(sports_poll);
-            vote3.setPoll(music_poll);
-
+            Poll generic_poll = new Poll("Politics Poll", "Question here", LocalDateTime.now(), LocalDateTime.now(), true, 0, 0);
+            pollRepository.save(generic_poll);
+            /*
             voteRepository.save(vote1);
             voteRepository.save(vote2);
             voteRepository.save(vote3);
@@ -51,9 +36,9 @@ public class RestServiceApplication {
             Account acc1 = new Account("James101", "hashedsaltedpsw", "Test", "Testson");
             accountRepository.save(acc1);
 
-            poll1.setAccount(acc1);
-            poll1.getVotes().add(vote1);
-            pollRepository.save(poll1);
+            generic_poll.setAccount(acc1);
+            generic_poll.getVotes().add(vote1);
+            pollRepository.save(generic_poll);
 
 
             sports_poll.setAccount(acc1);
@@ -65,12 +50,12 @@ public class RestServiceApplication {
             pollRepository.save(music_poll);
 
             Collection<Poll> polls = new ArrayList<>();
-            polls.add(poll1);
+            polls.add(generic_poll);
             polls.add(sports_poll);
             polls.add(music_poll);
             acc1.setPolls(polls);
             accountRepository.save(acc1);
-
+            */
             // fetch all customers
             log.info("Polls found with findAll():");
             log.info("-------------------------------");
@@ -79,6 +64,7 @@ public class RestServiceApplication {
             }
             log.info("");
 
+            /*
             Optional<Poll> poll = pollRepository.findById(1L);
             log.info("Poll found with findById(1L):");
             log.info("--------------------------------");
@@ -87,14 +73,12 @@ public class RestServiceApplication {
 
             log.info("Poll 1");
             log.info("--------------------------------");
-            log.info(poll1.toString());
-            log.info(poll1.getAccount().toString());
+            log.info(generic_poll.toString());
+            log.info(generic_poll.getAccount().toString());
             log.info(sports_poll.getAccount().toString());
             log.info(music_poll.getAccount().toString());
-
+            */
 
         };
-    }*/
-
-
+    }
 }
