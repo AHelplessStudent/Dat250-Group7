@@ -1,79 +1,61 @@
 package no.group7.restservice.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Vote {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private VoteCompositeKey id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Poll poll;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    @MapsId("accountId")
+    private Account account;
 
-    // number of yes/no votes
-    private int num_yes, num_no;
+    @ManyToOne
+    @JoinColumn(name = "vote_id")
+    @MapsId("voteId")
+    private Vote vote;
 
-    public Vote(int num_yes, int num_no) {
-        super();
-        this.num_yes = num_yes;
-        this.num_no = num_no;
+    private boolean votedYes;
+
+    public Vote(boolean votedYes) {
+        this.votedYes = votedYes;
     }
 
     public Vote() {
-        num_yes = 0;
-        num_no = 0;
     }
 
-    public Poll getPoll() {
-        return poll;
-    }
-
-    public void setPoll(Poll poll) {
-        this.poll = poll;
-    }
-
-    public void setVoteId(Long id) {
-        this.id = id;
-    }
-
-    public Long getVoteId() {
+    public VoteCompositeKey getId() {
         return id;
     }
 
-    public int getNum_yes() {
-        return num_yes;
+    public void setId(VoteCompositeKey id) {
+        this.id = id;
     }
 
-    public void setNum_yes(int num_yes) {
-        this.num_yes = num_yes;
+    public Account getAccount() {
+        return account;
     }
 
-    public int getNum_no() {
-        return num_no;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public void setNum_no(int num_no) {
-        this.num_no = num_no;
+    public Vote getVote() {
+        return vote;
     }
 
-    @Override
-    public String toString() {
-        return "Vote [numYes=" + num_yes + ", numNo=" + num_no + "]";
+    public void setVote(Vote vote) {
+        this.vote = vote;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vote vote = (Vote) o;
-        return num_yes == vote.num_yes && num_no == vote.num_no && id.equals(vote.id);
+    public boolean isVotedYes() {
+        return votedYes;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, num_yes, num_no);
+    public void setVotedYes(boolean votedYes) {
+        this.votedYes = votedYes;
     }
 }
