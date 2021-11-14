@@ -1,10 +1,13 @@
 package no.group7.restservice.controller;
 
+import no.group7.restservice.entity.Account;
 import no.group7.restservice.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -16,17 +19,16 @@ public class AccountController {
     //////////////////////////////////////
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
-    /*@GetMapping()
-    public Collection<AccountDTO> allAccounts() {
-        return maptoDTO.getAccounts();
+    @GetMapping()
+    public ResponseEntity<List<Account>> allAccounts() {
+        return new ResponseEntity<>(accountRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public AccountDTO oneAccount(@PathVariable(value = "id") Long id) {
-        return maptoDTO.getAccountById(id);
-    }
+    public ResponseEntity<Account> oneAccount(@PathVariable(value = "id") Long id) {
+        return new ResponseEntity<>(accountRepository.findById(id).get(), HttpStatus.OK);
+    }//////////////////////////////////////
 
-    //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
     @DeleteMapping("{id}")
@@ -34,6 +36,7 @@ public class AccountController {
         accountRepository.deleteById(id);
     }
 
+    /*
     //////////////////////////////////////
     //// POST-REQUESTS                ////
     //////////////////////////////////////
