@@ -1,7 +1,5 @@
 package no.group7.restservice.controller;
 
-import no.group7.restservice.DTO.MaptoDTO;
-import no.group7.restservice.DTO.PollDTO;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
 import no.group7.restservice.repository.PollRepository;
@@ -9,16 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/polls")
 public class PollController {
-
-    @Autowired
-    private MaptoDTO maptoDTO;
-
     @Autowired
     private PollRepository pollRepository;
 
@@ -26,11 +22,11 @@ public class PollController {
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public Collection<PollDTO> allPolls() {
-        return maptoDTO.getPolls();
+    public List<Poll> getAllPolls(){
+        return pollRepository.findAll();
     }
 
-    @GetMapping("{id}")
+    /*@GetMapping("{id}")
     public PollDTO onePoll(@PathVariable() Long id) {
 
         return maptoDTO.getPollById(id);
@@ -94,5 +90,5 @@ public class PollController {
                     newPoll.setPollId(pid);
                     return pollRepository.save(newPoll);
                 });
-    }
+    }*/
 }

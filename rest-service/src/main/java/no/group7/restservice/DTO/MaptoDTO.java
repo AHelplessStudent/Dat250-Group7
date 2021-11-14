@@ -1,3 +1,5 @@
+
+/*
 package no.group7.restservice.DTO;
 
 import no.group7.restservice.entity.Account;
@@ -93,3 +95,4 @@ public class MaptoDTO {
     }
 
 }
+*/

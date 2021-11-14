@@ -1,7 +1,6 @@
 package no.group7.restservice.controller;
 
 import no.group7.restservice.DTO.AccountDTO;
-import no.group7.restservice.DTO.MaptoDTO;
 import no.group7.restservice.entity.Account;
 import no.group7.restservice.exception.AccountNotFound;
 import no.group7.restservice.repository.AccountRepository;
@@ -14,17 +13,13 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-
-    @Autowired
-    private MaptoDTO maptoDTO;
-
     @Autowired
     private AccountRepository accountRepository;
 
     //////////////////////////////////////
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
-    @GetMapping()
+    /*@GetMapping()
     public Collection<AccountDTO> allAccounts() {
         return maptoDTO.getAccounts();
     }
@@ -68,5 +63,5 @@ public class AccountController {
                     newAccount.setAccountId(id);
                     return accountRepository.save(newAccount);
                 });
-    }
+    }*/
 }
