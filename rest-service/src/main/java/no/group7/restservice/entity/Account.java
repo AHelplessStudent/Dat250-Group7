@@ -1,5 +1,7 @@
 package no.group7.restservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -13,14 +15,17 @@ public class Account {
     private Long id;
 
     private String username;
+    @JsonIgnore
     private String password;
     private String firstName;
     private String lastName;
 
     @OneToMany(orphanRemoval = true)
+    @JsonIgnore
     private List<Poll> polls;
 
     @OneToMany(mappedBy = "account", orphanRemoval = true)
+    @JsonIgnore
     private List<Vote> votes;
 
     public Account() {
