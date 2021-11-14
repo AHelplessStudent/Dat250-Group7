@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,12 +13,15 @@ public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private String question;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
+
     private boolean isPublic;
     private int num_yes;
     private int num_no;
@@ -29,7 +31,13 @@ public class Poll {
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
-    public Poll(Long id, String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no, Account account) {
+    @OneToMany(mappedBy = "poll", orphanRemoval = true)
+    private List<Vote> votes;
+
+    public Poll() {
+    }
+
+    public Poll(Long id, String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no) {
         this.id = id;
         this.title = title;
         this.question = question;
@@ -38,7 +46,6 @@ public class Poll {
         this.isPublic = isPublic;
         this.num_yes = num_yes;
         this.num_no = num_no;
-        this.account = account;
     }
 
     public Long getId() {
@@ -113,13 +120,12 @@ public class Poll {
         this.account = account;
     }
 
-    @Override
-    public String toString() {
-        return "Poll [title=" + title + ", deadline=" + endTime + "]";
+    public List<Vote> getVotes() {
+        return votes;
     }
 
-    public boolean isExpired() {
-        return LocalDateTime.now().isAfter(endTime);
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 
     @Override
@@ -127,11 +133,11 @@ public class Poll {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Poll poll = (Poll) o;
-        return isPublic == poll.isPublic && num_yes == poll.num_yes && num_no == poll.num_no && Objects.equals(id, poll.id) && Objects.equals(title, poll.title) && Objects.equals(question, poll.question) && Objects.equals(endTime, poll.endTime) && Objects.equals(startTime, poll.startTime) && Objects.equals(account, poll.account);
+        return isPublic == poll.isPublic && num_yes == poll.num_yes && num_no == poll.num_no && Objects.equals(id, poll.id) && Objects.equals(title, poll.title) && Objects.equals(question, poll.question) && Objects.equals(endTime, poll.endTime) && Objects.equals(startTime, poll.startTime) && Objects.equals(account, poll.account) && Objects.equals(votes, poll.votes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, question, endTime, startTime, isPublic, num_yes, num_no, account);
+        return Objects.hash(id, title, question, endTime, startTime, isPublic, num_yes, num_no, account, votes);
     }
 }
