@@ -27,7 +27,7 @@ public class PollController {
     //////////////////////////////////////
     @GetMapping()
     public Collection<PollDTO> allPolls() {
-        return maptoDTO.getPolls();
+        return
     }
 
     @GetMapping("{id}")

@@ -14,33 +14,21 @@ public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany(cascade = CascadeType.ALL)  // remove all votes if poll deleted
-    private List<Vote> votes;
-
     private String title;
-
+    private String question;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime deadline;
-
+    private LocalDateTime endTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
-
     private boolean isPublic;
+    private int num_yes;
+    private int num_no;
 
     // Not sure if fetch type is correct
     // and cascadetype.
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
-    public Poll(String title, LocalDateTime deadline, LocalDateTime startTime, boolean isPublic) {
-        super();
-        this.title = title;
-        this.deadline = deadline;
-        this.startTime = startTime;
-        this.isPublic = isPublic;
-        this.votes = new ArrayList<>();
-    }
 
     public Poll() {
     }
@@ -63,7 +51,7 @@ public class Poll {
     }
 
     public boolean isExpired() {
-        return LocalDateTime.now().isAfter(deadline);
+        return LocalDateTime.now().isAfter(endTime);
     }
 
     public String getTitle() {
@@ -74,28 +62,8 @@ public class Poll {
         this.title = title;
     }
 
-    public LocalDateTime getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
-    }
-
     public Long getPollId() {
         return id;
-    }
-
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
-    }
-
-    public void addVote(Vote v) {
-        votes.add(v);
     }
 
     @Override
