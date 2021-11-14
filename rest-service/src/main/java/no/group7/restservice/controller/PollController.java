@@ -4,14 +4,11 @@ import no.group7.restservice.DTO.MaptoDTO;
 import no.group7.restservice.DTO.PollDTO;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
-import no.group7.restservice.exception.FieldNotFound;
-import no.group7.restservice.exception.PollNotFound;
 import no.group7.restservice.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -40,32 +37,14 @@ public class PollController {
         //return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
     }
 
-    @GetMapping("{id}/{field}")
-    public Object getPollField(@PathVariable("id") Long id, @PathVariable("field") String field) {
-        // Poll poll = pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
-        PollDTO poll = maptoDTO.getPollById(id);
-        switch (field) {
-            case "title":
-                return poll.getTitle();
-
-            case "deadline":
-                return poll.getEndTime();
-
-            case "isPublic":
-                return poll.isPublic();
-
-            default:
-                // TODO Handle this error
-                throw new FieldNotFound(field);
-        }
-    }
-
     @GetMapping("{id}/votes")
-    public  int[] allPollVotes(@PathVariable("id") Long id) {
+    public int[] allPollVotes(@PathVariable("id") Long id) {
         PollDTO p = maptoDTO.getPollById(id);
 
-        return new int[]{p.getNum_no(),p.getNum_yes()};
+        return new int[]{p.getNum_no(), p.getNum_yes()};
     }
+
+    // TODO: add get for specific vote {pid}/votes/{vid}
 
     //////////////////////////////////////
     //// POST-REQUESTS                ////
@@ -75,11 +54,9 @@ public class PollController {
         return pollRepository.save(poll);
     }
 
-
     @PostMapping("{pid}/votes")
     public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
         Poll p = pollRepository.findById(pid).get();
-
 
         newValue.setPoll(p);
         p.getVotes().add(newValue);
@@ -89,18 +66,16 @@ public class PollController {
 
         return p;
     }
+
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
-    @DeleteMapping()
-    public void deletePolls() {
-        pollRepository.deleteAll();
-    }
-
     @DeleteMapping("{pid}")
     public void deletePoll(@PathVariable("pid") Long pid) {
         pollRepository.deleteById(pid);
     }
+
+    // TODO: add delete for specific vote {pid}/votes/{vid}
 
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
