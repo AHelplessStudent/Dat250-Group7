@@ -1,6 +1,7 @@
 package no.group7.restservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,9 +30,11 @@ public class Poll {
     // Not sure if fetch type is correct
     // and cascadetype.
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Account account;
 
     @OneToMany(mappedBy = "poll", orphanRemoval = true)
+    @JsonIgnore
     private List<Vote> votes;
 
     public Poll() {
