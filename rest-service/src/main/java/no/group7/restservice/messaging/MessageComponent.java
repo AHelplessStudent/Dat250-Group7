@@ -4,6 +4,7 @@
  */
 package no.group7.restservice.messaging;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.repository.PollRepository;
 import org.slf4j.Logger;
@@ -21,6 +22,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 @Component
 public class MessageComponent {
 
@@ -31,11 +36,18 @@ public class MessageComponent {
     private RabbitTemplate rabbitTemplate;
 
     private Logger logger = LoggerFactory.getLogger(MessageComponent.class);
+    private LocalDateTime analyzerStarted;  // When the analyzer started => only check for polls expired after this!
+    private ArrayList<Poll> sentPolls = new ArrayList<>();
 
     // Constants
     public final static String EXCHANGE_NAME = "default_exchange_name";
     public final static String QUEUE_NAME_1 = "fan1";
     public final static String QUEUE_NAME_2 = "fan2";
+
+    @PostConstruct
+    public void setTimeNow() {
+        analyzerStarted = LocalDateTime.now();
+    }
 
     @Bean
     Queue queue1() {
@@ -82,22 +94,23 @@ public class MessageComponent {
      * It will suffice for this project.
      */
     @Scheduled(fixedDelay = 10000)
-    public void publishFinishedPolls() {
-        int numFinishedPolls = 0;
-
+    public void publishFinishedPolls() throws JsonProcessingException {
         for (Poll poll : pollRepository.findAll()) {
-            if (poll.isExpired()) {
-                numFinishedPolls++;
+            if (sentPolls.contains(poll)) {
+                continue;
             }
-        }
+            boolean pollExpiredAfterClassStart = poll.isExpired() && analyzerStarted.isBefore(poll.getDeadline());
 
-        if (numFinishedPolls > 0) {
-            rabbitTemplate.convertAndSend(
-                    EXCHANGE_NAME,
-                    "",
-                    numFinishedPolls + " finished polls found"
-            );
-            logger.info(numFinishedPolls + " finished polls found => sending to RabbitMQ!");
+            if (pollExpiredAfterClassStart) {
+                String pollInJSON = "{ 'title': \"" + poll.getTitle() + ", 'id': " + poll.getPollId() + " }";
+                logger.info("Finished poll, sending to RabbitMQ: " + pollInJSON + analyzerStarted);
+                sentPolls.add(poll);
+                rabbitTemplate.convertAndSend(
+                        EXCHANGE_NAME,
+                        "",
+                        pollInJSON
+                );
+            }
         }
     }
 }
