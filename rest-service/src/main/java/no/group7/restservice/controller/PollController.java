@@ -50,23 +50,22 @@ public class PollController {
         }
     }
 
-    /*
     // TODO: add get for specific vote {pid}/votes/{vid}
 
     //////////////////////////////////////
     //// POST-REQUESTS                ////
     //////////////////////////////////////
     @PostMapping()
-    public Poll postPoll(@RequestBody Poll poll) {
-        return pollRepository.save(poll);
+    public ResponseEntity<Poll> postPoll(@RequestBody Poll poll) {
+        return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
-
+    /*
     @PostMapping("{pid}/votes")
-    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
+    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
         Poll p = pollRepository.findById(pid).get();
 
-        newValue.setPoll(p);
-        p.getVotes().add(newValue);
+        vote.setPoll(p);
+        p.getVotes().add(vote);
 
 
         pollRepository.save(p);
