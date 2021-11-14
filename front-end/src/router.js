@@ -8,7 +8,6 @@ export default new Router({
     routes: [
         {
             path: "/",
-            alias: "/intro",
             name: "intro",
             component: () => import("./components/Intro")
         },
