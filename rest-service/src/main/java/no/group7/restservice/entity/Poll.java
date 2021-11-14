@@ -118,6 +118,15 @@ public class Poll {
         this.num_no = num_no;
     }
 
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", question='" + question + '\'' +
+                '}';
+    }
+
     public Account getAccount() {
         return account;
     }

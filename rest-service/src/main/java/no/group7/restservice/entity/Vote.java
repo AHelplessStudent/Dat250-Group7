@@ -62,4 +62,14 @@ public class Vote {
     public void setVotedYes(boolean votedYes) {
         this.votedYes = votedYes;
     }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "id=" + id +
+                ", account=" + account.getId() +
+                ", poll=" + poll.getId() +
+                ", votedYes=" + votedYes +
+                '}';
+    }
 }
