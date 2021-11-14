@@ -8,15 +8,20 @@
         </li>
       </div>
     </nav>
-    <router-view/>
+
+    <b-container>
+      <div class="mt-3">
+        <router-view/>
+      </div>
+    </b-container>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'App',
-  components: {}
+  components: {
+  }
 }
 </script>
 

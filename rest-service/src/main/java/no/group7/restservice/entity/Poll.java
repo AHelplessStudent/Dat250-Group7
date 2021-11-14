@@ -62,6 +62,10 @@ public class Poll {
         isPublic = aPublic;
     }
 
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(deadline);
+    }
+
     public String getTitle() {
         return title;
     }
