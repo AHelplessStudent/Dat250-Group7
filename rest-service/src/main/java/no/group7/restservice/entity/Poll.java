@@ -128,6 +128,10 @@ public class Poll {
         this.votes = votes;
     }
 
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(endTime);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
