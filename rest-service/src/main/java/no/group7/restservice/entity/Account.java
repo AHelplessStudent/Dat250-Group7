@@ -1,7 +1,7 @@
 package no.group7.restservice.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "account")
@@ -17,7 +17,10 @@ public class Account {
     private String lastName;
 
     @OneToMany(orphanRemoval = true)
-    private Collection<Poll> polls;
+    private List<Poll> polls;
+
+    @OneToMany(mappedBy = "account", orphanRemoval = true)
+    private List<Vote> votes;
 
     public Account() {
     }
@@ -69,11 +72,11 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public Collection<Poll> getPolls() {
+    public List<Poll> getPolls() {
         return polls;
     }
 
-    public void setPolls(Collection<Poll> polls) {
+    public void setPolls(List<Poll> polls) {
         this.polls = polls;
     }
 

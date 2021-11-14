@@ -19,7 +19,7 @@ public class VoteController {
     //////////////////////////////////////
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
-    @GetMapping()
+    /*@GetMapping()
     public List<Vote> allVotes() {
         return voteRepository.findAll();
     }
@@ -60,5 +60,5 @@ public class VoteController {
                     newVote.setVoteId(vid);
                     return voteRepository.save(newVote);
                 });
-    }
+    }*/
 }

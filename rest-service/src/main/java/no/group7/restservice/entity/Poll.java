@@ -29,29 +29,24 @@ public class Poll {
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
-
-    public Poll() {
-    }
-
-    public void setPollId(Long id) {
+    public Poll(Long id, String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no, Account account) {
         this.id = id;
+        this.title = title;
+        this.question = question;
+        this.endTime = endTime;
+        this.startTime = startTime;
+        this.isPublic = isPublic;
+        this.num_yes = num_yes;
+        this.num_no = num_no;
+        this.account = account;
     }
 
-    @Override
-    public String toString() {
-        return "Poll [title=" + title + ", deadline=" + deadline + "]";
+    public Long getId() {
+        return id;
     }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public boolean isExpired() {
-        return LocalDateTime.now().isAfter(endTime);
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -62,21 +57,52 @@ public class Poll {
         this.title = title;
     }
 
-    public Long getPollId() {
-        return id;
+    public String getQuestion() {
+        return question;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Poll poll = (Poll) o;
-        return isPublic == poll.isPublic && id.equals(poll.id) && Objects.equals(title, poll.title) && Objects.equals(deadline, poll.deadline);
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, deadline, isPublic);
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public int getNum_yes() {
+        return num_yes;
+    }
+
+    public void setNum_yes(int num_yes) {
+        this.num_yes = num_yes;
+    }
+
+    public int getNum_no() {
+        return num_no;
+    }
+
+    public void setNum_no(int num_no) {
+        this.num_no = num_no;
     }
 
     public Account getAccount() {
@@ -87,11 +113,13 @@ public class Poll {
         this.account = account;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    @Override
+    public String toString() {
+        return "Poll [title=" + title + ", deadline=" + endTime + "]";
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(endTime);
     }
+
 }
