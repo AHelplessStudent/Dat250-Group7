@@ -3,7 +3,6 @@
     <v-row  justify="center" align="center">
       <v-col cols="12" sm="9">
         <v-text-field label="PollID" placeholder="PollID" v-model="pollId" outlined></v-text-field>
-
       </v-col>
       <v-col cols="12" sm="3">
         <v-btn color="primary" elevation="3" type="submit">Search</v-btn>
