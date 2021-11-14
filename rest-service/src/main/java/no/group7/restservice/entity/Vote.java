@@ -1,5 +1,7 @@
 package no.group7.restservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,11 +13,13 @@ public class Vote {
     @ManyToOne
     @JoinColumn(name = "account_id")
     @MapsId("accountId")
+    @JsonIgnore
     private Account account;
 
     @ManyToOne
     @JoinColumn(name = "poll_id")
     @MapsId("pollId")
+    @JsonIgnore
     private Poll poll;
 
     private boolean votedYes;

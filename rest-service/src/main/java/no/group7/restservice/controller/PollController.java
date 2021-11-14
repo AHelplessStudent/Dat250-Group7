@@ -4,11 +4,13 @@ import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
 import no.group7.restservice.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -22,22 +24,30 @@ public class PollController {
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public List<Poll> getAllPolls(){
-        return pollRepository.findAll();
+    public ResponseEntity<List<Poll>> getAllPolls() {
+        return new ResponseEntity<>(pollRepository.findAll(), HttpStatus.OK);
     }
 
-    /*@GetMapping("{id}")
-    public PollDTO onePoll(@PathVariable() Long id) {
+    @GetMapping("{id}")
+    public ResponseEntity<Poll> onePoll(@PathVariable("id") Long id) {
+        Optional<Poll> poll = pollRepository.findById(id);
 
-        return maptoDTO.getPollById(id);
-        //return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
+        try {
+            return new ResponseEntity<>(poll.get(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("{id}/votes")
-    public int[] allPollVotes(@PathVariable("id") Long id) {
-        PollDTO p = maptoDTO.getPollById(id);
+    public ResponseEntity<List<Vote>> allPollVotes(@PathVariable("id") Long id) {
+        Optional<Poll> poll = pollRepository.findById(id);
 
-        return new int[]{p.getNum_no(), p.getNum_yes()};
+        try {
+            return new ResponseEntity<>(poll.get().getVotes(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     // TODO: add get for specific vote {pid}/votes/{vid}
@@ -46,16 +56,16 @@ public class PollController {
     //// POST-REQUESTS                ////
     //////////////////////////////////////
     @PostMapping()
-    public Poll postPoll(@RequestBody Poll poll) {
-        return pollRepository.save(poll);
+    public ResponseEntity<Poll> postPoll(@RequestBody Poll poll) {
+        return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
-
+    /*
     @PostMapping("{pid}/votes")
-    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
+    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
         Poll p = pollRepository.findById(pid).get();
 
-        newValue.setPoll(p);
-        p.getVotes().add(newValue);
+        vote.setPoll(p);
+        p.getVotes().add(vote);
 
 
         pollRepository.save(p);

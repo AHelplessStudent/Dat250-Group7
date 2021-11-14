@@ -3,7 +3,6 @@ package no.group7.restservice;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.repository.AccountRepository;
 import no.group7.restservice.repository.PollRepository;
-import no.group7.restservice.repository.VoteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +26,7 @@ public class RestServiceApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
+    public CommandLineRunner demo(PollRepository pollRepository, AccountRepository accountRepository) {
         return (args) -> {
             Poll generic_poll = new Poll("Politics Poll", "Question here", LocalDateTime.now(), LocalDateTime.now(), true, 0, 0);
             pollRepository.save(generic_poll);
