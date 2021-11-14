@@ -1,16 +1,19 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-
+    <v-container>
+      <Searchbar/>
+    </v-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 
+import Searchbar from "@/components/Searchbar";
 export default {
   name: 'Home',
   components: {
+    Searchbar
   }
 }
 </script>
