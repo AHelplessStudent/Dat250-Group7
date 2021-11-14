@@ -14,9 +14,9 @@ public class Vote {
     private Account account;
 
     @ManyToOne
-    @JoinColumn(name = "vote_id")
-    @MapsId("voteId")
-    private Vote vote;
+    @JoinColumn(name = "poll_id")
+    @MapsId("pollId")
+    private Poll poll;
 
     private boolean votedYes;
 
@@ -43,12 +43,12 @@ public class Vote {
         this.account = account;
     }
 
-    public Vote getVote() {
-        return vote;
+    public Poll getPoll() {
+        return poll;
     }
 
-    public void setVote(Vote vote) {
-        this.vote = vote;
+    public void setPoll(Poll poll) {
+        this.poll = poll;
     }
 
     public boolean isVotedYes() {
