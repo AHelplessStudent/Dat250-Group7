@@ -64,21 +64,13 @@ public class PollController {
         return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
 
-    /*
+    /* TODO
     @PostMapping("{id}/votes")
     public ResponseEntity<Vote> postPollVote(@PathVariable("id") Long id, @RequestBody Vote vote) {
-        try {
-            Poll poll = pollRepository.findById(id).get();
-            poll.
-            return new ResponseEntity<>(poll.get().getVotes(), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
+
     }
     */
 
-    /*
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
@@ -88,7 +80,7 @@ public class PollController {
     }
 
     // TODO: add delete for specific vote {pid}/votes/{vid}
-
+    /*
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
     //////////////////////////////////////
@@ -111,16 +103,6 @@ public class PollController {
     ostPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
         return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
     }
-
-    //////////////////////////////////////
-    //// DELETE-REQUESTS              ////
-    //////////////////////////////////////
-    @DeleteMapping("{pid}")
-    public void deletePoll(@PathVariable("pid") Long pid) {
-        pollRepository.deleteById(pid);
-    }
-
-    // TODO: add delete for specific vote {pid}/votes/{vid}
 
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
