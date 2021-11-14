@@ -1,13 +1,10 @@
 package no.group7.restservice.controller;
 
-import no.group7.restservice.DTO.AccountDTO;
-import no.group7.restservice.entity.Account;
-import no.group7.restservice.exception.AccountNotFound;
 import no.group7.restservice.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController

@@ -1,14 +1,13 @@
 package no.group7.restservice.controller;
 
 import no.group7.restservice.entity.Poll;
-import no.group7.restservice.entity.Vote;
 import no.group7.restservice.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -22,17 +21,16 @@ public class PollController {
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public List<Poll> getAllPolls(){
-        return pollRepository.findAll();
+    public ResponseEntity<List<Poll>> getAllPolls() {
+        return new ResponseEntity<>(pollRepository.findAll(), HttpStatus.OK);
     }
 
-    /*@GetMapping("{id}")
-    public PollDTO onePoll(@PathVariable() Long id) {
-
-        return maptoDTO.getPollById(id);
-        //return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
+    @GetMapping("{id}")
+    public ResponseEntity<Poll> onePoll(@PathVariable() Long id) {
+        return new ResponseEntity<>(pollRepository.findById(id).get(), HttpStatus.OK);
     }
 
+    /*
     @GetMapping("{id}/votes")
     public int[] allPollVotes(@PathVariable("id") Long id) {
         PollDTO p = maptoDTO.getPollById(id);
