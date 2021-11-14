@@ -4,7 +4,6 @@
       <h1>Dashboard</h1>
       <Searchbar></Searchbar>
       <v-btn class="ma-4" href="/create" color="secondary">Create Poll</v-btn>
-
       <h3>Latest polls:</h3>
       <v-row>
         <v-col cols="12" sm="6" md="3" v-for="poll in subArray" :key="poll.pollid">
