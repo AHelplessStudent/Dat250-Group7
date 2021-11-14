@@ -1,6 +1,7 @@
 package no.group7.restservice.controller;
 
 import no.group7.restservice.entity.Poll;
+import no.group7.restservice.entity.Vote;
 import no.group7.restservice.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -26,18 +29,28 @@ public class PollController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Poll> onePoll(@PathVariable() Long id) {
-        return new ResponseEntity<>(pollRepository.findById(id).get(), HttpStatus.OK);
+    public ResponseEntity<Poll> onePoll(@PathVariable("id") Long id) {
+        Optional<Poll> poll = pollRepository.findById(id);
+
+        try {
+            return new ResponseEntity<>(poll.get(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("{id}/votes")
+    public ResponseEntity<List<Vote>> allPollVotes(@PathVariable("id") Long id) {
+        Optional<Poll> poll = pollRepository.findById(id);
+
+        try {
+            return new ResponseEntity<>(poll.get().getVotes(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     /*
-    @GetMapping("{id}/votes")
-    public int[] allPollVotes(@PathVariable("id") Long id) {
-        PollDTO p = maptoDTO.getPollById(id);
-
-        return new int[]{p.getNum_no(), p.getNum_yes()};
-    }
-
     // TODO: add get for specific vote {pid}/votes/{vid}
 
     //////////////////////////////////////
