@@ -1,7 +1,9 @@
 package no.group7.restservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,7 +31,9 @@ public class Poll {
 
     // Not sure if fetch type is correct
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    // Line below is from: https://stackoverflow.com/a/65389727 (14.11.2021)
+    // thanks!
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Account account;
 
     @OneToMany(mappedBy = "poll", orphanRemoval = true)
