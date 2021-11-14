@@ -3,6 +3,7 @@ package no.group7.restservice.controller;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
 import no.group7.restservice.repository.PollRepository;
+import no.group7.restservice.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/polls")
 public class PollController {
+
     @Autowired
     private PollRepository pollRepository;
+    @Autowired
+    private VoteRepository voteRepository;
 
     //////////////////////////////////////
     //// GET-REQUESTS                 ////
@@ -59,18 +63,53 @@ public class PollController {
     public ResponseEntity<Poll> postPoll(@RequestBody Poll poll) {
         return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
+
     /*
-    @PostMapping("{pid}/votes")
-    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
-        Poll p = pollRepository.findById(pid).get();
+    @PostMapping("{id}/votes")
+    public ResponseEntity<Vote> postPollVote(@PathVariable("id") Long id, @RequestBody Vote vote) {
+        try {
+            Poll poll = pollRepository.findById(id).get();
+            poll.
+            return new ResponseEntity<>(poll.get().getVotes(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
+    }
+    */
 
-        vote.setPoll(p);
-        p.getVotes().add(vote);
+    /*
+    //////////////////////////////////////
+    //// DELETE-REQUESTS              ////
+    //////////////////////////////////////
+    @DeleteMapping("{pid}")
+    public void deletePoll(@PathVariable("pid") Long pid) {
+        pollRepository.deleteById(pid);
+    }
 
+    // TODO: add delete for specific vote {pid}/votes/{vid}
 
-        pollRepository.save(p);
+    //////////////////////////////////////
+    //// PUT-REQUESTS                 ////
+    //////////////////////////////////////
+    @PutMapping("{pid}")
+    public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
+        // does not reset the votes.
+        return pollRepository.findById(pid)
+                .map(poll -> {
+                    poll.setDeadline(newPoll.getDeadline());
+                    poll.setPublic(newPoll.isPublic());
+                    poll.setTitle(newPoll.getTitle());
+                    return pollRepository.save(poll);
+                })
+                .orElseGet(() -> {
+                    newPoll.setPollId(pid);
+                    return pollRepository.save(newPoll);
+                });
+    }
 
-        return p;
+    ostPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
+        return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
     }
 
     //////////////////////////////////////

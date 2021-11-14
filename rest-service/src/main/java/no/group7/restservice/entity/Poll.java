@@ -28,7 +28,6 @@ public class Poll {
     private int num_no;
 
     // Not sure if fetch type is correct
-    // and cascadetype.
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Account account;
@@ -129,10 +128,6 @@ public class Poll {
 
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
-    }
-
-    public boolean isExpired() {
-        return LocalDateTime.now().isAfter(endTime);
     }
 
     @Override

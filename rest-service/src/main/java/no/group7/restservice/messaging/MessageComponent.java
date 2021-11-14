@@ -4,23 +4,7 @@
  */
 package no.group7.restservice.messaging;
 
-import no.group7.restservice.entity.Poll;
-import no.group7.restservice.repository.PollRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
+/*
 @Component
 public class MessageComponent {
 
@@ -77,6 +61,7 @@ public class MessageComponent {
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }
 
+
     @Scheduled(fixedDelay = 10000)
     public void publishFinishedPolls() {
         int numFinishedPolls = 0;
@@ -96,4 +81,5 @@ public class MessageComponent {
             logger.info(numFinishedPolls + " finished polls found => sending to RabbitMQ!");
         }
     }
-}
+
+}*/
