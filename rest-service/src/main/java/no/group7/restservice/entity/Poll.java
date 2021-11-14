@@ -122,4 +122,16 @@ public class Poll {
         return LocalDateTime.now().isAfter(endTime);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Poll poll = (Poll) o;
+        return isPublic == poll.isPublic && num_yes == poll.num_yes && num_no == poll.num_no && Objects.equals(id, poll.id) && Objects.equals(title, poll.title) && Objects.equals(question, poll.question) && Objects.equals(endTime, poll.endTime) && Objects.equals(startTime, poll.startTime) && Objects.equals(account, poll.account);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, question, endTime, startTime, isPublic, num_yes, num_no, account);
+    }
 }
