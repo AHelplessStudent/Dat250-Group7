@@ -1,23 +1,18 @@
 package no.group7.restservice.controller;
 
-import no.group7.restservice.DTO.AccountDTO;
-import no.group7.restservice.DTO.MaptoDTO;
 import no.group7.restservice.entity.Account;
-import no.group7.restservice.exception.AccountNotFound;
 import no.group7.restservice.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-
-    @Autowired
-    private MaptoDTO maptoDTO;
-
     @Autowired
     private AccountRepository accountRepository;
 
@@ -25,13 +20,13 @@ public class AccountController {
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public Collection<AccountDTO> allAccounts() {
-        return maptoDTO.getAccounts();
+    public ResponseEntity<List<Account>> allAccounts() {
+        return new ResponseEntity<>(accountRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public AccountDTO oneAccount(@PathVariable(value = "id") Long id) {
-        return maptoDTO.getAccountById(id);
+    public ResponseEntity<Account> oneAccount(@PathVariable(value = "id") Long id) {
+        return new ResponseEntity<>(accountRepository.findById(id).get(), HttpStatus.OK);
     }
 
     //////////////////////////////////////
@@ -46,10 +41,11 @@ public class AccountController {
     //// POST-REQUESTS                ////
     //////////////////////////////////////
     @PostMapping()
-    public Account postAccount(@RequestBody Account vote) {
-        return accountRepository.save(vote);
+    public ResponseEntity<Account> postAccount(@RequestBody Account vote) {
+        return new ResponseEntity<>(accountRepository.save(vote), HttpStatus.OK);
     }
 
+    /*
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
     //////////////////////////////////////
@@ -68,5 +64,5 @@ public class AccountController {
                     newAccount.setAccountId(id);
                     return accountRepository.save(newAccount);
                 });
-    }
+    }*/
 }

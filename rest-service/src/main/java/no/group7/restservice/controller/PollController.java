@@ -1,17 +1,18 @@
 package no.group7.restservice.controller;
 
-import no.group7.restservice.DTO.MaptoDTO;
-import no.group7.restservice.DTO.PollDTO;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
-import no.group7.restservice.exception.FieldNotFound;
-import no.group7.restservice.exception.PollNotFound;
+import no.group7.restservice.repository.AccountRepository;
 import no.group7.restservice.repository.PollRepository;
+import no.group7.restservice.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -20,86 +21,98 @@ import java.util.List;
 public class PollController {
 
     @Autowired
-    private MaptoDTO maptoDTO;
-
-    @Autowired
     private PollRepository pollRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private VoteRepository voteRepository;
+
 
     //////////////////////////////////////
     //// GET-REQUESTS                 ////
     //////////////////////////////////////
     @GetMapping()
-    public Collection<PollDTO> allPolls() {
-        return maptoDTO.getPolls();
+    public ResponseEntity<List<Poll>> getAllPolls() {
+        return new ResponseEntity<>(pollRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public PollDTO onePoll(@PathVariable() Long id) {
+    public ResponseEntity<Poll> onePoll(@PathVariable("id") Long id) {
+        Optional<Poll> poll = pollRepository.findById(id);
 
-        return maptoDTO.getPollById(id);
-        //return pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
-    }
-
-    @GetMapping("{id}/{field}")
-    public Object getPollField(@PathVariable("id") Long id, @PathVariable("field") String field) {
-        // Poll poll = pollRepository.findById(id).orElseThrow(() -> new PollNotFound(id));
-        PollDTO poll = maptoDTO.getPollById(id);
-        switch (field) {
-            case "title":
-                return poll.getTitle();
-
-            case "deadline":
-                return poll.getEndTime();
-
-            case "isPublic":
-                return poll.isPublic();
-
-            default:
-                // TODO Handle this error
-                throw new FieldNotFound(field);
+        try {
+            return new ResponseEntity<>(poll.get(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("{id}/votes")
-    public  int[] allPollVotes(@PathVariable("id") Long id) {
-        PollDTO p = maptoDTO.getPollById(id);
+    public ResponseEntity<List<Vote>> allPollVotes(@PathVariable("id") Long id) {
+        Optional<Poll> poll = pollRepository.findById(id);
 
-        return new int[]{p.getNum_no(),p.getNum_yes()};
+        try {
+            return new ResponseEntity<>(poll.get().getVotes(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
+
+    // TODO: add get for specific vote {pid}/votes/{vid}
 
     //////////////////////////////////////
     //// POST-REQUESTS                ////
     //////////////////////////////////////
     @PostMapping()
-    public Poll postPoll(@RequestBody Poll poll) {
-        return pollRepository.save(poll);
+    public ResponseEntity<Poll> postPoll(@RequestBody Poll poll) {
+        return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
 
+    @PostMapping("{id}/votes")
+    public ResponseEntity<Vote> postPollVote(@PathVariable("id") Long id, @RequestBody Vote vote) {
+        Optional<Poll> optionalPoll = pollRepository.findById(id);
 
-    @PostMapping("{pid}/votes")
-    public Poll postPollVote(@PathVariable("pid") Long pid, @RequestBody Vote newValue) {
-        Poll p = pollRepository.findById(pid).get();
+        try {
+            vote.setAccount(accountRepository.getById(vote.getId().getAccountId()));
+            vote.setPoll(optionalPoll.get());
 
-
-        newValue.setPoll(p);
-        p.getVotes().add(newValue);
-
-
-        pollRepository.save(p);
-
-        return p;
+            return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
-    @DeleteMapping()
-    public void deletePolls() {
-        pollRepository.deleteAll();
-    }
-
     @DeleteMapping("{pid}")
     public void deletePoll(@PathVariable("pid") Long pid) {
         pollRepository.deleteById(pid);
+    }
+
+    // TODO: add delete for specific vote {pid}/votes/{vid}
+    /*
+    //////////////////////////////////////
+    //// PUT-REQUESTS                 ////
+    //////////////////////////////////////
+    @PutMapping("{pid}")
+    public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
+        // does not reset the votes.
+        return pollRepository.findById(pid)
+                .map(poll -> {
+                    poll.setDeadline(newPoll.getDeadline());
+                    poll.setPublic(newPoll.isPublic());
+                    poll.setTitle(newPoll.getTitle());
+                    return pollRepository.save(poll);
+                })
+                .orElseGet(() -> {
+                    newPoll.setPollId(pid);
+                    return pollRepository.save(newPoll);
+                });
+    }
+
+    ostPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
+        return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
     }
 
     //////////////////////////////////////
@@ -119,5 +132,5 @@ public class PollController {
                     newPoll.setPollId(pid);
                     return pollRepository.save(newPoll);
                 });
-    }
+    }*/
 }
