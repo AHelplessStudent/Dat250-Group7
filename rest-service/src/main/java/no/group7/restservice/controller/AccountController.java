@@ -26,6 +26,7 @@ public class AccountController {
 
     @GetMapping("{id}")
     public ResponseEntity<Account> oneAccount(@PathVariable(value = "id") Long id) {
+        // TODO check if exists
         return new ResponseEntity<>(accountRepository.findById(id).get(), HttpStatus.OK);
     }
 
@@ -41,14 +42,15 @@ public class AccountController {
     //// POST-REQUESTS                ////
     //////////////////////////////////////
     @PostMapping()
-    public ResponseEntity<Account> postAccount(@RequestBody Account vote) {
-        return new ResponseEntity<>(accountRepository.save(vote), HttpStatus.OK);
+    public ResponseEntity<Account> postAccount(@RequestBody Account acc) {
+        return new ResponseEntity<>(accountRepository.save(acc), HttpStatus.OK);
     }
 
-    /*
+
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
     //////////////////////////////////////
+    /*
     @PutMapping("{id}")
     public Account replaceAccount(@PathVariable("id") Long id, @RequestBody Account newAccount) {
         return accountRepository.findById(id)

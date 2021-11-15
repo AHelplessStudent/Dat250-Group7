@@ -42,8 +42,8 @@ public class RestServiceApplication {
             poll.setTitle("Interesting Title");
             poll.setQuestion("Is this true?");
             poll.setAccount(account);
-            poll.setNum_no(10);
-            poll.setNum_yes(25);
+            poll.setNum_no(0);
+            poll.setNum_yes(1);
             pollRepository.save(poll);
 
             // Last, create a vote

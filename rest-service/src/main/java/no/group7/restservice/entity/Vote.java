@@ -72,4 +72,8 @@ public class Vote {
                 ", votedYes=" + votedYes +
                 '}';
     }
+
+    public boolean getVotedYes() {
+        return votedYes;
+    }
 }

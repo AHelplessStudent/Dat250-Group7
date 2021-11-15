@@ -70,11 +70,16 @@ public class PollController {
 
     @PostMapping("{id}/votes")
     public ResponseEntity<Vote> postPollVote(@PathVariable("id") Long id, @RequestBody Vote vote) {
-        Optional<Poll> optionalPoll = pollRepository.findById(id);
+
+
+        Poll optionalPoll = pollRepository.findById(id).get();
 
         try {
             vote.setAccount(accountRepository.getById(vote.getId().getAccountId()));
-            vote.setPoll(optionalPoll.get());
+            vote.setPoll(optionalPoll);
+
+            // will increment num_yes and num_no respectivly
+            optionalPoll.addVote(vote);
 
             return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
         } catch (Exception e) {

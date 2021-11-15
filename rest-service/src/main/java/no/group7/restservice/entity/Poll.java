@@ -156,4 +156,14 @@ public class Poll {
     public int hashCode() {
         return Objects.hash(id, title, question, endTime, startTime, isPublic, num_yes, num_no, account, votes);
     }
+
+    public void addVote(Vote vote) {
+        if (vote.getVotedYes()) {
+            this.num_yes += 1;
+        } else {
+            this.num_no += 1;
+        }
+
+        this.votes.add(vote);
+    }
 }
