@@ -4,7 +4,26 @@
  */
 package no.group7.restservice.messaging;
 
-/*
+import no.group7.restservice.entity.Poll;
+import no.group7.restservice.repository.PollRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+
 @Component
 public class MessageComponent {
 
@@ -15,6 +34,8 @@ public class MessageComponent {
     private RabbitTemplate rabbitTemplate;
 
     private Logger logger = LoggerFactory.getLogger(MessageComponent.class);
+
+    private HashSet<Long> sentPollsId = new HashSet<>();
 
     // Constants
     public final static String EXCHANGE_NAME = "default_exchange_name";
@@ -62,24 +83,48 @@ public class MessageComponent {
     }
 
 
+    /**
+     * Scan and check for finished polls.
+     * <p>
+     * If finished polls found => send it through RabbitMQ.
+     */
     @Scheduled(fixedDelay = 10000)
     public void publishFinishedPolls() {
-        int numFinishedPolls = 0;
+        Poll poll1 = pollRepository.findById(1L).get();
+        // debug
+        rabbitTemplate.convertAndSend(
+                EXCHANGE_NAME,
+                "",
+                "{ \"id\":" + poll1.getId() +
+                        ", \"num_yes\":" + poll1.getNum_yes() +
+                        ", \"num_no\":" + poll1.getNum_no() +
+                        " }"
+        );
 
         for (Poll poll : pollRepository.findAll()) {
-            if (poll.isExpired()) {
-                numFinishedPolls++;
+            if (poll.getEndTime() == null)
+                continue;  // debug
+            if (sentPollsId.contains(poll.getId())) { // ignore already sent polls
+                continue;
+            }
+            boolean pollExpired = LocalDateTime.now().isAfter(poll.getEndTime());
+            if (pollExpired) {
+                sentPollsId.add(poll.getId());
+
+                String pollJson = "{ \"id\":" + poll.getId() +
+                        ", \"num_yes\":" + poll.getNum_yes() +
+                        ", \"num_no\":" + poll.getNum_no() +
+                        " }";
+
+                // send to RabbitMQ
+                rabbitTemplate.convertAndSend(
+                        EXCHANGE_NAME,
+                        "",
+                        pollJson
+                );
+                logger.info("Finished poll discovered => sending through RabbitMQ:");
+                logger.info("    " + pollJson);
             }
         }
-
-        if (numFinishedPolls > 0) {
-            rabbitTemplate.convertAndSend(
-                    EXCHANGE_NAME,
-                    "",
-                    numFinishedPolls + " finished polls found"
-            );
-            logger.info(numFinishedPolls + " finished polls found => sending to RabbitMQ!");
-        }
     }
-
-}*/
+}
