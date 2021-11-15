@@ -30,10 +30,11 @@ public class Poll {
     private int num_no;
 
     // Not sure if fetch type is correct
-    @ManyToOne(fetch = FetchType.LAZY)
+
     // Line below is from: https://stackoverflow.com/a/65389727 (14.11.2021)
     // thanks!
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @ManyToOne
     private Account account;
 
     @OneToMany(mappedBy = "poll", orphanRemoval = true)

@@ -2,6 +2,7 @@ package no.group7.restservice.controller;
 
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
+import no.group7.restservice.repository.AccountRepository;
 import no.group7.restservice.repository.PollRepository;
 import no.group7.restservice.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,10 @@ public class PollController {
     @Autowired
     private PollRepository pollRepository;
     @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
     private VoteRepository voteRepository;
+
 
     //////////////////////////////////////
     //// GET-REQUESTS                 ////
@@ -64,12 +68,19 @@ public class PollController {
         return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
 
-    /* TODO
     @PostMapping("{id}/votes")
     public ResponseEntity<Vote> postPollVote(@PathVariable("id") Long id, @RequestBody Vote vote) {
+        Optional<Poll> optionalPoll = pollRepository.findById(id);
 
+        try {
+            vote.setAccount(accountRepository.getById(vote.getId().getAccountId()));
+            vote.setPoll(optionalPoll.get());
+
+            return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    */
 
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
