@@ -29,6 +29,9 @@ public class Poll {
     private int num_yes;
     private int num_no;
 
+    // storing the id twice in the db now, but it was the easiest fix i could think of.
+    private Long accId;
+
     // Not sure if fetch type is correct
 
     // Line below is from: https://stackoverflow.com/a/65389727 (14.11.2021)
@@ -44,8 +47,7 @@ public class Poll {
     public Poll() {
     }
 
-    public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no) {
-        this.id = id;
+    public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no, Long accId) {
         this.title = title;
         this.question = question;
         this.endTime = endTime;
@@ -53,6 +55,7 @@ public class Poll {
         this.isPublic = isPublic;
         this.num_yes = num_yes;
         this.num_no = num_no;
+        this.accId = accId;
     }
 
     public Long getId() {
@@ -165,5 +168,13 @@ public class Poll {
         }
 
         this.votes.add(vote);
+    }
+
+    public Long getAccId() {
+        return accId;
+    }
+
+    public void setAccId(Long accId) {
+        this.accId = accId;
     }
 }

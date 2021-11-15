@@ -1,5 +1,6 @@
 package no.group7.restservice.controller;
 
+import no.group7.restservice.entity.Account;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.entity.Vote;
 import no.group7.restservice.repository.AccountRepository;
@@ -65,6 +66,14 @@ public class PollController {
     //////////////////////////////////////
     @PostMapping()
     public ResponseEntity<Poll> postPoll(@RequestBody Poll poll) {
+        Poll newpoll = new Poll();
+
+        // Check if account exist first
+        Account acc = accountRepository.findById(poll.getAccId()).get();
+
+        // System.out.println(acc);
+        poll.setAccount(acc);
+
         return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
 
