@@ -27,8 +27,9 @@ public class AccountController {
     @GetMapping("{id}")
     public ResponseEntity<Account> oneAccount(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<>(accountRepository.findById(id).get(), HttpStatus.OK);
-    }//////////////////////////////////////
+    }
 
+    //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////
     @DeleteMapping("{id}")
@@ -36,15 +37,15 @@ public class AccountController {
         accountRepository.deleteById(id);
     }
 
-    /*
     //////////////////////////////////////
     //// POST-REQUESTS                ////
     //////////////////////////////////////
     @PostMapping()
-    public Account postAccount(@RequestBody Account vote) {
-        return accountRepository.save(vote);
+    public ResponseEntity<Account> postAccount(@RequestBody Account vote) {
+        return new ResponseEntity<>(accountRepository.save(vote), HttpStatus.OK);
     }
 
+    /*
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
     //////////////////////////////////////
