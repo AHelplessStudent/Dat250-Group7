@@ -29,6 +29,12 @@ public class AccountController {
         return new ResponseEntity<>(accountRepository.findById(id).get(), HttpStatus.OK);
     }
 
+    @GetMapping("/authid/{authId}")
+    public ResponseEntity<Account> oneAccount(@PathVariable(value = "authId") String authId) {
+        System.out.println(accountRepository.findByAuthId(authId));
+        return new ResponseEntity<>(accountRepository.findByAuthId(authId), HttpStatus.OK);
+    }
+
     //////////////////////////////////////
     //// DELETE-REQUESTS              ////
     //////////////////////////////////////

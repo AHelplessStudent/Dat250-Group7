@@ -115,32 +115,37 @@ export const useAuth0 = ({
                 this.user = await this.auth0Client.getUser();
                 this.loading = false;
 
-                //create new user if id does not exist
+                //create new user if it's not present in our database
                 if (this.user != null) {
-                    //check if user exists in database
+                    //get UID from current user
                     const user_id = this.user.sub.replace(/\D/g, '')
-                    console.log(user_id)
+
                     axios
-                        .get('http://localhost:8080/accounts/' + user_id)
+                        .get('http://localhost:8080/accounts/authid/' + user_id)
                         .then(res => {
                             //if user exists in database
-                            console.log("User exists in database so we don't have to create acc", res)
+                            if(res.data === ""){
+                                console.log("User does not exist")
+                                const account_param = {
+                                    "authId": user_id,
+                                    "firstName": this.user.given_name,
+                                    "lastName": this.user.family_name,
+                                    "username": this.user.nickname
+                                }
+                                console.log(account_param)
+
+                                axios.post("http://localhost:8080/accounts", account_param)
+                                    .then((res) => {
+                                        console.log(res)
+                                        console.log("New account created")
+                                    })
+                                    .catch((error) => {
+                                        console.log(error)
+                                    })
+                            }
                         })
                         .catch((error) => {
                             console.log(error)
-                            console.log("user not found in database, so we create an account")
-                            const account_param = {
-                                "accountId": user_id,
-                                "firstName": this.user.given_name,
-                                "lastName": this.user.family_name,
-                                "username": this.user.nickname
-                            }
-                            console.log(account_param)
-
-                            axios.post("http://localhost:8080/accounts", account_param)
-                                .then((res) => {
-                                    console.log(res)
-                                })
                         })
                 }
 
