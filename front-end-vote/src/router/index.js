@@ -31,7 +31,6 @@ const routes = [
   {
     path:'/poll/:id',
     component: ViewPoll,
-    beforeEnter: authGuard,
   }
 ]
 

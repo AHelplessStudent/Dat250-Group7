@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h1>{{poll.title}}</h1>
-    <p>Closes on: {{ moment(poll.endTime)}}</p>
+    <div v-if="this.$auth.user === undefined && poll.public === false">
+      <h2>This poll is not public, create an account to watch this poll</h2>
+    </div>
+    <div v-else>
+      <h1>{{poll.title}}</h1>
+      <p>Closes on: {{ moment(poll.endTime)}}</p>
+    </div>
   </div>
 </template>
 
@@ -28,6 +33,7 @@ export default {
         .then((response) => {
           this.poll = response.data;
           console.log(response)
+          console.log(this.$auth.user)
         })
   },
 }

@@ -12,18 +12,21 @@
           v-model="poll.question"
           label="Question"
       ></v-text-field>
-      <h3>Start:</h3>
       <v-row>
         <v-col cols="12" sm="3">
+          <h3>Startdate:</h3>
           <v-date-picker v-model="dates.startTimeDate" ></v-date-picker>
         </v-col>
         <v-col cols="12" sm="3">
+          <h3>Starttime:</h3>
           <v-time-picker v-model="dates.startTimeHour" format="24hr" scrollable></v-time-picker>
         </v-col>
         <v-col cols="12" sm="3">
+          <h3>Enddate:</h3>
           <v-date-picker v-model="dates.endTimeDate" ></v-date-picker>
         </v-col>
         <v-col cols="12" sm="3">
+          <h3>Endtime:</h3>
           <v-time-picker v-model="dates.endTimeHour" format="24hr" scrollable></v-time-picker>
         </v-col>
       </v-row>
