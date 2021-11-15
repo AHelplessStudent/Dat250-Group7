@@ -52,8 +52,8 @@ export default {
     return{
       poll: {
         account: {
-          accountId: this.$auth.user.sub.replace(/\D/g,'') + "L",
-          id: 0,
+          accountId: 1/*this.$auth.user.sub.replace(/\D/g,'') + "L"*/,
+          id: 1,
           firstName: this.$auth.user.given_name,
           lastName: this.$auth.user.family_name,
           username: this.$auth.user.nickname

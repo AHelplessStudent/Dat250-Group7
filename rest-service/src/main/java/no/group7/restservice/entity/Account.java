@@ -15,10 +15,9 @@ public class Account {
     private Long id;
 
     private String username;
-    @JsonIgnore
-    private String password;
     private String firstName;
     private String lastName;
+    private String authId;
 
     @OneToMany(orphanRemoval = true)
     @JsonIgnore
@@ -31,12 +30,20 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String username, String password, String firstName, String lastName) {
+    public Account(Long id, String username, String firstName, String lastName, String authId) {
         this.id = id;
+        this.authId = authId;
         this.username = username;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
     }
 
     public Long getId() {
@@ -53,14 +60,6 @@ public class Account {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -101,11 +100,11 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(id, account.id) && Objects.equals(username, account.username) && Objects.equals(password, account.password) && Objects.equals(firstName, account.firstName) && Objects.equals(lastName, account.lastName) && Objects.equals(polls, account.polls) && Objects.equals(votes, account.votes);
+        return Objects.equals(id, account.id) && Objects.equals(username, account.username) && Objects.equals(firstName, account.firstName) && Objects.equals(lastName, account.lastName) && Objects.equals(polls, account.polls) && Objects.equals(votes, account.votes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, firstName, lastName, polls, votes);
+        return Objects.hash(id, username, firstName, lastName, polls, votes);
     }
 }

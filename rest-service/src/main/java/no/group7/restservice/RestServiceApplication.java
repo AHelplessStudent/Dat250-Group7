@@ -35,6 +35,7 @@ public class RestServiceApplication {
             account.setFirstName("Test-Firstname");
             account.setLastName("Test-Lastname");
             account.setUsername("Test-Username");
+            account.setAuthId("Test");
             accountRepository.save(account);
 
             // Then, create poll
