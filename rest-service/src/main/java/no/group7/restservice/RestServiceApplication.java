@@ -1,8 +1,12 @@
 package no.group7.restservice;
 
+import no.group7.restservice.entity.Account;
 import no.group7.restservice.entity.Poll;
+import no.group7.restservice.entity.Vote;
+import no.group7.restservice.entity.VoteCompositeKey;
 import no.group7.restservice.repository.AccountRepository;
 import no.group7.restservice.repository.PollRepository;
+import no.group7.restservice.repository.VoteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,9 +15,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-
-import java.time.LocalDateTime;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -26,61 +27,57 @@ public class RestServiceApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(PollRepository pollRepository, AccountRepository accountRepository) {
+    public CommandLineRunner demo(PollRepository pollRepository, VoteRepository voteRepository, AccountRepository accountRepository) {
         return (args) -> {
-            Poll generic_poll = new Poll("Politics Poll", "Question here", LocalDateTime.now(), LocalDateTime.now(), true, 0, 0);
-            pollRepository.save(generic_poll);
-            /*
+
+            // First, create Account
+            Account account = new Account();
+            account.setFirstName("Test-Firstname");
+            account.setLastName("Test-Lastname");
+            account.setUsername("Test-Username");
+            accountRepository.save(account);
+
+            // Then, create poll
+            Poll poll = new Poll();
+            poll.setTitle("Interesting Title");
+            poll.setQuestion("Is this true?");
+            poll.setAccount(account);
+            poll.setNum_no(10);
+            poll.setNum_yes(25);
+            pollRepository.save(poll);
+
+            // Last, create a vote
+            VoteCompositeKey voteCompositeKey = new VoteCompositeKey();
+            voteCompositeKey.setAccountId(account.getId());
+            voteCompositeKey.setPollId(poll.getId());
+
+            Vote vote1 = new Vote();
+            vote1.setAccount(account);
+            vote1.setPoll(poll);
+            vote1.setVotedYes(true);
+            vote1.setId(voteCompositeKey);
             voteRepository.save(vote1);
-            voteRepository.save(vote2);
-            voteRepository.save(vote3);
 
-            Account acc1 = new Account("James101", "hashedsaltedpsw", "Test", "Testson");
-            accountRepository.save(acc1);
-
-            generic_poll.setAccount(acc1);
-            generic_poll.getVotes().add(vote1);
-            pollRepository.save(generic_poll);
-
-
-            sports_poll.setAccount(acc1);
-            sports_poll.getVotes().add(vote2);
-            pollRepository.save(sports_poll);
-
-            music_poll.setAccount(acc1);
-            music_poll.getVotes().add(vote3);
-            pollRepository.save(music_poll);
-
-            Collection<Poll> polls = new ArrayList<>();
-            polls.add(generic_poll);
-            polls.add(sports_poll);
-            polls.add(music_poll);
-            acc1.setPolls(polls);
-            accountRepository.save(acc1);
-            */
-            // fetch all customers
             log.info("Polls found with findAll():");
             log.info("-------------------------------");
-            for (Poll poll : pollRepository.findAll()) {
-                log.info(poll.toString());
+            for (Poll p : pollRepository.findAll()) {
+                log.info(p.toString());
             }
             log.info("");
 
-            /*
-            Optional<Poll> poll = pollRepository.findById(1L);
-            log.info("Poll found with findById(1L):");
-            log.info("--------------------------------");
-            log.info(poll.toString());
+            log.info("Votes found with findAll():");
+            log.info("-------------------------------");
+            for (Vote v : voteRepository.findAll()) {
+                log.info(v.toString());
+            }
             log.info("");
 
-            log.info("Poll 1");
-            log.info("--------------------------------");
-            log.info(generic_poll.toString());
-            log.info(generic_poll.getAccount().toString());
-            log.info(sports_poll.getAccount().toString());
-            log.info(music_poll.getAccount().toString());
-            */
-
+            log.info("Accounts found with findAll():");
+            log.info("-------------------------------");
+            for (Account a : accountRepository.findAll()) {
+                log.info(a.toString());
+            }
+            log.info("");
         };
     }
 }

@@ -1,7 +1,9 @@
 package no.group7.restservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,9 +30,11 @@ public class Poll {
     private int num_no;
 
     // Not sure if fetch type is correct
-    // and cascadetype.
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+
+    // Line below is from: https://stackoverflow.com/a/65389727 (14.11.2021)
+    // thanks!
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @ManyToOne
     private Account account;
 
     @OneToMany(mappedBy = "poll", orphanRemoval = true)
@@ -115,6 +119,15 @@ public class Poll {
         this.num_no = num_no;
     }
 
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", question='" + question + '\'' +
+                '}';
+    }
+
     public Account getAccount() {
         return account;
     }
@@ -129,10 +142,6 @@ public class Poll {
 
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
-    }
-
-    public boolean isExpired() {
-        return LocalDateTime.now().isAfter(endTime);
     }
 
     @Override
