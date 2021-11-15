@@ -3,9 +3,9 @@
     <div class="dashboard">
       <h1>Dashboard</h1>
       <Searchbar></Searchbar>
+      <p>{{$auth.user}}</p>
       <v-btn class="ma-4" href="/create" color="secondary">Create Poll</v-btn>
-
-      <h3>Latest polls:</h3>
+      <h3 class="ma-3">Latest polls:</h3>
       <v-row>
         <v-col cols="12" sm="6" md="3" v-for="poll in subArray" :key="poll.pollid">
           <Card v-bind:title="poll.title" v-bind:numYes="poll.num_yes" v-bind:numNo="poll.num_no"></Card>
