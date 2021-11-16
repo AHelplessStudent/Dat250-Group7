@@ -19,6 +19,7 @@ public class Account {
     private String password;
     private String firstName;
     private String lastName;
+    private String authId;
 
     @OneToMany(orphanRemoval = true)
     @JsonIgnore
@@ -31,14 +32,23 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String username, String password, String firstName, String lastName) {
+    public Account(Long id, String username, String password, String firstName, String lastName, String authId) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.authId = authId;
     }
 
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
+    }
+    
     public Long getId() {
         return id;
     }
