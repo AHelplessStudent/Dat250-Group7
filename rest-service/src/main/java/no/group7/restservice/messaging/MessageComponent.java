@@ -4,6 +4,7 @@
  */
 package no.group7.restservice.messaging;
 
+import no.group7.restservice.RestServiceApplication;
 import no.group7.restservice.entity.Poll;
 import no.group7.restservice.repository.PollRepository;
 import org.slf4j.Logger;
@@ -90,6 +91,8 @@ public class MessageComponent {
      */
     @Scheduled(fixedDelay = 10000)
     public void publishFinishedPolls() {
+        if (!RestServiceApplication.USE_RABBITMQ)
+            return;
         Poll poll1 = pollRepository.findById(1L).get();
         // debug
         rabbitTemplate.convertAndSend(

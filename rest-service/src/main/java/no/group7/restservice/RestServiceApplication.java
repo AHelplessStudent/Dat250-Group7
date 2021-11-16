@@ -22,6 +22,10 @@ import java.time.LocalDateTime;
 @EnableSwagger2
 @EnableScheduling
 public class RestServiceApplication {
+
+    /* QUICK-TOGGLE */
+    public static boolean USE_RABBITMQ = false;
+
     private static final Logger log = LoggerFactory.getLogger(RestServiceApplication.class);
 
     public static void main(String[] args) {
