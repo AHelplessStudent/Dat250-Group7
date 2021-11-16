@@ -13,8 +13,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -41,6 +43,7 @@ public class RestServiceApplication {
             Poll poll = new Poll();
             poll.setTitle("Interesting Title");
             poll.setQuestion("Is this true?");
+            poll.setEndTime(LocalDateTime.now().plusSeconds(10));
             poll.setAccount(account);
             poll.setNum_no(10);
             poll.setNum_yes(25);
