@@ -36,6 +36,7 @@ public class Account {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.authId = authId;
     }
 
     public String getAuthId() {
@@ -45,7 +46,6 @@ public class Account {
     public void setAuthId(String authId) {
         this.authId = authId;
     }
-
     public Long getId() {
         return id;
     }

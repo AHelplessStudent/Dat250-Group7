@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -56,6 +57,23 @@ public class PollController {
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/by/auth_id/{auth_id}")
+    public ResponseEntity<List<Poll>> allPollVotesByAuthId(@PathVariable("auth_id") String auth_id) {
+        List<Poll> polls = pollRepository.findAll();
+        List<Poll> pollsByAuthId = new ArrayList<>();
+
+        for (Poll poll : polls) {
+            try {
+                if (poll.getAccount().getAuthId().equals(auth_id))
+                    pollsByAuthId.add(poll);
+            } catch (NullPointerException e) {
+                continue;  //ignore
+            }
+        }
+
+        return new ResponseEntity<>(pollsByAuthId, HttpStatus.OK);
     }
 
     // TODO: add get for specific vote {pid}/votes/{vid}

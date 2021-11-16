@@ -13,13 +13,19 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 @EnableSwagger2
 @EnableScheduling
 public class RestServiceApplication {
+
+    /* QUICK-TOGGLE */
+    public static boolean USE_RABBITMQ = false;
+
     private static final Logger log = LoggerFactory.getLogger(RestServiceApplication.class);
 
     public static void main(String[] args) {
@@ -35,13 +41,14 @@ public class RestServiceApplication {
             account.setFirstName("Test-Firstname");
             account.setLastName("Test-Lastname");
             account.setUsername("Test-Username");
-            account.setAuthId("Test");
+            account.setAuthId("ID");
             accountRepository.save(account);
 
             // Then, create poll
             Poll poll = new Poll();
             poll.setTitle("Interesting Title");
             poll.setQuestion("Is this true?");
+            poll.setEndTime(LocalDateTime.now().plusSeconds(10));
             poll.setAccount(account);
             poll.setNum_no(10);
             poll.setNum_yes(25);
