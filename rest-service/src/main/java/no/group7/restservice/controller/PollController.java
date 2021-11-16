@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -62,6 +63,23 @@ public class PollController {
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/by/auth_id/{auth_id}")
+    public ResponseEntity<List<Poll>> allPollVotesByAuthId(@PathVariable("auth_id") String auth_id) {
+        List<Poll> polls = pollRepository.findAll();
+        List<Poll> pollsByAuthId = new ArrayList<>();
+
+        for (Poll poll : polls) {
+            try {
+                if (poll.getAccount().getAuthId().equals(auth_id))
+                    pollsByAuthId.add(poll);
+            } catch (NullPointerException e) {
+                continue;  //ignore
+            }
+        }
+
+        return new ResponseEntity<>(pollsByAuthId, HttpStatus.OK);
     }
 
     // TODO: add get for specific vote {pid}/votes/{vid}
@@ -129,13 +147,54 @@ public class PollController {
         pollRepository.deleteById(pid);
     }
 
+    @PatchMapping("/voteYes/{id}")
+    public ResponseEntity<Poll> voteYes(@PathVariable Long id) {
+        try {
+            Poll poll = pollRepository.findById(id).get();
+
+            if (poll.isClosed())
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            poll.setNum_yes(poll.getNum_yes() + 1);
+            return new ResponseEntity<Poll>(pollRepository.save(poll), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping("/voteNo/{id}")
+    public ResponseEntity<Poll> voteNo(@PathVariable Long id) {
+        try {
+            Poll poll = pollRepository.findById(id).get();
+
+            if (poll.isClosed())
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            poll.setNum_no(poll.getNum_no() + 1);
+            return new ResponseEntity<Poll>(pollRepository.save(poll), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping("/expire/{id}")
+    public ResponseEntity<Poll> expire(@PathVariable Long id) {
+        try {
+            Poll poll = pollRepository.findById(id).get();
+            poll.setClosed(true);
+            return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     // TODO: add delete for specific vote {pid}/votes/{vid}
     /*
     //////////////////////////////////////
     //// PUT-REQUESTS                 ////
     //////////////////////////////////////
-    @PutMapping("{pid}")
-    public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
+    */
+    /*public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
+
         // does not reset the votes.
         return pollRepository.findById(pid)
                 .map(poll -> {
@@ -147,10 +206,10 @@ public class PollController {
                 .orElseGet(() -> {
                     newPoll.setPollId(pid);
                     return pollRepository.save(newPoll);
-                });
-    }
+                });*/
+    //}
 
-    ostPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
+   /* ostPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
         return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
     }
 

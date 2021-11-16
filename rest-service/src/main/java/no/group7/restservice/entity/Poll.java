@@ -25,6 +25,7 @@ public class Poll {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
 
+    private boolean isClosed;
     private boolean isPublic;
     private int num_yes;
     private int num_no;
@@ -34,7 +35,7 @@ public class Poll {
     // Line below is from: https://stackoverflow.com/a/65389727 (14.11.2021)
     // thanks!
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Account account;
 
     @OneToMany(mappedBy = "poll", orphanRemoval = true)
@@ -42,10 +43,10 @@ public class Poll {
     private List<Vote> votes;
 
     public Poll() {
+        this.isClosed = false;
     }
 
-    public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no) {
-        this.id = id;
+    public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no, boolean isExpired) {
         this.title = title;
         this.question = question;
         this.endTime = endTime;
@@ -53,6 +54,15 @@ public class Poll {
         this.isPublic = isPublic;
         this.num_yes = num_yes;
         this.num_no = num_no;
+        this.isClosed = isExpired;
+    }
+
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(boolean closed) {
+        isClosed = closed;
     }
 
     public Long getId() {

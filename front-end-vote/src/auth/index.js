@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import createAuth0Client from '@auth0/auth0-spa-js';
+import axios from "axios";
 
 /** Define a default action to perform after authentication */
 const DEFAULT_REDIRECT_CALLBACK = () =>
@@ -99,11 +100,12 @@ export const useAuth0 = ({
                     window.location.search.includes('state=')
                 ) {
                     // handle the redirect and retrieve tokens
-                    const { appState } = await this.auth0Client.handleRedirectCallback();
+                    const {appState} = await this.auth0Client.handleRedirectCallback();
 
                     // Notify subscribers that the redirect callback has happened, passing the appState
                     // (useful for retrieving any pre-authentication state)
                     onRedirectCallback(appState);
+
                 }
             } catch (e) {
                 this.error = e;
@@ -112,6 +114,41 @@ export const useAuth0 = ({
                 this.isAuthenticated = await this.auth0Client.isAuthenticated();
                 this.user = await this.auth0Client.getUser();
                 this.loading = false;
+
+                //create new user if it's not present in our database
+                if (this.user != null) {
+                    //get UID from current user
+                    const user_id = this.user.sub.replace(/\D/g, '')
+
+                    axios
+                        .get('http://localhost:8080/accounts/authid/' + user_id)
+                        .then(res => {
+                            //if user exists in database
+                            if(res.data === ""){
+                                console.log("User does not exist")
+                                const account_param = {
+                                    "authId": user_id,
+                                    "firstName": this.user.given_name,
+                                    "lastName": this.user.family_name,
+                                    "username": this.user.nickname
+                                }
+                                console.log(account_param)
+
+                                axios.post("http://localhost:8080/accounts", account_param)
+                                    .then((res) => {
+                                        console.log(res)
+                                        console.log("New account created")
+                                    })
+                                    .catch((error) => {
+                                        console.log(error)
+                                    })
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        })
+                }
+
             }
         },
     });

@@ -3,7 +3,6 @@
     <div class="dashboard">
       <h1>Dashboard</h1>
       <Searchbar></Searchbar>
-      <p>{{$auth.user}}</p>
       <v-btn class="ma-4" href="/create" color="secondary">Create Poll</v-btn>
       <h3 class="ma-3">Latest polls:</h3>
       <v-row>
