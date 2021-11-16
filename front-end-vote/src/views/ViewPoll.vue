@@ -3,6 +3,9 @@
     <div v-if="this.$auth.user === undefined && poll.public === false">
       <h2>This poll is not public, create an account to watch this poll</h2>
     </div>
+    <div v-else-if="poll.closed === true">
+      <h2>The poll is expired, ask the creator for more information</h2>
+      </div>
     <div v-else>
       <div v-if="voted === false">
         <h1>{{ poll.title }}</h1>

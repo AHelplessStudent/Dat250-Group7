@@ -7,7 +7,8 @@
       <h2 class="ma-3">Latest created polls</h2>
       <v-row>
         <v-col cols="12" sm="6" md="3" v-for="poll in polls" :key="poll.id">
-          <Card v-bind:title="poll.title" v-bind:id="poll.id" v-bind:question="poll.question" v-bind:numYes="poll.num_yes" v-bind:numNo="poll.num_no" v-on:close-poll="closePoll(poll.id)"></Card>
+
+          <Card v-if="poll.closed === false" v-bind:title="poll.title" v-bind:id="poll.id" v-bind:question="poll.question" v-bind:numYes="poll.num_yes" v-bind:numNo="poll.num_no" v-on:close-poll="closePoll(poll.id)"></Card>
         </v-col>
       </v-row>
     </div>

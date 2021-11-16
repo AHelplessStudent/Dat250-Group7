@@ -4,19 +4,26 @@
       <h1 class="mb-4">Create Poll</h1>
       <v-form ref="form">
         <v-text-field
-            solo
+            placeholder="Happiness Poll"
+            filled
+            rounded
+            dense
             v-model="poll.title"
             label="Title"
             :rules="inputRules"
         ></v-text-field>
         <v-text-field
-            solo
+            placeholder="Are you happy?"
+            filled
+            rounded
+            dense
             v-model="poll.question"
             label="Question"
             :rules="inputRules"
         ></v-text-field>
         <v-row>
           <v-col cols="12" sm="6">
+            <h3>Startdate</h3>
             <v-menu
                 ref="menuStartDate"
                 v-model="menuStartDate"
@@ -61,6 +68,7 @@
             </v-menu>
           </v-col>
           <v-col cols="12" sm="6">
+            <h3>Starttime</h3>
             <v-menu
                 ref="menuStart"
                 v-model="menuStartTime"
@@ -94,6 +102,7 @@
 
           </v-col>
           <v-col cols="12" sm="6">
+            <h3>Enddate</h3>
             <v-menu
                 ref="menu"
                 v-model="menu"
@@ -138,6 +147,7 @@
             </v-menu>
           </v-col>
           <v-col cols="12" sm="6">
+            <h3>Endtime</h3>
             <v-menu
                 ref="menuEnd"
                 v-model="menuEndTime"
