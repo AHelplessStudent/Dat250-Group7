@@ -15,7 +15,7 @@
       </div>
       <div v-else>
         <h2>Thanks for voting!!!</h2>
-        <v-btn href="/dashboard" class="ma-5">Go To Dashboard</v-btn>
+        <v-btn href="/" class="ma-5">Go To Home</v-btn>
       </div>
     </div>
   </div>

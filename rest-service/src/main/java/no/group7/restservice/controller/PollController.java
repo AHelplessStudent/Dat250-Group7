@@ -62,7 +62,7 @@ public class PollController {
         }
     }
 
-    @GetMapping("/by/auth_id/{auth_id}")
+    @GetMapping("/auth_id/{auth_id}")
     public ResponseEntity<List<Poll>> allPollVotesByAuthId(@PathVariable("auth_id") String auth_id) {
         List<Poll> polls = pollRepository.findAll();
         List<Poll> pollsByAuthId = new ArrayList<>();
