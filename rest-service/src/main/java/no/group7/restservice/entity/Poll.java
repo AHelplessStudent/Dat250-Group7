@@ -25,6 +25,7 @@ public class Poll {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
 
+    private boolean isClosed;
     private boolean isPublic;
     private int num_yes;
     private int num_no;
@@ -42,9 +43,10 @@ public class Poll {
     private List<Vote> votes;
 
     public Poll() {
+        this.isClosed = false;
     }
 
-    public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no) {
+    public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no, boolean isExpired) {
         this.title = title;
         this.question = question;
         this.endTime = endTime;
@@ -52,6 +54,15 @@ public class Poll {
         this.isPublic = isPublic;
         this.num_yes = num_yes;
         this.num_no = num_no;
+        this.isClosed = isExpired;
+    }
+
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(boolean closed) {
+        isClosed = closed;
     }
 
     public Long getId() {

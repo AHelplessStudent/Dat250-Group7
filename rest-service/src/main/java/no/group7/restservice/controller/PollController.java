@@ -112,6 +112,9 @@ public class PollController {
     public ResponseEntity<Poll> voteYes(@PathVariable Long id) {
         try {
             Poll poll = pollRepository.findById(id).get();
+
+            if (poll.isClosed())
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
             poll.setNum_yes(poll.getNum_yes() + 1);
             return new ResponseEntity<Poll>(pollRepository.save(poll), HttpStatus.OK);
         } catch (Exception e) {
@@ -123,12 +126,18 @@ public class PollController {
     public ResponseEntity<Poll> voteNo(@PathVariable Long id) {
         try {
             Poll poll = pollRepository.findById(id).get();
+
+            if (poll.isClosed())
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
             poll.setNum_no(poll.getNum_no() + 1);
             return new ResponseEntity<Poll>(pollRepository.save(poll), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //@PatchMapping("/expire/{id}")
+
 
     // TODO: add delete for specific vote {pid}/votes/{vid}
     /*
