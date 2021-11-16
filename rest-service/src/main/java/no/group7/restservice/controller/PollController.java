@@ -136,7 +136,16 @@ public class PollController {
         }
     }
 
-    //@PatchMapping("/expire/{id}")
+    @PatchMapping("/expire/{id}")
+    public ResponseEntity<Poll> expire(@PathVariable Long id) {
+        try {
+            Poll poll = pollRepository.findById(id).get();
+            poll.setClosed(true);
+            return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
     // TODO: add delete for specific vote {pid}/votes/{vid}
