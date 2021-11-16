@@ -60,7 +60,7 @@ export default {
 }
 
 #loginBtn {
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 20px;
 }
