@@ -4,16 +4,17 @@
       <router-link to="/">Home</router-link>
       |
       <router-link to="/dashboard">Dashboard</router-link>
-      <div v-if="!$auth.loading">
-        <!-- show login when not authenticated -->
-        <a v-if="!$auth.isAuthenticated" @click="login" class="button is-dark"
-        ><strong>Sign in</strong></a
-        >
-        <!-- show logout when authenticated -->
-        <a v-if="$auth.isAuthenticated" @click="logout" class="button is-dark"
-        ><strong>Log out</strong></a
-        >
-      </div>
+
+    </div>
+    <div v-if="!$auth.loading" id="loginBtn">
+      <!-- show login when not authenticated -->
+      <v-btn v-if="!$auth.isAuthenticated" @click="login" color="primary"
+      ><strong>Sign in</strong></v-btn
+      >
+      <!-- show logout when authenticated -->
+      <v-btn v-if="$auth.isAuthenticated" @click="logout" color="primary"
+      ><strong>Log out</strong></v-btn
+      >
     </div>
     <router-view/>
   </v-app>
@@ -56,5 +57,11 @@ export default {
       color: #42b983;
     }
   }
+}
+
+#loginBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
 }
 </style>
