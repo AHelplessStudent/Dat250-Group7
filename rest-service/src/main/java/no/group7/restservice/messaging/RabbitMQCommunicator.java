@@ -19,24 +19,29 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-
 @Component
-public class MessageComponent {
+public class RabbitMQCommunicator {
 
     @Autowired
     private PollRepository pollRepository;
 
+
+    private static RabbitTemplate rabbitTemplate;
+
+
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    /**
+     * Thanks to following for the solution: https://stackoverflow.com/a/5991240
+     * Original author (from stackoverflow): Sedat Başar
+     * (read 16.11.2021)
+     */
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        RabbitMQCommunicator.rabbitTemplate = rabbitTemplate;
+    }
 
-    private Logger logger = LoggerFactory.getLogger(MessageComponent.class);
-
-    private HashSet<Long> sentPollsId = new HashSet<>();
+    private static Logger logger = LoggerFactory.getLogger(RabbitMQCommunicator.class);
 
     // Constants
     public final static String EXCHANGE_NAME = "default_exchange_name";
@@ -83,41 +88,33 @@ public class MessageComponent {
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }
 
-
-    /**
-     * Scan and check for finished polls.
-     * <p>
-     * If finished polls found => send it through RabbitMQ.
-     */
-    @Scheduled(fixedDelay = 10000)
-    public void publishFinishedPolls() {
+    public static void sendPollToRabbitMQ(Poll poll) {
         if (!RestServiceApplication.USE_RABBITMQ)
             return;
 
-        for (Poll poll : pollRepository.findAll()) {
-            if (poll.getEndTime() == null)
-                continue;  // debug
-            if (sentPollsId.contains(poll.getId())) { // ignore already sent polls
-                continue;
-            }
-            boolean pollExpired = LocalDateTime.now().isAfter(poll.getEndTime());
-            if (pollExpired) {
-                sentPollsId.add(poll.getId());
-
-                String pollJson = "{ \"id\":" + poll.getId() +
-                        ", \"num_yes\":" + poll.getNum_yes() +
-                        ", \"num_no\":" + poll.getNum_no() +
-                        " }";
-
-                // send to RabbitMQ
-                rabbitTemplate.convertAndSend(
-                        EXCHANGE_NAME,
-                        "",
-                        pollJson
-                );
-                logger.info("Finished poll discovered => sending through RabbitMQ:");
-                logger.info("    " + pollJson);
-            }
+        try {
+            String pollJson = "{ \"id\":" + poll.getId() +
+                    ", \"title\":\"" + poll.getTitle() + "\"" +
+                    ", \"question\":\"" + poll.getQuestion() + "\"" +
+                    ", \"startTime\":\"" + poll.getStartTime() + "\"" +
+                    ", \"endTime\":\"" + poll.getEndTime() + "\"" +
+                    ", \"numYes\":" + poll.getNum_yes() +
+                    ", \"numNo\":" + poll.getNum_no() +
+                    ", \"isClosed\":" + poll.isClosed() +
+                    ", \"isPublic\":" + poll.isPublic() +
+                    " }";
+            System.out.println(pollJson);
+            // send to RabbitMQ
+            rabbitTemplate.convertAndSend(
+                    EXCHANGE_NAME,
+                    "",
+                    pollJson
+            );
+            logger.info("<RabbitMQ> Sending poll through RabbitMQ:");
+            logger.info("    " + pollJson);
+            logger.info("");
+        } catch (NullPointerException e) {
+            logger.error("<RabbitMQ> Could not send poll through RabbitMQ (most likely some fields were null / not enough info)");
         }
     }
 }

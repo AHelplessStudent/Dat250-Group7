@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 public class RestServiceApplication {
 
     /* QUICK-TOGGLE */
-    public static boolean USE_RABBITMQ = false;
+    public static boolean USE_RABBITMQ = true;
 
     private static final Logger log = LoggerFactory.getLogger(RestServiceApplication.class);
 
@@ -48,6 +48,7 @@ public class RestServiceApplication {
             Poll poll = new Poll();
             poll.setTitle("Interesting Title");
             poll.setQuestion("Is this true?");
+            poll.setStartTime(LocalDateTime.now());
             poll.setEndTime(LocalDateTime.now().plusSeconds(10));
             poll.setAccount(account);
             poll.setNum_no(10);
