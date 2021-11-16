@@ -34,7 +34,7 @@ public class Poll {
     // Line below is from: https://stackoverflow.com/a/65389727 (14.11.2021)
     // thanks!
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Account account;
 
     @OneToMany(mappedBy = "poll", orphanRemoval = true)
@@ -45,7 +45,6 @@ public class Poll {
     }
 
     public Poll(String title, String question, LocalDateTime endTime, LocalDateTime startTime, boolean isPublic, int num_yes, int num_no) {
-        this.id = id;
         this.title = title;
         this.question = question;
         this.endTime = endTime;
