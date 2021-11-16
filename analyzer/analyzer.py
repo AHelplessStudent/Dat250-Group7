@@ -1,6 +1,7 @@
 import pika
 import json
 import time
+from os import _exit
 import pymongo
 from threading import Thread
 
@@ -23,7 +24,11 @@ def init_rabbitmq():
     # Built RABBITMQ-part based on this:
     # https://www.rabbitmq.com/tutorials/tutorial-three-python.html
     # read 12.11.2021
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    except pika.exceptions.AMQPConnectionError:
+        print(f"Could not connect to RabbitMQ! Exiting... ")
+        _exit(1)
     channel = connection.channel()
 
     result = channel.queue_declare(queue='analyzer2', exclusive=True)
@@ -51,7 +56,7 @@ def log_output():
     while True:
         time.sleep(5)
         print("\n=== Status")
-        print(f"Entries={COLLECTION_POLL.count_documents({})}")
+        print(f"Num. polls={COLLECTION_POLL.count_documents({})}")
         # TODO: add more 'facts'
         
 if __name__ == "__main__":
