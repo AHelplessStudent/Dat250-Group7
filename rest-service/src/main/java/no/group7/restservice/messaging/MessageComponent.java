@@ -93,16 +93,6 @@ public class MessageComponent {
     public void publishFinishedPolls() {
         if (!RestServiceApplication.USE_RABBITMQ)
             return;
-        Poll poll1 = pollRepository.findById(1L).get();
-        // debug
-        rabbitTemplate.convertAndSend(
-                EXCHANGE_NAME,
-                "",
-                "{ \"id\":" + poll1.getId() +
-                        ", \"num_yes\":" + poll1.getNum_yes() +
-                        ", \"num_no\":" + poll1.getNum_no() +
-                        " }"
-        );
 
         for (Poll poll : pollRepository.findAll()) {
             if (poll.getEndTime() == null)
