@@ -188,7 +188,7 @@
     </div>
     <div v-else>
       <h2>Poll created</h2>
-      <h3>{{ pollId }}</h3>
+      <h3>PollID: {{ pollId }}</h3>
       <v-btn href="/dashboard">Go To Dashboard</v-btn>
     </div>
 
