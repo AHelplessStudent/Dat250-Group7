@@ -51,24 +51,5 @@ public class AccountController {
         return new ResponseEntity<>(accountRepository.save(vote), HttpStatus.OK);
     }
 
-    /*
-    //////////////////////////////////////
-    //// PUT-REQUESTS                 ////
-    //////////////////////////////////////
-    @PutMapping("{id}")
-    public Account replaceAccount(@PathVariable("id") Long id, @RequestBody Account newAccount) {
-        return accountRepository.findById(id)
-                .map(account -> {
-                    account.setFirstName(newAccount.getFirstName());
-                    account.setLastName(newAccount.getLastName());
-                    account.setPassword(newAccount.getPassword());
-                    account.setUsername(newAccount.getUsername());
-                    account.setPolls(newAccount.getPolls());
-                    return accountRepository.save(account);
-                })
-                .orElseGet(() -> {
-                    newAccount.setAccountId(id);
-                    return accountRepository.save(newAccount);
-                });
-    }*/
+    
 }

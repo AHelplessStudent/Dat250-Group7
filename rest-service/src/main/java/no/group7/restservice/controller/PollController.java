@@ -156,48 +156,4 @@ public class PollController {
     }
 
 
-    // TODO: add delete for specific vote {pid}/votes/{vid}
-    /*
-    //////////////////////////////////////
-    //// PUT-REQUESTS                 ////
-    //////////////////////////////////////
-    */
-    /*public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
-
-        // does not reset the votes.
-        return pollRepository.findById(pid)
-                .map(poll -> {
-                    poll.setDeadline(newPoll.getDeadline());
-                    poll.setPublic(newPoll.isPublic());
-                    poll.setTitle(newPoll.getTitle());
-                    return pollRepository.save(poll);
-                })
-                .orElseGet(() -> {
-                    newPoll.setPollId(pid);
-                    return pollRepository.save(newPoll);
-                });*/
-    //}
-
-   /* ostPollVote(@PathVariable("pid") Long pid, @RequestBody Vote vote) {
-        return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
-    }
-
-    //////////////////////////////////////
-    //// PUT-REQUESTS                 ////
-    //////////////////////////////////////
-    @PutMapping("{pid}")
-    public Poll replacePoll(@RequestBody Poll newPoll, @PathVariable("pid") Long pid) {
-        // does not reset the votes.
-        return pollRepository.findById(pid)
-                .map(poll -> {
-                    poll.setDeadline(newPoll.getDeadline());
-                    poll.setPublic(newPoll.isPublic());
-                    poll.setTitle(newPoll.getTitle());
-                    return pollRepository.save(poll);
-                })
-                .orElseGet(() -> {
-                    newPoll.setPollId(pid);
-                    return pollRepository.save(newPoll);
-                });
-    }*/
 }

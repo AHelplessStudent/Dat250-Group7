@@ -30,8 +30,6 @@ public class Poll {
     private int num_yes;
     private int num_no;
 
-    // Not sure if fetch type is correct
-
     // Line below is from: https://stackoverflow.com/a/65389727 (14.11.2021)
     // thanks!
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
